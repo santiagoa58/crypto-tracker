@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { AssetsService } from "../../services/crypto_assets/AssetsService";
-import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
+import { AssetsService } from "../../../services/crypto_assets/AssetsService";
+import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 
 const EMPTY_ASSETS: CryptoAsset[] = [];
 
