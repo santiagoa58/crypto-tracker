@@ -12,10 +12,12 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 
 body {
   font-size: 1.2rem;
+  font-family: Helvetica, Arial, sans-serif;
   max-width: 150em;
   margin: 0 auto;
 }
