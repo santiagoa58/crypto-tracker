@@ -9,9 +9,14 @@ const AppWrapper = styled.div`
   max-width: 1920px;
   margin: 0 auto;
   height: 100%;
+  overflow: hidden;
   font-size: ${({ theme }) => theme.fontSize.bodySmall};
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.fontPrimary};
+  background: ${({ theme }) => theme.colors.backgroundDark};
+  color: ${({ theme }) => theme.colors.fontOnBackground};
+
+  main {
+    padding: 1rem 0;
+  }
 `;
 
 function App() {

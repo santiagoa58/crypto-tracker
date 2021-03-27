@@ -9,7 +9,7 @@ import {
   numericColDef,
   stringCompare,
 } from "../../utils/columnDefinitions";
-import { ColumnDefinition, Grid } from "../Grid";
+import { ColumnDefinition, Grid } from "../grid/Grid";
 import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
 import { useAssetsService } from "./hooks/useAssetsService";
 
@@ -72,9 +72,15 @@ const assetColDefs: ColumnDefinition[] = [
 ];
 
 const AssetGridWrapper = styled.div`
-  height: 50rem;
+  height: 70vh;
   width: 80%;
   margin: 0 auto;
+  overflow: hidden;
+  border-radius: 2px;
+  box-shadow: ${({ theme }) => theme.boxShadow};
+
+  //elevation in dark theme
+  filter: brightness(1.08);
 `;
 
 const getRowNodeId = (row: CryptoAsset) => row.id;

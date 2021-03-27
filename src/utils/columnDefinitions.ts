@@ -6,10 +6,12 @@ import {
   formatQuantity,
 } from "./formatters";
 import { isDefined } from "./isDefined";
-import { getSafeNumber } from "./safeGetters";
+import { getSafeNumber, getSafeString } from "./safeGetters";
 
-export const stringCompare = (valueA: string, valueB: string) => {
-  return valueA.localeCompare(valueB, "en", { numeric: true });
+export const stringCompare = (valueA?: string, valueB?: string) => {
+  return getSafeString(valueA).localeCompare(getSafeString(valueB), "en", {
+    numeric: true,
+  });
 };
 
 export const percentComparator = (valueA: any, valueB: any) => {
@@ -65,4 +67,8 @@ export const defaultColDefs: ColDef = {
   resizable: true,
   floatingFilter: false,
   sortable: true,
+  icons: {
+    sortAscending: '<span class="material-icons">arrow_upward</span>',
+    sortDescending: '<span class="material-icons">arrow_downward</span>',
+  },
 };
