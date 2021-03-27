@@ -1,19 +1,27 @@
 import React from "react";
-import { ThemeProvider } from "styled-components/macro";
+import styled, { ThemeProvider } from "styled-components/macro";
 import "./App.css";
 import { CryptoAssetsGrid } from "./components/crypto_assets/CryptoAssetsGrid";
 import { NavigationHeader } from "./components/header/NavigationHeader";
-import { theme } from "./theme/colors";
+import { theme } from "./theme/theme";
+
+const AppWrapper = styled.div`
+  max-width: 1920px;
+  margin: 0 auto;
+  font-size: ${({ theme }) => theme.fontSize.bodySmall};
+  background: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.fontPrimary};
+`;
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <AppWrapper>
         <NavigationHeader />
         <main>
           <CryptoAssetsGrid />
         </main>
-      </div>
+      </AppWrapper>
     </ThemeProvider>
   );
 }

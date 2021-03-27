@@ -3,7 +3,7 @@ import styled from "styled-components/macro";
 import logo from "../../logo.svg";
 
 const CrytoTrackerLogo = styled.img`
-  height: 6rem;
+  height: 2rem;
 `;
 
 export const Logo = () => {

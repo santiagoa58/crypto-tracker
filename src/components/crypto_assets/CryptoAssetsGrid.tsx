@@ -1,7 +1,12 @@
 import React, { FC } from "react";
 import styled from "styled-components/macro";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
-import { percentColDef, priceColDef } from "../../utils/columnDefinitions";
+import {
+  integerPriceColDef,
+  percentColDef,
+  priceColDef,
+  quantityColDef,
+} from "../../utils/columnDefinitions";
 import { ColumnDefinition, Grid } from "../Grid";
 import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
 import { useAssetsService } from "./hooks/useAssetsService";
@@ -29,25 +34,25 @@ const assetColDefs: ColumnDefinition[] = [
     headerName: "PRICE",
   },
   {
-    ...priceColDef,
+    ...integerPriceColDef,
     field: "marketCapUsd",
     colId: "marketCapUsd",
     headerName: "MARKET CAP",
   },
   {
-    ...priceColDef,
+    ...quantityColDef,
     field: "supply",
     colId: "supply",
     headerName: "SUPPLY",
   },
   {
-    ...priceColDef,
+    ...quantityColDef,
     field: "maxSupply",
     colId: "maxSupply",
     headerName: "MAX SUPPLY",
   },
   {
-    ...priceColDef,
+    ...integerPriceColDef,
     field: "volumeUsd24Hr",
     colId: "volumeUsd24Hr",
     headerName: "VOLUME (24HR)",
@@ -61,7 +66,7 @@ const assetColDefs: ColumnDefinition[] = [
 ];
 
 const AssetGridWrapper = styled.div<{ height?: string }>`
-  height: ${({ height = "80vh" }) => height};
+  height: ${({ height = "90vh" }) => height};
 `;
 
 interface CryptoAssetGridProps {
