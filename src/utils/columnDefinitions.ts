@@ -5,9 +5,31 @@ import {
   formatPrice,
   formatQuantity,
 } from "./formatters";
+import { isDefined } from "./isDefined";
+import { getSafeNumber } from "./safeGetters";
 
-const numericColDef: ColDef = {
+export const stringCompare = (valueA: string, valueB: string) => {
+  return valueA.localeCompare(valueB, "en", { numeric: true });
+};
+
+export const percentComparator = (valueA: any, valueB: any) => {
+  const percentA = getSafeNumber(valueA);
+  const percentB = getSafeNumber(valueB);
+
+  if (!isDefined(percentA)) {
+    return -1;
+  }
+
+  if (!isDefined(percentB)) {
+    return 1;
+  }
+
+  return percentA - percentB;
+};
+
+export const numericColDef: ColDef = {
   type: "numericColumn",
+  comparator: stringCompare,
 };
 
 export const priceColDef: ColDef = {
@@ -26,6 +48,7 @@ export const integerPriceColDef: ColDef = {
 
 export const percentColDef: ColDef = {
   ...numericColDef,
+  comparator: percentComparator,
   valueFormatter({ value }) {
     return formatPercent(value) || "-";
   },
@@ -36,4 +59,10 @@ export const quantityColDef: ColDef = {
   valueFormatter({ value }) {
     return formatQuantity(value) || "-";
   },
+};
+
+export const defaultColDefs: ColDef = {
+  resizable: true,
+  floatingFilter: false,
+  sortable: true,
 };

@@ -6,6 +6,8 @@ import {
   percentColDef,
   priceColDef,
   quantityColDef,
+  numericColDef,
+  stringCompare,
 } from "../../utils/columnDefinitions";
 import { ColumnDefinition, Grid } from "../Grid";
 import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
@@ -13,9 +15,11 @@ import { useAssetsService } from "./hooks/useAssetsService";
 
 const assetColDefs: ColumnDefinition[] = [
   {
+    ...numericColDef,
     field: "rank",
     colId: "rank",
     headerName: "RANK",
+    width: 100,
   },
   {
     field: "name",
@@ -25,6 +29,8 @@ const assetColDefs: ColumnDefinition[] = [
       symbol: data.symbol,
       name: data.name,
     }),
+    comparator: (valueA: CryptoNameValue, valueB: CryptoNameValue) =>
+      stringCompare(valueA.name, valueB.name),
     cellRendererFramework: CryptoNameCell,
   },
   {
@@ -65,18 +71,23 @@ const assetColDefs: ColumnDefinition[] = [
   },
 ];
 
-const AssetGridWrapper = styled.div<{ height?: string }>`
-  height: ${({ height = "90vh" }) => height};
+const AssetGridWrapper = styled.div`
+  height: 50rem;
+  width: 80%;
+  margin: 0 auto;
 `;
 
-interface CryptoAssetGridProps {
-  height?: string;
-}
-export const CryptoAssetsGrid: FC<CryptoAssetGridProps> = (props) => {
+const getRowNodeId = (row: CryptoAsset) => row.id;
+export const CryptoAssetsGrid: FC = (props) => {
   const cryptos = useAssetsService();
   return (
-    <AssetGridWrapper height={props.height}>
-      <Grid data={cryptos} columns={assetColDefs} />
+    <AssetGridWrapper>
+      <Grid
+        rowData={cryptos}
+        columnDefs={assetColDefs}
+        getRowNodeId={getRowNodeId}
+      />
+      {props.children}
     </AssetGridWrapper>
   );
 };
