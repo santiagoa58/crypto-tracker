@@ -8,6 +8,7 @@ import { theme } from "./theme/theme";
 const AppWrapper = styled.div`
   max-width: 1920px;
   margin: 0 auto;
+  height: 100%;
   font-size: ${({ theme }) => theme.fontSize.bodySmall};
   background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.fontPrimary};
