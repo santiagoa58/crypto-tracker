@@ -10,8 +10,9 @@ export const textEllipsisStyle = css`
 export const GridWrapper = styled.div`
   height: 100%;
 
+  //GLOBAL
   .ag-root-wrapper {
-    background-color: ${({ theme }) => theme.colors.background};
+    background-color: ${({ theme }) => theme.colors.secondaryDark};
     color: ${({ theme }) => theme.colors.fontOnBackground};
   }
 
@@ -23,15 +24,36 @@ export const GridWrapper = styled.div`
     text-align: left;
   }
 
+  .ag-body-viewport,
+  .ag-body-horizontal-scroll-viewport {
+    &::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      border-radius: 0.75rem;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    &::-webkit-scrollbar {
+      width: 0.875rem;
+      height: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 0.75rem;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #484848;
+    }
+  }
+
   //HEADER
   .ag-header {
     border-bottom: solid 1px ${({ theme }) => theme.colors.backgroundLight};
+    background-color: ${({ theme }) => theme.colors.backgroundLightMuted};
   }
 
   .ag-header-row {
     font-weight: 700;
     text-transform: uppercase;
-    background-color: ${({ theme }) => theme.colors.backgroundLightMuted};
   }
 
   .ag-header-cell,
@@ -41,6 +63,7 @@ export const GridWrapper = styled.div`
 
     &:focus {
       border: solid 1px ${({ theme }) => theme.colors.focus};
+      outline: none;
     }
   }
 
@@ -69,6 +92,13 @@ export const GridWrapper = styled.div`
   //CELL
   .ag-cell {
     line-height: 40px; //Default row height used to center text vertically
+
+    &.negative-value {
+      color: ${({ theme }) => theme.colors.red};
+    }
+    &.positive-value {
+      color: ${({ theme }) => theme.colors.green};
+    }
   }
 
   //ICONS

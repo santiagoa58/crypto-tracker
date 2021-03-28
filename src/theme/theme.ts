@@ -1,4 +1,4 @@
-//https://www.material.io/resources/color/#!/?view.left=1&view.right=0&primary.color=212121&secondary.color=1976D2&primary.text.color=EEEEEE&secondary.text.color=ffffff
+//https://www.material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=37474F&secondary.color=efb90b
 
 export interface Theme {
   colors: {
@@ -21,6 +21,8 @@ export interface Theme {
     fontOnPrimaryDark: string;
     focus: string;
     border: string;
+    red: string;
+    green: string;
   };
 
   borderRadius: string;
@@ -47,24 +49,26 @@ export const theme: Theme = {
     backgroundDark: "#121212",
     backgroundMuted: "rgba(33,33,33,0.3)",
     backgroundLightMuted: "rgba(72,72,72, 0.3)",
-    fontOnBackground: "rgb(238,238,238)",
-    fontOnBackgroundLight: "rgb(238,238,238)",
-    fontOnBackgroundDark: "rgb(238,238,238)",
-    fontOnPrimary: "rgb(255,255,255)",
+    fontOnBackground: "rgba(238,238,238)",
+    fontOnBackgroundLight: "rgba(238,238,238)",
+    fontOnBackgroundDark: "rgba(238,238,238)",
+    fontOnPrimary: "rgba(255,255,255)",
     fontOnPrimaryLight: "rgb(0,0,0)",
     fontOnPrimaryDark: "rgb(255,255,255)",
-    primary: "#01579b",
-    primaryLight: "#4f83cc",
-    primaryDark: "#002f6c",
+    primary: "#f0b90b",
+    primaryLight: "#ffeb50",
+    primaryDark: "#b98900",
     secondary: "#37474f",
     secondaryLight: "#62717b",
     secondaryDark: "#101f27",
     focus: "#80bdff",
     border: "#5c5c5d",
+    red: "#f75a6e",
+    green: "#73e1b6",
   },
   borderRadius: "3px",
-  opacityMuted: 0.87,
-  opacityDisabled: 0.6,
+  opacityMuted: 0.7,
+  opacityDisabled: 0.45,
   boxShadow: "rgba(0,0,0,0.12) 0px 3px 4px 0px",
   fontSize: {
     h1: "6rem",

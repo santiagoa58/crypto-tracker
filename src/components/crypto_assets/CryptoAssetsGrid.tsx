@@ -35,9 +35,23 @@ const assetColDefs: ColumnDefinition[] = [
   },
   {
     ...priceColDef,
+    width: 150,
     field: "priceUsd",
     colId: "priceUsd",
     headerName: "PRICE",
+  },
+  {
+    ...percentColDef,
+    width: 150,
+    field: "changePercent24Hr",
+    colId: "changePercent24Hr",
+    headerName: "CHANGE (24HR)",
+  },
+  {
+    ...integerPriceColDef,
+    field: "volumeUsd24Hr",
+    colId: "volumeUsd24Hr",
+    headerName: "VOLUME (24HR)",
   },
   {
     ...integerPriceColDef,
@@ -56,18 +70,6 @@ const assetColDefs: ColumnDefinition[] = [
     field: "maxSupply",
     colId: "maxSupply",
     headerName: "MAX SUPPLY",
-  },
-  {
-    ...integerPriceColDef,
-    field: "volumeUsd24Hr",
-    colId: "volumeUsd24Hr",
-    headerName: "VOLUME (24HR)",
-  },
-  {
-    ...percentColDef,
-    field: "changePercent24Hr",
-    colId: "changePercent24Hr",
-    headerName: "CHANGE (24HR)",
   },
 ];
 

@@ -7,11 +7,12 @@ import { theme } from "./theme/theme";
 
 const AppWrapper = styled.div`
   max-width: 1920px;
+  min-width: 360px;
   margin: 0 auto;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
   font-size: ${({ theme }) => theme.fontSize.bodySmall};
-  background: ${({ theme }) => theme.colors.backgroundDark};
+  background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.fontOnBackground};
 
   main {

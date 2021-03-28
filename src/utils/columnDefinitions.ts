@@ -54,6 +54,12 @@ export const percentColDef: ColDef = {
   valueFormatter({ value }) {
     return formatPercent(value) || "-";
   },
+  cellClassRules: {
+    "negative-value ": (params: { value?: string }) =>
+      (getSafeNumber(params.value) ?? 0) < 0,
+    "positive-value ": (params: { value?: string }) =>
+      (getSafeNumber(params.value) ?? 0) > 0,
+  },
 };
 
 export const quantityColDef: ColDef = {

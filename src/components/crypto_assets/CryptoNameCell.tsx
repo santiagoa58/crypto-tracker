@@ -22,6 +22,7 @@ const NameCellWrapper = styled.div`
     }
     &--sub {
       font-size: ${({ theme }) => theme.fontSize.bodyXSmall};
+      opacity: ${({ theme }) => theme.opacityMuted};
     }
   }
 `;
