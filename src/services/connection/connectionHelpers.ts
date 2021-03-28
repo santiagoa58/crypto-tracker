@@ -2,8 +2,6 @@ import { isDefined } from "../../utils/isDefined";
 import { jsonToString } from "../../utils/parseJson";
 import { RequestMethod } from "./AjaxConnection";
 
-const api = process.env.REACT_APP_API_URL;
-
 const objectEntriesToStringParams = (entries: Array<[string, unknown]>) =>
   entries.reduce((stringParams, [field, value]) => {
     if (isDefined(value)) {
@@ -24,8 +22,7 @@ const parseStringParams = (params: any): string => {
   return `${params}`;
 };
 
-const parseUrl = (endpoint: string, params?: any) => {
-  const url = `${api}${endpoint}`;
+const parseUrl = (url: string, params?: any) => {
   if (isDefined(params)) {
     const stringParams = parseStringParams(params);
     return encodeURI(`${url}?${stringParams}`);

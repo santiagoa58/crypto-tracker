@@ -3,22 +3,16 @@ import { AssetActionsTypes } from "./AssetActions";
 import { Map } from "immutable";
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 import { arrayToMap } from "../../../utils/arrayToMap";
-
-enum AssetFetchStatus {
-  Idle = "Idle",
-  Failure = "Failure",
-  Busy = "Busy",
-}
-
+import { StateFetchStatus } from "../../context/AppState";
 export interface AssetsState {
   list: Map<string, CryptoAsset>;
-  status: AssetFetchStatus;
+  status: StateFetchStatus;
   error?: string;
 }
 
 const initalState: AssetsState = {
   list: Map(),
-  status: AssetFetchStatus.Idle,
+  status: StateFetchStatus.Idle,
 };
 
 export const assetsReducer = (
@@ -29,18 +23,18 @@ export const assetsReducer = (
     case AssetActionsTypes.GET_ASSETS_REQUEST:
       return {
         ...state,
-        status: AssetFetchStatus.Busy,
+        status: StateFetchStatus.Busy,
       };
     case AssetActionsTypes.GET_ASSETS_SUCCESS:
       return {
         ...state,
-        status: AssetFetchStatus.Idle,
+        status: StateFetchStatus.Idle,
         list: state.list.merge(arrayToMap(action.payload, "id")),
       };
     case AssetActionsTypes.GET_ASSETS_FAILURE:
       return {
         ...state,
-        status: AssetFetchStatus.Failure,
+        status: StateFetchStatus.Failure,
         error: action.error,
       };
     default:
