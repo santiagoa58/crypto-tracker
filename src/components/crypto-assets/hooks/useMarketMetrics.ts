@@ -1,21 +1,19 @@
-import { useEffect, useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AssetsService } from "../../../services/crypto_assets/AssetsService";
 import { CryptoAssetContext } from "../../context/CryptoAssetContext";
 import { AssetActionsTypes } from "./AssetActions";
 
-export const useAssetsService = (search?: string) => {
+export const useMarketMetrics = () => {
   const [appState, dispatch] = useContext(CryptoAssetContext);
-
   useEffect(() => {
-    dispatch({ type: AssetActionsTypes.GET_ASSETS_REQUEST });
-    const subscription = AssetsService.getCryptoAsset({
-      search,
-    }).subscribe({
+    dispatch({ type: AssetActionsTypes.GET_GLOBAL_METRICS_REQUEST });
+    const subscription = AssetsService.getGlobalMarketData().subscribe({
       next(nextValue) {
         dispatch({
-          type: AssetActionsTypes.GET_ASSETS_SUCCESS,
-          payload: nextValue.assets,
+          type: AssetActionsTypes.GET_GLOBAL_METRICS_SUCCESS,
+          payload: nextValue,
         });
+        console.log("nextValue:", nextValue);
       },
       complete() {
         subscription.unsubscribe();
@@ -23,8 +21,8 @@ export const useAssetsService = (search?: string) => {
       error(error) {
         console.error(error);
         dispatch({
-          type: AssetActionsTypes.GET_ASSETS_FAILURE,
-          error: "Error getting assets",
+          type: AssetActionsTypes.GET_GLOBAL_METRICS_FAILURE,
+          error: "Error getting global market data",
         });
       },
     });
@@ -32,11 +30,9 @@ export const useAssetsService = (search?: string) => {
     return () => {
       subscription?.unsubscribe();
     };
-  }, [search, dispatch]);
+  }, [dispatch]);
 
   return {
-    assets: appState.assets?.list,
-    status: appState.assets?.status,
     marketMetrics: appState.marketMetrics,
   };
 };
