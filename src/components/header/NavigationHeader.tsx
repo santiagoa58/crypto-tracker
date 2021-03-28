@@ -59,7 +59,9 @@ export const NavigationHeader = () => {
       <Logo />
       <NavBar>
         <NavButton type="button">Overview</NavButton>
-        <NavButton type="button">Price Action</NavButton>
+        <NavButton type="button" disabled>
+          Price Action
+        </NavButton>
       </NavBar>
     </NavBarWrapper>
   );
