@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import styled from "styled-components/macro";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
 import {
@@ -87,11 +87,14 @@ const AssetGridWrapper = styled.div`
 
 const getRowNodeId = (row: CryptoAsset) => row.id;
 export const CryptoAssetsGrid: FC = (props) => {
-  const cryptos = useAssetsService();
+  const { assets } = useAssetsService();
+
+  const rowData = useMemo(() => assets?.valueSeq().toArray(), [assets]);
+
   return (
     <AssetGridWrapper>
       <Grid
-        rowData={cryptos}
+        rowData={rowData}
         columnDefs={assetColDefs}
         getRowNodeId={getRowNodeId}
       />

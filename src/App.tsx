@@ -1,9 +1,11 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components/macro";
 import "./App.css";
-import { CryptoAssetsGrid } from "./components/crypto_assets/CryptoAssetsGrid";
+import { CryptoAssetsGrid } from "./components/crypto-assets/CryptoAssetsGrid";
 import { NavigationHeader } from "./components/header/NavigationHeader";
 import { theme } from "./theme/theme";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { CryptoAssetContextProvider } from "./components/context/CryptoAssetContext";
 
 const AppWrapper = styled.div`
   max-width: 1920px;
@@ -22,14 +24,22 @@ const AppWrapper = styled.div`
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <AppWrapper>
-        <NavigationHeader />
-        <main>
-          <CryptoAssetsGrid />
-        </main>
-      </AppWrapper>
-    </ThemeProvider>
+    <Router>
+      <CryptoAssetContextProvider>
+        <ThemeProvider theme={theme}>
+          <AppWrapper>
+            <NavigationHeader />
+            <main>
+              <Switch>
+                <Route path="/" exact={true}>
+                  <CryptoAssetsGrid />
+                </Route>
+              </Switch>
+            </main>
+          </AppWrapper>
+        </ThemeProvider>
+      </CryptoAssetContextProvider>
+    </Router>
   );
 }
 
