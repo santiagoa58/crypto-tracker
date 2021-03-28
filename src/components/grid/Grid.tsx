@@ -9,7 +9,7 @@ export interface ColumnDefinition extends ColDef {
 }
 
 interface GridProps<T> extends GridOptions {
-  rowData: T[];
+  rowData: T[] | undefined;
   columnDefs: ColumnDefinition[];
 }
 
