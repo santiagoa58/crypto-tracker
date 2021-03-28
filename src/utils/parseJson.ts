@@ -8,6 +8,6 @@ export const jsonToString = (val: any): string | undefined => {
   try {
     return JSON.stringify(val);
   } catch (err) {
-    return `${val}`;
+    return undefined;
   }
 };

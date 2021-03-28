@@ -3,13 +3,13 @@ import { getSafeNumber } from "./safeGetters";
 
 const formatNumber = (
   value: number,
-  options: Intl.NumberFormatOptions,
+  options: Intl.NumberFormatOptions | undefined,
   locale = "en-US",
 ): string => Intl.NumberFormat(locale, options).format(value);
 
 const safelyFormatNumber = (
   value: string | number | undefined,
-  options: Intl.NumberFormatOptions,
+  options?: Intl.NumberFormatOptions,
 ): string => {
   const num = getSafeNumber(value);
   if (isDefined(num)) {
@@ -19,11 +19,19 @@ const safelyFormatNumber = (
   return "";
 };
 
-export const formatPrice = (price?: string | number): string =>
+export const formatPrice = (
+  price?: string | number,
+  decimalPlaces = 2,
+): string =>
   safelyFormatNumber(price, {
     style: "currency",
     currency: "USD",
+    maximumFractionDigits: decimalPlaces,
+    minimumFractionDigits: decimalPlaces,
   });
+
+export const formatIntegerPrice = (price?: string | number) =>
+  formatPrice(price, 0);
 
 export const formatPercent = (percent?: string | number) => {
   const value = getSafeNumber(percent);
@@ -35,3 +43,6 @@ export const formatPercent = (percent?: string | number) => {
     });
   }
 };
+
+export const formatQuantity = (quantity?: string | number) =>
+  safelyFormatNumber(quantity);

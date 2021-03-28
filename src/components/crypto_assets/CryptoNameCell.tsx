@@ -21,7 +21,8 @@ const NameCellWrapper = styled.div`
       padding-left: 0.6rem;
     }
     &--sub {
-      font-size: 1rem;
+      font-size: ${({ theme }) => theme.fontSize.bodyXSmall};
+      opacity: ${({ theme }) => theme.opacityMuted};
     }
   }
 `;
