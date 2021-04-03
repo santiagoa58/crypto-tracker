@@ -1,28 +1,31 @@
 import React, { FC, useMemo } from "react";
 import styled from "styled-components/macro";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
+import { StateFetchStatus } from "../context/AppState";
 import { Grid } from "../grid/Grid";
+import { NoRowsOverlay } from "../grid/GridRowsOverlay";
+import { ContentWrapper } from "../wrappers";
 import { assetColDefs } from "./cryptoAssetsColDefs";
 import { useAssetsService } from "./hooks/useAssetsService";
 
-const AssetGridWrapper = styled.div`
+const AssetGridWrapper = styled(ContentWrapper)`
   height: 70vh;
   max-width: 79rem;
   margin: 0 auto;
-  overflow: hidden;
-  border-radius: 2px;
-  box-shadow: ${({ theme }) => theme.boxShadow};
-
-  //elevation in dark theme
-  filter: brightness(1.08);
 `;
 
 const getRowNodeId = (row: CryptoAsset) => row.id;
 
 export const CryptoAssetsGrid: FC = (props) => {
-  const { assets } = useAssetsService();
+  const { assets, status, error } = useAssetsService();
 
-  const rowData = useMemo(() => assets?.valueSeq().toArray(), [assets]);
+  const rowData = useMemo(
+    () =>
+      status === StateFetchStatus.Busy
+        ? undefined
+        : assets?.valueSeq().toArray(),
+    [assets, status],
+  );
 
   return (
     <AssetGridWrapper>
@@ -30,6 +33,11 @@ export const CryptoAssetsGrid: FC = (props) => {
         rowData={rowData}
         columnDefs={assetColDefs}
         getRowNodeId={getRowNodeId}
+        noRowsOverlayComponentFramework={NoRowsOverlay}
+        noRowsOverlayComponentParams={{
+          noRowsMessage: error ?? "No Rows To Show",
+          isError: Boolean(error),
+        }}
       />
       {props.children}
     </AssetGridWrapper>

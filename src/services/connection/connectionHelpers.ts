@@ -15,11 +15,11 @@ const parseStringParams = (params: any): string => {
     return "";
   }
 
-  if (typeof params === "object") {
+  if (typeof params === "object" && !Array.isArray(params)) {
     return objectEntriesToStringParams(Object.entries(params));
   }
 
-  return `${params}`;
+  return String(params);
 };
 
 const parseUrl = (url: string, params?: any) => {
@@ -52,11 +52,27 @@ export const getRequestParams = (
   request: any,
   method: RequestMethod,
 ) => {
-  const url = parseUrl(endpoint, request);
-  const initRequest = getInitRequest(method, request);
+  const validRequest = getValidRequest(request);
+  const url = parseUrl(endpoint, validRequest);
+  const initRequest = getInitRequest(method, validRequest);
 
   return {
     url,
     initRequest,
   };
+};
+
+const getValidRequest = <T = any>(request: T): T | undefined => {
+  if (!request) {
+    return undefined;
+  }
+
+  if (typeof request === "object") {
+    const values = Object.values(request).filter(isDefined);
+    if (!values.length) {
+      return undefined;
+    }
+  }
+
+  return request;
 };

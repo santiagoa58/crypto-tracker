@@ -23,11 +23,13 @@ export const assetsReducer = (
     case AssetActionsTypes.GET_ASSETS_REQUEST:
       return {
         ...state,
+        error: undefined,
         status: StateFetchStatus.Busy,
       };
     case AssetActionsTypes.GET_ASSETS_SUCCESS:
       return {
         ...state,
+        error: undefined,
         status: StateFetchStatus.Idle,
         list: state.list.merge(arrayToMap(action.payload, "id")),
       };
@@ -35,7 +37,7 @@ export const assetsReducer = (
       return {
         ...state,
         status: StateFetchStatus.Failure,
-        error: action.error,
+        error: action.payload,
       };
     default:
       return state;

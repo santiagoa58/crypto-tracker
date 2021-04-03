@@ -19,7 +19,7 @@ export const AjaxConnection = <Request, Response>(
       if (response.ok) {
         return response.json();
       }
-      throw new Error(`got non-ok response: ${response.statusText}`);
+      throw new Error(`got non-ok response: ${response.status}`);
     }),
   );
 };

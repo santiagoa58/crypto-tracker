@@ -2,6 +2,7 @@ import {
   CryptoAsset,
   GlobalMarketMetrics,
 } from "../../../services/crypto_assets/AssetsServiceInterface";
+import { FluxStandardAction } from "../../context/AppActions";
 
 export enum AssetActionsTypes {
   GET_ASSETS_REQUEST = "GET_ASSETS_REQUEST",
@@ -11,33 +12,36 @@ export enum AssetActionsTypes {
   GET_GLOBAL_METRICS_SUCCESS = "GET_GLOBAL_METRICS_SUCCESS",
   GET_GLOBAL_METRICS_FAILURE = "GET_GLOBAL_METRICS_FAILURE",
 }
+interface BaseAssetAction extends FluxStandardAction<AssetActionsTypes> {}
 
-interface GetAssetsRequestAction {
+interface GetAssetsRequestAction extends BaseAssetAction {
   type: AssetActionsTypes.GET_ASSETS_REQUEST;
 }
 
-interface GetAssetsSuccessAction {
+interface GetAssetsSuccessAction extends BaseAssetAction {
   type: AssetActionsTypes.GET_ASSETS_SUCCESS;
   payload: CryptoAsset[];
 }
 
-interface GetAssetsFailureAction {
+interface GetAssetsFailureAction extends BaseAssetAction {
   type: AssetActionsTypes.GET_ASSETS_FAILURE;
-  error: string;
+  payload: string;
+  error: boolean;
 }
 
-interface GetGlobalMetricsRequestAction {
+interface GetGlobalMetricsRequestAction extends BaseAssetAction {
   type: AssetActionsTypes.GET_GLOBAL_METRICS_REQUEST;
 }
 
-interface GetGlobalMetricsSuccessAction {
+interface GetGlobalMetricsSuccessAction extends BaseAssetAction {
   type: AssetActionsTypes.GET_GLOBAL_METRICS_SUCCESS;
   payload: GlobalMarketMetrics;
 }
 
-interface GetGlobalMetricsFailureAction {
+interface GetGlobalMetricsFailureAction extends BaseAssetAction {
   type: AssetActionsTypes.GET_GLOBAL_METRICS_FAILURE;
-  error: string;
+  payload: string;
+  error: boolean;
 }
 
 export type AssetActions =
