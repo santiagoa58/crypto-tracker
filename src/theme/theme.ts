@@ -1,48 +1,6 @@
 //https://www.material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=37474F&secondary.color=efb90b
 
-export interface Theme {
-  colors: {
-    background: string;
-    backgroundMuted: string;
-    backgroundLight: string;
-    backgroundLightMuted: string;
-    backgroundDark: string;
-    primary: string;
-    primaryLight: string;
-    primaryDark: string;
-    secondary: string;
-    secondaryLight: string;
-    secondaryDark: string;
-    fontOnBackground: string;
-    fontOnBackgroundLight: string;
-    fontOnBackgroundDark: string;
-    fontOnPrimary: string;
-    fontOnPrimaryLight: string;
-    fontOnPrimaryDark: string;
-    focus: string;
-    border: string;
-    red: string;
-    green: string;
-  };
-
-  borderRadius: string;
-  opacityMuted: number;
-  opacityDisabled: number;
-  boxShadow: string;
-  fontSize: {
-    h1: string;
-    h2: string;
-    h3: string;
-    h4: string;
-    h5: string;
-    h6: string;
-    body: string;
-    bodySmall: string;
-    bodyXSmall: string;
-  };
-}
-
-export const theme: Theme = {
+export const theme = {
   colors: {
     background: "#212121",
     backgroundLight: "#484848",
@@ -81,4 +39,15 @@ export const theme: Theme = {
     bodySmall: "0.875rem",
     bodyXSmall: "0.75rem",
   },
+  screenSizes: {
+    mobileS: "320px",
+    mobileM: "375px",
+    mobileL: "425px",
+    tablet: "768px",
+    laptop: "1024px",
+    laptopL: "1440px",
+    desktop: "2560px",
+  },
 };
+
+export type Theme = typeof theme;
