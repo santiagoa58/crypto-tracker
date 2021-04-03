@@ -32,6 +32,7 @@ export const percentComparator = (valueA: any, valueB: any) => {
 export const numericColDef: ColDef = {
   type: "numericColumn",
   comparator: stringCompare,
+  minWidth: 60,
 };
 
 export const priceColDef: ColDef = {
@@ -70,9 +71,10 @@ export const quantityColDef: ColDef = {
 };
 
 export const defaultColDefs: ColDef = {
-  resizable: true,
+  resizable: false,
   floatingFilter: false,
   sortable: true,
+  suppressMovable: true,
   icons: {
     sortAscending: '<span class="material-icons">arrow_upward</span>',
     sortDescending: '<span class="material-icons">arrow_downward</span>',

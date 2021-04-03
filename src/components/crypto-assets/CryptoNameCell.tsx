@@ -23,6 +23,12 @@ const NameCellWrapper = styled.div`
       flex-direction: column;
       line-height: 1.5;
       padding-left: 0.6rem;
+      overflow: hidden;
+    }
+    &--sub,
+    &--main {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &--sub {
       font-size: ${({ theme }) => theme.fontSize.bodyXSmall};

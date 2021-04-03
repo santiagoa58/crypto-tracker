@@ -8,8 +8,8 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { CryptoAssetContextProvider } from "./components/context/CryptoAssetContext";
 
 const AppWrapper = styled.div`
-  max-width: 1920px;
-  min-width: 360px;
+  max-width: ${({ theme }) => theme.screenSizes.desktop};
+  min-width: ${({ theme }) => theme.screenSizes.mobileS};
   margin: 0 auto;
   height: 100%;
   overflow: auto;
@@ -18,7 +18,7 @@ const AppWrapper = styled.div`
   color: ${({ theme }) => theme.colors.fontOnBackground};
 
   main {
-    padding: 1rem 0;
+    padding: 1rem;
   }
 `;
 
