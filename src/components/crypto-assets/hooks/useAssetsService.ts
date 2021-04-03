@@ -1,42 +1,36 @@
-import { useEffect, useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AssetsService } from "../../../services/crypto_assets/AssetsService";
 import { CryptoAssetContext } from "../../context/CryptoAssetContext";
 import { AssetActionsTypes } from "./AssetActions";
+import { useService } from "../../../utils/hooks/useService";
 
 export const useAssetsService = (search?: string) => {
   const [appState, dispatch] = useContext(CryptoAssetContext);
 
+  const getAssets = useService(AssetsService.getCryptoAsset, {
+    onResponse(response) {
+      dispatch({
+        type: AssetActionsTypes.GET_ASSETS_SUCCESS,
+        payload: response.assets,
+      });
+    },
+    onError() {
+      dispatch({
+        type: AssetActionsTypes.GET_ASSETS_FAILURE,
+        payload: "Error getting assets",
+        error: true,
+      });
+    },
+  });
+
   useEffect(() => {
     dispatch({ type: AssetActionsTypes.GET_ASSETS_REQUEST });
-    const subscription = AssetsService.getCryptoAsset({
-      search,
-    }).subscribe({
-      next(nextValue) {
-        dispatch({
-          type: AssetActionsTypes.GET_ASSETS_SUCCESS,
-          payload: nextValue.assets,
-        });
-      },
-      complete() {
-        subscription.unsubscribe();
-      },
-      error(error) {
-        console.error(error);
-        dispatch({
-          type: AssetActionsTypes.GET_ASSETS_FAILURE,
-          error: "Error getting assets",
-        });
-      },
-    });
-
-    return () => {
-      subscription?.unsubscribe();
-    };
-  }, [search, dispatch]);
+    getAssets({ search });
+  }, [dispatch, getAssets, search]);
 
   return {
     assets: appState.assets?.list,
     status: appState.assets?.status,
-    marketMetrics: appState.marketMetrics,
+    error: appState.assets?.error,
   };
 };
