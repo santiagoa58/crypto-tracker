@@ -1,13 +1,15 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components/macro";
 import "./App.css";
-import { CryptoAssetsGrid } from "./components/crypto_assets/CryptoAssetsGrid";
 import { NavigationHeader } from "./components/header/NavigationHeader";
 import { theme } from "./theme/theme";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { CryptoAssetContextProvider } from "./components/context/CryptoAssetContext";
+import { MarketOverview } from "./components/overview/MarketOverview";
 
 const AppWrapper = styled.div`
-  max-width: 1920px;
-  min-width: 360px;
+  max-width: ${({ theme }) => theme.screenSizes.desktop};
+  min-width: ${({ theme }) => theme.screenSizes.mobileS};
   margin: 0 auto;
   height: 100%;
   overflow: auto;
@@ -16,20 +18,28 @@ const AppWrapper = styled.div`
   color: ${({ theme }) => theme.colors.fontOnBackground};
 
   main {
-    padding: 1rem 0;
+    padding: 1rem;
   }
 `;
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <AppWrapper>
-        <NavigationHeader />
-        <main>
-          <CryptoAssetsGrid />
-        </main>
-      </AppWrapper>
-    </ThemeProvider>
+    <Router>
+      <CryptoAssetContextProvider>
+        <ThemeProvider theme={theme}>
+          <AppWrapper>
+            <NavigationHeader />
+            <main>
+              <Switch>
+                <Route path="/" exact={true}>
+                  <MarketOverview />
+                </Route>
+              </Switch>
+            </main>
+          </AppWrapper>
+        </ThemeProvider>
+      </CryptoAssetContextProvider>
+    </Router>
   );
 }
 

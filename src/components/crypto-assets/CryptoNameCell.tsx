@@ -13,12 +13,22 @@ const NameCellWrapper = styled.div`
   align-items: center;
   height: 100%;
 
+  .cf {
+    font-size: ${({ theme }) => theme.fontSize.h6};
+  }
+
   .crypto-name {
     &__wrapper {
       display: flex;
       flex-direction: column;
       line-height: 1.5;
-      padding-left: 0.6rem;
+      padding-left: 0.75rem;
+      overflow: hidden;
+    }
+    &--sub,
+    &--main {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &--sub {
       font-size: ${({ theme }) => theme.fontSize.bodyXSmall};
@@ -32,8 +42,8 @@ export const CryptoNameCell: FC<CryptoNameCellProps> = (props) => {
     <NameCellWrapper>
       <i className={`cf cf-${props.value.symbol.toLowerCase()}`}></i>
       <div className="crypto-name__wrapper">
-        <span className="crypto-name--main">{props.value.name}</span>
-        <span className="crypto-name--sub">{props.value.symbol}</span>
+        <span className="crypto-name--main">{props.value.symbol}</span>
+        <span className="crypto-name--sub">{props.value.name}</span>
       </div>
     </NameCellWrapper>
   );

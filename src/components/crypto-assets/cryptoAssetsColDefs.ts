@@ -1,6 +1,3 @@
-import React, { FC } from "react";
-import styled from "styled-components/macro";
-import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
 import {
   integerPriceColDef,
   percentColDef,
@@ -9,22 +6,23 @@ import {
   numericColDef,
   stringCompare,
 } from "../../utils/columnDefinitions";
-import { ColumnDefinition, Grid } from "../grid/Grid";
+import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
+import { ColumnDefinition } from "../grid/Grid";
 import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
-import { useAssetsService } from "./hooks/useAssetsService";
 
-const assetColDefs: ColumnDefinition[] = [
+export const assetColDefs: ColumnDefinition[] = [
   {
     ...numericColDef,
     field: "rank",
     colId: "rank",
-    headerName: "RANK",
-    width: 100,
+    headerName: "#",
+    width: 80,
+    initialSort: "asc",
   },
   {
     field: "name",
     colId: "name",
-    headerName: "ASSET NAME",
+    headerName: "Name",
     valueGetter: ({ data }: { data: CryptoAsset }): CryptoNameValue => ({
       symbol: data.symbol,
       name: data.name,
@@ -32,70 +30,49 @@ const assetColDefs: ColumnDefinition[] = [
     comparator: (valueA: CryptoNameValue, valueB: CryptoNameValue) =>
       stringCompare(valueA.name, valueB.name),
     cellRendererFramework: CryptoNameCell,
+    width: 200,
+    minWidth: 100,
   },
   {
     ...priceColDef,
-    width: 150,
+    width: 130,
     field: "priceUsd",
     colId: "priceUsd",
     headerName: "PRICE",
   },
   {
     ...percentColDef,
-    width: 150,
+    width: 165,
     field: "changePercent24Hr",
     colId: "changePercent24Hr",
-    headerName: "CHANGE (24HR)",
+    headerName: "24h Change",
   },
   {
     ...integerPriceColDef,
+    width: 160,
     field: "volumeUsd24Hr",
     colId: "volumeUsd24Hr",
-    headerName: "VOLUME (24HR)",
+    headerName: "24h Volume",
   },
   {
     ...integerPriceColDef,
+    width: 180,
     field: "marketCapUsd",
     colId: "marketCapUsd",
-    headerName: "MARKET CAP",
+    headerName: "Market Cap",
   },
   {
     ...quantityColDef,
+    width: 180,
     field: "supply",
     colId: "supply",
-    headerName: "SUPPLY",
+    headerName: "Supply",
   },
   {
     ...quantityColDef,
+    width: 150,
     field: "maxSupply",
     colId: "maxSupply",
-    headerName: "MAX SUPPLY",
+    headerName: "Max Supply",
   },
 ];
-
-const AssetGridWrapper = styled.div`
-  height: 70vh;
-  width: 80%;
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: 2px;
-  box-shadow: ${({ theme }) => theme.boxShadow};
-
-  //elevation in dark theme
-  filter: brightness(1.08);
-`;
-
-const getRowNodeId = (row: CryptoAsset) => row.id;
-export const CryptoAssetsGrid: FC = (props) => {
-  const cryptos = useAssetsService();
-  return (
-    <AssetGridWrapper>
-      <Grid
-        rowData={cryptos}
-        columnDefs={assetColDefs}
-        getRowNodeId={getRowNodeId}
-      />
-      {props.children}
-    </AssetGridWrapper>
-  );
-};

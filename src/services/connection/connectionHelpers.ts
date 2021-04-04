@@ -2,8 +2,6 @@ import { isDefined } from "../../utils/isDefined";
 import { jsonToString } from "../../utils/parseJson";
 import { RequestMethod } from "./AjaxConnection";
 
-const api = process.env.REACT_APP_API_URL;
-
 const objectEntriesToStringParams = (entries: Array<[string, unknown]>) =>
   entries.reduce((stringParams, [field, value]) => {
     if (isDefined(value)) {
@@ -17,15 +15,14 @@ const parseStringParams = (params: any): string => {
     return "";
   }
 
-  if (typeof params === "object") {
+  if (typeof params === "object" && !Array.isArray(params)) {
     return objectEntriesToStringParams(Object.entries(params));
   }
 
-  return `${params}`;
+  return String(params);
 };
 
-const parseUrl = (endpoint: string, params?: any) => {
-  const url = `${api}${endpoint}`;
+const parseUrl = (url: string, params?: any) => {
   if (isDefined(params)) {
     const stringParams = parseStringParams(params);
     return encodeURI(`${url}?${stringParams}`);
@@ -53,13 +50,29 @@ const getInitRequest = (method: RequestMethod, request: any): RequestInit => {
 export const getRequestParams = (
   endpoint: string,
   request: any,
-  method: RequestMethod,
+  method: RequestMethod | undefined,
 ) => {
-  const url = parseUrl(endpoint, request);
-  const initRequest = getInitRequest(method, request);
+  const validRequest = getValidRequest(request);
+  const url = parseUrl(endpoint, validRequest);
+  const initRequest = method && getInitRequest(method, validRequest);
 
   return {
     url,
     initRequest,
   };
+};
+
+const getValidRequest = <T = any>(request: T): T | undefined => {
+  if (!request) {
+    return undefined;
+  }
+
+  if (typeof request === "object") {
+    const values = Object.values(request).filter(isDefined);
+    if (!values.length) {
+      return undefined;
+    }
+  }
+
+  return request;
 };

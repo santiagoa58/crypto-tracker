@@ -24,9 +24,32 @@ export interface CryptoAsset {
 export interface GetCryptoAssetsResponse {
   assets: CryptoAsset[];
 }
+interface CryptoAssetMetric {
+  [cryptoAsset: string]: number;
+}
+export interface GlobalMarketMetricsResponse {
+  active_cryptocurrencies: number;
+  upcoming_icos: number;
+  ongoing_icos: number;
+  ended_icos: number;
+  markets: number;
+  total_market_cap: CryptoAssetMetric;
+  total_volume: CryptoAssetMetric;
+  market_cap_percentage: CryptoAssetMetric;
+  market_cap_change_percentage_24h_usd: number;
+  updated_at: number;
+}
+export interface GlobalMarketMetrics {
+  totalMarketCapUsd: number;
+  totalVolumeUsd: number;
+  marketCapPercentage: CryptoAssetMetric;
+  marketCapChangePercentage24hUsd: number;
+  updatedAt: number;
+}
 
 export interface AssetsServiceInterface {
   getCryptoAsset(
     request?: GetCryptoAssetsRequest,
   ): Observable<GetCryptoAssetsResponse>;
+  getGlobalMarketData(): Observable<GlobalMarketMetrics>;
 }

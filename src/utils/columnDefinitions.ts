@@ -32,19 +32,20 @@ export const percentComparator = (valueA: any, valueB: any) => {
 export const numericColDef: ColDef = {
   type: "numericColumn",
   comparator: stringCompare,
+  minWidth: 60,
 };
 
 export const priceColDef: ColDef = {
   ...numericColDef,
   valueFormatter({ value }) {
-    return formatPrice(value) || "-";
+    return formatPrice(value);
   },
 };
 
 export const integerPriceColDef: ColDef = {
   ...priceColDef,
   valueFormatter({ value }) {
-    return formatIntegerPrice(value) || "-";
+    return formatIntegerPrice(value);
   },
 };
 
@@ -52,7 +53,7 @@ export const percentColDef: ColDef = {
   ...numericColDef,
   comparator: percentComparator,
   valueFormatter({ value }) {
-    return formatPercent(value) || "-";
+    return formatPercent(value);
   },
   cellClassRules: {
     "negative-value ": (params: { value?: string }) =>
@@ -65,14 +66,15 @@ export const percentColDef: ColDef = {
 export const quantityColDef: ColDef = {
   ...numericColDef,
   valueFormatter({ value }) {
-    return formatQuantity(value) || "-";
+    return formatQuantity(value);
   },
 };
 
 export const defaultColDefs: ColDef = {
-  resizable: true,
+  resizable: false,
   floatingFilter: false,
   sortable: true,
+  suppressMovable: true,
   icons: {
     sortAscending: '<span class="material-icons">arrow_upward</span>',
     sortDescending: '<span class="material-icons">arrow_downward</span>',
