@@ -16,4 +16,4 @@ interface ResetServiceAction extends BaseServiceAction {
   type: UseServiceActionsTypes.RESET;
 }
 
-export type UseServiceActions = FetchServiceAction | ResetServiceAction;
+export type ServiceActions = FetchServiceAction | ResetServiceAction;

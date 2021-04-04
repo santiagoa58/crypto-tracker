@@ -4,6 +4,7 @@ import { Map } from "immutable";
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 import { arrayToMap } from "../../../utils/arrayToMap";
 import { StateFetchStatus } from "../../context/AppState";
+import { PriceUpdate } from "../../../services/feeds/FeedServiceInterface";
 export interface AssetsState {
   list: Map<string, CryptoAsset>;
   status: StateFetchStatus;
@@ -39,7 +40,29 @@ export const assetsReducer = (
         status: StateFetchStatus.Failure,
         error: action.payload,
       };
+
+    case AssetActionTypes.UPDATE_ASSET:
+      return {
+        ...state,
+        list: updateAsset(state.list, action.payload),
+      };
     default:
       return state;
   }
+};
+
+const updateAsset = (
+  state: AssetsState["list"],
+  updates: Array<PriceUpdate>,
+) => {
+  let updateMap: AssetsState["list"] = Map();
+
+  updates.forEach((update) => {
+    const oldVal = state.get(update.id);
+    if (oldVal) {
+      updateMap = updateMap.set(update.id, { ...oldVal, ...update });
+    }
+  });
+
+  return state.merge(updateMap);
 };
