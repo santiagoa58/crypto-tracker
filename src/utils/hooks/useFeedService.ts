@@ -9,7 +9,7 @@ export const usePricesFeed = () => {
   const assets = useMemo(() => appState.assets?.list.keySeq().toArray(), [
     appState.assets?.list,
   ]);
-  const prevAssets = useRef(String(assets));
+  const prevAssets = useRef<string>();
 
   const subscribeToFeed = useService(FeedService.priceFeed, {
     onResponse(response) {
