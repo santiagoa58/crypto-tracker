@@ -1,5 +1,5 @@
 import { assetsReducer } from "../crypto-assets/hooks/assetsReducer";
-import { marketMetricsReducer } from "../crypto-assets/hooks/marketMetricsReducer";
+import { marketMetricsReducer } from "../market-metrics/hooks/marketMetricsReducer";
 import { AppActions } from "./AppActions";
 import { AppState } from "./AppState";
 

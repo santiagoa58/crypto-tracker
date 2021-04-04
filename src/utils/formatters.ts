@@ -1,3 +1,4 @@
+import { Colors } from "../theme/theme";
 import { isDefined } from "./isDefined";
 import { getSafeNumber } from "./safeGetters";
 
@@ -28,7 +29,7 @@ export const formatPrice = (
     currency: "USD",
     maximumFractionDigits: decimalPlaces,
     minimumFractionDigits: decimalPlaces,
-  });
+  }) || "--";
 
 export const formatIntegerPrice = (price?: string | number) =>
   formatPrice(price, 0);
@@ -42,7 +43,20 @@ export const formatPercent = (percent?: string | number) => {
       minimumFractionDigits: 2,
     });
   }
+  return "--";
 };
 
 export const formatQuantity = (quantity?: string | number) =>
-  safelyFormatNumber(quantity);
+  safelyFormatNumber(quantity) || "--";
+
+export const getColorFromSign = (
+  value?: string | number,
+): Colors | undefined => {
+  const num = getSafeNumber(value);
+
+  if (!isDefined(num) || num === 0) {
+    return undefined;
+  }
+
+  return num > 0 ? "green" : "red";
+};

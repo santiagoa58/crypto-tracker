@@ -1,5 +1,5 @@
 import { AssetsState } from "../crypto-assets/hooks/assetsReducer";
-import { GlobalMarketMetricsState } from "../crypto-assets/hooks/marketMetricsReducer";
+import { GlobalMarketMetricsState } from "../market-metrics/hooks/marketMetricsReducer";
 
 export interface AppState {
   assets?: AssetsState;

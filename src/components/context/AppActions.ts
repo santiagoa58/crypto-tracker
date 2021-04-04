@@ -1,4 +1,5 @@
 import { AssetActions } from "../crypto-assets/hooks/AssetActions";
+import { MarketMetricActions } from "../market-metrics/hooks/MarketMetricsActions";
 
 export interface FluxStandardAction<Type> {
   type: Type;
@@ -6,4 +7,4 @@ export interface FluxStandardAction<Type> {
   error?: boolean;
 }
 
-export type AppActions = AssetActions;
+export type AppActions = AssetActions | MarketMetricActions;
