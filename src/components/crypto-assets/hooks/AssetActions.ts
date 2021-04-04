@@ -26,7 +26,7 @@ interface GetAssetsFailureAction extends FluxStandardAction<AssetActionTypes> {
 
 interface UpdateAssetPriceAction extends FluxStandardAction<AssetActionTypes> {
   type: AssetActionTypes.UPDATE_ASSET;
-  payload: PriceUpdate[];
+  payload: PriceUpdate;
 }
 
 export type AssetActions =

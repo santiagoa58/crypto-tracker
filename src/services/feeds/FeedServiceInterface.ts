@@ -12,5 +12,5 @@ export interface PriceFeedSubscriptionRequest {
 export type PriceUpdate = Pick<CryptoAsset, "id" | "priceUsd">;
 
 export interface FeedServiceInterface {
-  priceFeed(request: PriceFeedSubscriptionRequest): Observable<PriceUpdate[]>;
+  priceFeed(request: PriceFeedSubscriptionRequest): Observable<PriceUpdate>;
 }

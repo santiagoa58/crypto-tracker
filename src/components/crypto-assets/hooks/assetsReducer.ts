@@ -51,18 +51,9 @@ export const assetsReducer = (
   }
 };
 
-const updateAsset = (
-  state: AssetsState["list"],
-  updates: Array<PriceUpdate>,
-) => {
-  let updateMap: AssetsState["list"] = OrderedMap();
-
-  updates.forEach((update) => {
-    const oldVal = state.get(update.id);
-    if (oldVal) {
-      updateMap = updateMap.set(update.id, { ...oldVal, ...update });
-    }
-  });
-
-  return state.merge(updateMap);
+const updateAsset = (state: AssetsState["list"], update: PriceUpdate) => {
+  if (state.has(update.id)) {
+    return state.update(update.id, (prev) => ({ ...prev, ...update }));
+  }
+  return state;
 };
