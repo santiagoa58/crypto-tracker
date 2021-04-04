@@ -1,18 +1,18 @@
 import { AppActions } from "../../context/AppActions";
 import { AssetActionTypes } from "./AssetActions";
-import { Map } from "immutable";
+import { OrderedMap } from "immutable";
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 import { arrayToMap } from "../../../utils/arrayToMap";
 import { StateFetchStatus } from "../../context/AppState";
 import { PriceUpdate } from "../../../services/feeds/FeedServiceInterface";
 export interface AssetsState {
-  list: Map<string, CryptoAsset>;
+  list: OrderedMap<string, CryptoAsset>;
   status: StateFetchStatus;
   error?: string;
 }
 
 const initalState: AssetsState = {
-  list: Map(),
+  list: OrderedMap(),
   status: StateFetchStatus.Idle,
 };
 
@@ -55,7 +55,7 @@ const updateAsset = (
   state: AssetsState["list"],
   updates: Array<PriceUpdate>,
 ) => {
-  let updateMap: AssetsState["list"] = Map();
+  let updateMap: AssetsState["list"] = OrderedMap();
 
   updates.forEach((update) => {
     const oldVal = state.get(update.id);

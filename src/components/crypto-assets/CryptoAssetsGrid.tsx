@@ -1,6 +1,7 @@
 import React, { FC, useMemo } from "react";
 import styled from "styled-components/macro";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
+import { usePricesFeed } from "../../utils/hooks/useFeedService";
 import { StateFetchStatus } from "../context/AppState";
 import { Grid } from "../grid/Grid";
 import { BaseWrapper } from "../wrappers";
@@ -16,6 +17,7 @@ const AssetGridWrapper = styled(BaseWrapper)`
 const getRowNodeId = (row: CryptoAsset) => row.id;
 
 export const CryptoAssetsGrid: FC = (props) => {
+  usePricesFeed();
   const { assets, status, error } = useAssetsService();
 
   const rowData = useMemo(() => assets?.valueSeq().toArray(), [assets]);
