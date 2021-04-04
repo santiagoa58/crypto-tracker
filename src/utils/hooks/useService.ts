@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer, useRef } from "react";
 import { Observable, Subscription } from "rxjs";
-import { UseServiceActions, UseServiceActionsTypes } from "./useServiceActions";
+import { ServiceActions, UseServiceActionsTypes } from "./ServiceActions";
 
 type Service<Request, Response> = (request: Request) => Observable<Response>;
 
@@ -20,7 +20,7 @@ const initialServiceState: ServiceState = {
 
 const serviceReducer = (
   state = initialServiceState,
-  action: UseServiceActions,
+  action: ServiceActions,
 ): ServiceState => {
   switch (action.type) {
     case UseServiceActionsTypes.FETCH_REQUEST:
