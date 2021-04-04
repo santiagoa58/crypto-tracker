@@ -38,14 +38,14 @@ export const numericColDef: ColDef = {
 export const priceColDef: ColDef = {
   ...numericColDef,
   valueFormatter({ value }) {
-    return formatPrice(value) || "-";
+    return formatPrice(value);
   },
 };
 
 export const integerPriceColDef: ColDef = {
   ...priceColDef,
   valueFormatter({ value }) {
-    return formatIntegerPrice(value) || "-";
+    return formatIntegerPrice(value);
   },
 };
 
@@ -53,7 +53,7 @@ export const percentColDef: ColDef = {
   ...numericColDef,
   comparator: percentComparator,
   valueFormatter({ value }) {
-    return formatPercent(value) || "-";
+    return formatPercent(value);
   },
   cellClassRules: {
     "negative-value ": (params: { value?: string }) =>
@@ -66,7 +66,7 @@ export const percentColDef: ColDef = {
 export const quantityColDef: ColDef = {
   ...numericColDef,
   valueFormatter({ value }) {
-    return formatQuantity(value) || "-";
+    return formatQuantity(value);
   },
 };
 

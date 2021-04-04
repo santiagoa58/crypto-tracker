@@ -1,5 +1,5 @@
 import { AppActions } from "../../context/AppActions";
-import { AssetActionsTypes } from "./AssetActions";
+import { AssetActionTypes } from "./AssetActions";
 import { Map } from "immutable";
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 import { arrayToMap } from "../../../utils/arrayToMap";
@@ -20,20 +20,20 @@ export const assetsReducer = (
   action: AppActions,
 ) => {
   switch (action.type) {
-    case AssetActionsTypes.GET_ASSETS_REQUEST:
+    case AssetActionTypes.GET_ASSETS_REQUEST:
       return {
         ...state,
         error: undefined,
         status: StateFetchStatus.Busy,
       };
-    case AssetActionsTypes.GET_ASSETS_SUCCESS:
+    case AssetActionTypes.GET_ASSETS_SUCCESS:
       return {
         ...state,
         error: undefined,
         status: StateFetchStatus.Idle,
         list: state.list.merge(arrayToMap(action.payload, "id")),
       };
-    case AssetActionsTypes.GET_ASSETS_FAILURE:
+    case AssetActionTypes.GET_ASSETS_FAILURE:
       return {
         ...state,
         status: StateFetchStatus.Failure,

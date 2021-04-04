@@ -22,7 +22,7 @@ export const assetColDefs: ColumnDefinition[] = [
   {
     field: "name",
     colId: "name",
-    headerName: "ASSET NAME",
+    headerName: "Name",
     valueGetter: ({ data }: { data: CryptoAsset }): CryptoNameValue => ({
       symbol: data.symbol,
       name: data.name,
@@ -45,34 +45,34 @@ export const assetColDefs: ColumnDefinition[] = [
     width: 165,
     field: "changePercent24Hr",
     colId: "changePercent24Hr",
-    headerName: "CHANGE (24HR)",
+    headerName: "24h Change",
   },
   {
     ...integerPriceColDef,
     width: 160,
     field: "volumeUsd24Hr",
     colId: "volumeUsd24Hr",
-    headerName: "VOLUME (24HR)",
+    headerName: "24h Volume",
   },
   {
     ...integerPriceColDef,
     width: 180,
     field: "marketCapUsd",
     colId: "marketCapUsd",
-    headerName: "MARKET CAP",
+    headerName: "Market Cap",
   },
   {
     ...quantityColDef,
     width: 180,
     field: "supply",
     colId: "supply",
-    headerName: "SUPPLY",
+    headerName: "Supply",
   },
   {
     ...quantityColDef,
     width: 150,
     field: "maxSupply",
     colId: "maxSupply",
-    headerName: "MAX SUPPLY",
+    headerName: "Max Supply",
   },
 ];

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { AssetsService } from "../../../services/crypto_assets/AssetsService";
 import { CryptoAssetContext } from "../../context/CryptoAssetContext";
-import { AssetActionsTypes } from "./AssetActions";
+import { AssetActionTypes } from "./AssetActions";
 import { useService } from "../../../utils/hooks/useService";
 
 export const useAssetsService = (search?: string) => {
@@ -10,13 +10,13 @@ export const useAssetsService = (search?: string) => {
   const getAssets = useService(AssetsService.getCryptoAsset, {
     onResponse(response) {
       dispatch({
-        type: AssetActionsTypes.GET_ASSETS_SUCCESS,
+        type: AssetActionTypes.GET_ASSETS_SUCCESS,
         payload: response.assets,
       });
     },
     onError() {
       dispatch({
-        type: AssetActionsTypes.GET_ASSETS_FAILURE,
+        type: AssetActionTypes.GET_ASSETS_FAILURE,
         payload: "Error getting assets",
         error: true,
       });
@@ -24,7 +24,7 @@ export const useAssetsService = (search?: string) => {
   });
 
   useEffect(() => {
-    dispatch({ type: AssetActionsTypes.GET_ASSETS_REQUEST });
+    dispatch({ type: AssetActionTypes.GET_ASSETS_REQUEST });
     getAssets({ search });
   }, [dispatch, getAssets, search]);
 

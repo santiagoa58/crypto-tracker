@@ -1,11 +1,11 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components/macro";
 import "./App.css";
-import { CryptoAssetsGrid } from "./components/crypto-assets/CryptoAssetsGrid";
 import { NavigationHeader } from "./components/header/NavigationHeader";
 import { theme } from "./theme/theme";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { CryptoAssetContextProvider } from "./components/context/CryptoAssetContext";
+import { MarketOverview } from "./components/overview/MarketOverview";
 
 const AppWrapper = styled.div`
   max-width: ${({ theme }) => theme.screenSizes.desktop};
@@ -32,7 +32,7 @@ function App() {
             <main>
               <Switch>
                 <Route path="/" exact={true}>
-                  <CryptoAssetsGrid />
+                  <MarketOverview />
                 </Route>
               </Switch>
             </main>

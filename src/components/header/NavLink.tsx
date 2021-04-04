@@ -9,6 +9,8 @@ export const NavItemWrapper = styled.div`
   opacity: ${({ theme }) => theme.opacityMuted};
   white-space: nowrap;
   transition: all 200ms;
+  border-bottom: solid 1px transparent;
+  margin-bottom: -1px;
 
   a {
     height: 100%;
@@ -21,8 +23,8 @@ export const NavItemWrapper = styled.div`
   &.nav-link--active,
   &:focus,
   &:hover {
+    border-bottom-color: ${({ theme }) => theme.colors.primaryLight};
     opacity: 1;
-    border-bottom: solid 1px ${({ theme }) => theme.colors.primaryLight};
     cursor: pointer;
   }
 `;

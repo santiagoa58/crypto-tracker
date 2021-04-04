@@ -22,7 +22,7 @@ const NameCellWrapper = styled.div`
       display: flex;
       flex-direction: column;
       line-height: 1.5;
-      padding-left: 0.6rem;
+      padding-left: 0.75rem;
       overflow: hidden;
     }
     &--sub,
