@@ -16,7 +16,7 @@ const PercentChange = styled.span<{ color?: Colors }>`
   white-space: nowrap;
 `;
 
-export const MarketMetrics: FC = (props) => {
+export const MarketMetrics: FC = () => {
   const { marketMetrics } = useMarketMetrics();
   const percentChangeUsd = formatPercent(
     marketMetrics?.marketCapChangePercentage24hUsd,
@@ -27,11 +27,12 @@ export const MarketMetrics: FC = (props) => {
   );
 
   return (
-    <ContentWrapper>
+    <ContentWrapper maxColumnSize="25rem" minColumnSize="18rem">
       <MainSubContentWrapper>
         <span className="content__sub">Total Market Cap</span>
         <span className="content__main--large">
           {totalMarketCap}
+          <wbr />
           <PercentChange
             color={getColorFromSign(
               marketMetrics?.marketCapChangePercentage24hUsd,

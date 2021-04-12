@@ -21,6 +21,7 @@ export const theme = {
     secondaryDark: "#101f27" as "#101f27",
     focus: "#80bdff" as "#80bdff",
     border: "#5c5c5d" as "#5c5c5d",
+    borderMuted: "rgba(92,92,93,0.2)" as "rgba(92,92,93,0.2)",
     red: "#f75a6e" as "#f75a6e",
     green: "#73e1b6" as "#73e1b6",
   },

@@ -1,5 +1,5 @@
-import { ICellRendererParams } from "ag-grid-community";
-import { FC } from "react";
+import { ICellRenderer, ICellRendererParams } from "ag-grid-community";
+import { useImperativeHandle, forwardRef } from "react";
 import styled from "styled-components/macro";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
 
@@ -37,14 +37,22 @@ const NameCellWrapper = styled.div`
   }
 `;
 
-export const CryptoNameCell: FC<CryptoNameCellProps> = (props) => {
-  return (
-    <NameCellWrapper>
-      <i className={`cf cf-${props.value.symbol.toLowerCase()}`}></i>
-      <div className="crypto-name__wrapper">
-        <span className="crypto-name--main">{props.value.symbol}</span>
-        <span className="crypto-name--sub">{props.value.name}</span>
-      </div>
-    </NameCellWrapper>
-  );
-};
+export const CryptoNameCell = forwardRef<ICellRenderer, CryptoNameCellProps>(
+  (props, ref) => {
+    useImperativeHandle(ref, () => ({
+      refresh() {
+        return true;
+      },
+    }));
+
+    return (
+      <NameCellWrapper>
+        <i className={`cf cf-${props.value.symbol.toLowerCase()}`}></i>
+        <div className="crypto-name__wrapper">
+          <span className="crypto-name--main">{props.value.symbol}</span>
+          <span className="crypto-name--sub">{props.value.name}</span>
+        </div>
+      </NameCellWrapper>
+    );
+  },
+);

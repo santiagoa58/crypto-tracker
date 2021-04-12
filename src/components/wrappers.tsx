@@ -10,30 +10,35 @@ export const BaseWrapper = styled.div`
   filter: brightness(1.08);
 `;
 
-export const ContentWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  width: fit-content;
-  padding: 1rem;
-  max-width: 100%;
+interface ContentWrapperProps {
+  minColumnSize?: string;
+  maxColumnSize?: string;
+}
+export const ContentWrapper = styled.div<ContentWrapperProps>`
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    ${({ minColumnSize = "20rem", maxColumnSize = "1fr" }) =>
+      `minmax(${minColumnSize}, ${maxColumnSize})`}
+  );
+  place-content: center;
+  row-gap: 1rem;
+  margin: 1rem 0;
+  overflow: hidden;
 `;
 
-export const MainSubContentWrapper = styled(BaseWrapper)`
+export const MainSubContentWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.secondaryDark};
-  padding: 0.5rem 0.75rem;
-  margin: 0.5rem;
-  word-break: break-word;
+  padding: 0.5rem;
   text-align: center;
+  overflow: auto;
 
   .content__sub,
-  .content__main {
+  .content__main,
+  .content__main--large {
     overflow: hidden;
     text-overflow: ellipsis;
   }
