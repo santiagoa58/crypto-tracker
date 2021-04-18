@@ -6,7 +6,7 @@ import { StateFetchStatus } from "../context/AppState";
 import { Grid } from "../grid/Grid";
 import { BaseWrapper } from "../wrappers";
 import { assetColDefs } from "./cryptoAssetsColDefs";
-import { useAssetsService } from "./hooks/useAssetsService";
+import { useAssetsService } from "./useAssetsService";
 
 const AssetGridWrapper = styled(BaseWrapper)`
   height: 70vh;

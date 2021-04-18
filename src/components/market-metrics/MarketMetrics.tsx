@@ -7,7 +7,7 @@ import {
   getColorFromSign,
 } from "../../utils/formatters";
 import { MainSubContentWrapper, ContentWrapper } from "../wrappers";
-import { useMarketMetrics } from "./hooks/useMarketMetrics";
+import { useMarketMetrics } from "./useMarketMetrics";
 
 const PercentChange = styled.span<{ color?: Colors }>`
   color: ${({ theme, color }) => color && theme.colors[color]};

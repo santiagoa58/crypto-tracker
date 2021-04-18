@@ -47,9 +47,39 @@ export interface GlobalMarketMetrics {
   updatedAt: number;
 }
 
+export type HistoricalPriceInterval =
+  | "m1"
+  | "m5"
+  | "m15"
+  | "m30"
+  | "h1"
+  | "h2"
+  | "h6"
+  | "h12"
+  | "d1";
+
+export interface HistoricalPriceData {
+  priceUsd: string;
+  time: number;
+  date: string;
+}
+export interface HistoricalAssetPriceRequest {
+  id: string;
+  interval: HistoricalPriceInterval;
+}
+
+export interface HistoricalAssetPriceResponse {
+  id: string;
+  historicalPriceData: HistoricalPriceData[];
+  interval: HistoricalPriceInterval;
+}
+
 export interface AssetsServiceInterface {
   getCryptoAsset(
     request?: GetCryptoAssetsRequest,
   ): Observable<GetCryptoAssetsResponse>;
   getGlobalMarketData(): Observable<GlobalMarketMetrics>;
+  getHistoricalPriceData(
+    request: HistoricalAssetPriceRequest,
+  ): Observable<HistoricalAssetPriceResponse>;
 }

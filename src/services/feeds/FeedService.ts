@@ -1,4 +1,4 @@
-import { bufferTime, mergeMap } from "rxjs/operators";
+import { mergeMap, retryWhen, tap, delay, throttleTime } from "rxjs/operators";
 import { pricesStreamApi } from "../connection/apis";
 import { webSocketConnection } from "../connection/websocketConnection";
 import {
@@ -22,10 +22,14 @@ export const FeedService: FeedServiceInterface = {
       PRICES_PATH,
       request,
     ).pipe(
-      bufferTime(500),
-      mergeMap((response) => {
-        return response.flatMap(mapAssetPriceToPriceUpdate);
-      }),
+      throttleTime(1000),
+      mergeMap(mapAssetPriceToPriceUpdate),
+      retryWhen((errors) =>
+        errors.pipe(
+          tap(() => console.log("connection failed, retrying...")),
+          delay(2000),
+        ),
+      ),
     );
   },
 };

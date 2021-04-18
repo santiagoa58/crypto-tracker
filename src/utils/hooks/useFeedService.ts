@@ -1,6 +1,6 @@
 import { useContext, useMemo, useEffect, useRef } from "react";
 import { CryptoAssetContext } from "../../components/context/CryptoAssetContext";
-import { AssetActionTypes } from "../../components/crypto-assets/hooks/AssetActions";
+import { AssetActionTypes } from "../../components/crypto-assets/state/AssetActions";
 import { FeedService } from "../../services/feeds/FeedService";
 import { useService } from "./useService";
 

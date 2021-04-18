@@ -5,6 +5,7 @@ import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterf
 import { arrayToMap } from "../../../utils/arrayToMap";
 import { StateFetchStatus } from "../../context/AppState";
 import { PriceUpdate } from "../../../services/feeds/FeedServiceInterface";
+
 export interface AssetsState {
   list: OrderedMap<string, CryptoAsset>;
   status: StateFetchStatus;
@@ -27,6 +28,7 @@ export const assetsReducer = (
         error: undefined,
         status: StateFetchStatus.Busy,
       };
+
     case AssetActionTypes.GET_ASSETS_SUCCESS:
       return {
         ...state,
@@ -34,6 +36,7 @@ export const assetsReducer = (
         status: StateFetchStatus.Idle,
         list: state.list.merge(arrayToMap(action.payload, "id")),
       };
+
     case AssetActionTypes.GET_ASSETS_FAILURE:
       return {
         ...state,

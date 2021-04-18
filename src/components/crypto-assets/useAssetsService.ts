@@ -1,9 +1,9 @@
 import { useCallback, useContext } from "react";
-import { AssetsService } from "../../../services/crypto_assets/AssetsService";
-import { CryptoAssetContext } from "../../context/CryptoAssetContext";
-import { AssetActionTypes } from "./AssetActions";
-import { useService } from "../../../utils/hooks/useService";
-import { GetCryptoAssetsRequest } from "../../../services/crypto_assets/AssetsServiceInterface";
+import { AssetsService } from "../../services/crypto_assets/AssetsService";
+import { CryptoAssetContext } from "../context/CryptoAssetContext";
+import { AssetActionTypes } from "./state/AssetActions";
+import { useService } from "../../utils/hooks/useService";
+import { GetCryptoAssetsRequest } from "../../services/crypto_assets/AssetsServiceInterface";
 
 export const useAssetsService = () => {
   const [appState, dispatch] = useContext(CryptoAssetContext);

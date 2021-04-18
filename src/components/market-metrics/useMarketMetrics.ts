@@ -1,11 +1,17 @@
-import { useContext, useEffect } from "react";
-import { AssetsService } from "../../../services/crypto_assets/AssetsService";
-import { useService } from "../../../utils/hooks/useService";
-import { CryptoAssetContext } from "../../context/CryptoAssetContext";
-import { MarketMetricsActionTypes } from "./MarketMetricsActions";
+import { useReducer, useEffect } from "react";
+import { AssetsService } from "../../services/crypto_assets/AssetsService";
+import { useService } from "../../utils/hooks/useService";
+import { MarketMetricsActionTypes } from "./state/MarketMetricsActions";
+import {
+  initialMarketMetricsState,
+  marketMetricsReducer,
+} from "./state/marketMetricsReducer";
 
 export const useMarketMetrics = () => {
-  const [appState, dispatch] = useContext(CryptoAssetContext);
+  const [marketMetricsState, dispatch] = useReducer(
+    marketMetricsReducer,
+    initialMarketMetricsState,
+  );
 
   const getMarketMetrics = useService(AssetsService.getGlobalMarketData, {
     onResponse(response) {
@@ -29,6 +35,6 @@ export const useMarketMetrics = () => {
   }, [dispatch, getMarketMetrics]);
 
   return {
-    marketMetrics: appState.marketMetrics,
+    marketMetrics: marketMetricsState,
   };
 };

@@ -3,7 +3,6 @@ import {
   percentColDef,
   priceColDef,
   quantityColDef,
-  numericColDef,
   stringCompare,
 } from "../../utils/columnDefinitions";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
@@ -11,14 +10,6 @@ import { ColumnDefinition } from "../grid/Grid";
 import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
 
 export const assetColDefs: ColumnDefinition[] = [
-  {
-    ...numericColDef,
-    field: "rank",
-    colId: "rank",
-    headerName: "#",
-    width: 80,
-    initialSort: "asc",
-  },
   {
     field: "name",
     colId: "name",
@@ -30,22 +21,22 @@ export const assetColDefs: ColumnDefinition[] = [
     comparator: (valueA: CryptoNameValue, valueB: CryptoNameValue) =>
       stringCompare(valueA.name, valueB.name),
     cellRendererFramework: CryptoNameCell,
-    width: 200,
-    minWidth: 100,
+    width: 120,
+    minWidth: 60,
   },
   {
     ...priceColDef,
-    width: 130,
+    width: 125,
     field: "priceUsd",
     colId: "priceUsd",
     headerName: "PRICE",
   },
   {
     ...percentColDef,
-    width: 165,
+    width: 100,
     field: "changePercent24Hr",
     colId: "changePercent24Hr",
-    headerName: "24h Change",
+    headerName: "24h %",
   },
   {
     ...integerPriceColDef,
@@ -60,6 +51,7 @@ export const assetColDefs: ColumnDefinition[] = [
     field: "marketCapUsd",
     colId: "marketCapUsd",
     headerName: "Market Cap",
+    initialSort: "desc",
   },
   {
     ...quantityColDef,

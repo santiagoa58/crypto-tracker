@@ -6,6 +6,7 @@ import { theme } from "./theme/theme";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { CryptoAssetContextProvider } from "./components/context/CryptoAssetContext";
 import { MarketOverview } from "./components/overview/MarketOverview";
+import { PriceAction } from "./components/price-action/PriceAction";
 
 const AppWrapper = styled.div`
   max-width: ${({ theme }) => theme.screenSizes.desktop};
@@ -25,20 +26,23 @@ const AppWrapper = styled.div`
 function App() {
   return (
     <Router>
-      <CryptoAssetContextProvider>
-        <ThemeProvider theme={theme}>
-          <AppWrapper>
-            <NavigationHeader />
-            <main>
+      <ThemeProvider theme={theme}>
+        <AppWrapper>
+          <NavigationHeader />
+          <main>
+            <CryptoAssetContextProvider>
               <Switch>
                 <Route path="/" exact={true}>
                   <MarketOverview />
                 </Route>
+                <Route path="/price-action">
+                  <PriceAction />
+                </Route>
               </Switch>
-            </main>
-          </AppWrapper>
-        </ThemeProvider>
-      </CryptoAssetContextProvider>
+            </CryptoAssetContextProvider>
+          </main>
+        </AppWrapper>
+      </ThemeProvider>
     </Router>
   );
 }

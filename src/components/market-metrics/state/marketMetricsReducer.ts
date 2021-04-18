@@ -7,12 +7,12 @@ export interface GlobalMarketMetricsState extends Partial<GlobalMarketMetrics> {
   status: StateFetchStatus;
 }
 
-const initialState: GlobalMarketMetricsState = {
+export const initialMarketMetricsState: GlobalMarketMetricsState = {
   status: StateFetchStatus.Idle,
 };
 
 export const marketMetricsReducer = (
-  state: GlobalMarketMetricsState = initialState,
+  state: GlobalMarketMetricsState = initialMarketMetricsState,
   action: AppActions,
 ): GlobalMarketMetricsState => {
   switch (action.type) {

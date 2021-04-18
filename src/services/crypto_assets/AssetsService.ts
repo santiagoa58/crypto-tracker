@@ -4,6 +4,8 @@ import {
   CryptoAsset,
   GetCryptoAssetsRequest,
   GlobalMarketMetricsResponse,
+  HistoricalAssetPriceRequest,
+  HistoricalPriceData,
 } from "./AssetsServiceInterface";
 import { map } from "rxjs/operators";
 import { assetsApi, marketMetricsApi } from "../connection/apis";
@@ -17,6 +19,10 @@ interface ServerGetAssetsResponse {
 
 interface ServerGlobalMarketMetricsResponse {
   data: GlobalMarketMetricsResponse;
+}
+
+interface ServerGetHistoricalPriceResponse {
+  data: HistoricalPriceData[];
 }
 
 export const AssetsService: AssetsServiceInterface = {
@@ -38,6 +44,18 @@ export const AssetsService: AssetsServiceInterface = {
         marketCapChangePercentage24hUsd:
           data.market_cap_change_percentage_24h_usd,
         updatedAt: data.updated_at,
+      })),
+    ),
+
+  getHistoricalPriceData: ({ id, ...request }: HistoricalAssetPriceRequest) =>
+    AjaxConnection<
+      Pick<HistoricalAssetPriceRequest, "interval">,
+      ServerGetHistoricalPriceResponse
+    >(`${ASSETS_PATH}${id}/history`, request).pipe(
+      map(({ data }) => ({
+        id,
+        historicalPriceData: data,
+        interval: request.interval,
       })),
     ),
 };
