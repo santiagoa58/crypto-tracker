@@ -2,10 +2,13 @@ import { Colors } from "../theme/theme";
 import { isDefined } from "./isDefined";
 import { getSafeNumber } from "./safeGetters";
 
+const DEFAULT_LOCALE = "en-US";
+const DEFAULT_CURRENCY = "USD";
+
 const formatNumber = (
   value: number,
   options: Intl.NumberFormatOptions | undefined,
-  locale = "en-US",
+  locale = DEFAULT_LOCALE,
 ): string => Intl.NumberFormat(locale, options).format(value);
 
 const safelyFormatNumber = (
@@ -26,7 +29,7 @@ export const formatPrice = (
 ): string =>
   safelyFormatNumber(price, {
     style: "currency",
-    currency: "USD",
+    currency: DEFAULT_CURRENCY,
     maximumFractionDigits: decimalPlaces,
     minimumFractionDigits: decimalPlaces,
   }) || "--";
@@ -59,4 +62,28 @@ export const getColorFromSign = (
   }
 
   return num > 0 ? "green" : "red";
+};
+
+const formatDateTime = (
+  milliseconds: number,
+  options: Intl.DateTimeFormatOptions | undefined,
+  locale = DEFAULT_LOCALE,
+) => {
+  const date = new Date(milliseconds);
+  return new Intl.DateTimeFormat(locale, options).format(date);
+};
+
+export const formatWeekdayDateString = (
+  timestamp: number | string | undefined,
+): string => {
+  const milliseconds = getSafeNumber(timestamp);
+  if (!isDefined(milliseconds)) {
+    return "";
+  }
+  return formatDateTime(milliseconds, {
+    weekday: "long",
+    year: "numeric",
+    day: "numeric",
+    month: "long",
+  });
 };

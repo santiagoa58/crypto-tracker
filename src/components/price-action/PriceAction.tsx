@@ -1,7 +1,13 @@
 import React, { FC, useState, useEffect, useMemo } from "react";
 import { HistoricalPriceInterval } from "../../services/crypto_assets/AssetsServiceInterface";
+import { formatPrice, formatWeekdayDateString } from "../../utils/formatters";
 import { typedObjectEntries } from "../../utils/typedObjectEntries";
 import { Chart } from "../charts/Chart";
+import {
+  PriceActionWrapper,
+  TimeRangeSelection,
+  TimeRangeSelectionItem,
+} from "./styled";
 import { useHistoricalPrice } from "./useHistoricalPrice";
 
 type Intervals = {
@@ -19,30 +25,44 @@ const intervals: Intervals = {
   d1: "1D",
 };
 export const PriceAction: FC = () => {
-  const [interval, setInterval] = useState<HistoricalPriceInterval>("d1");
+  const [selectedInterval, setInterval] = useState<HistoricalPriceInterval>(
+    "d1",
+  );
   const { assetPriceHistory, getHistoricalData } = useHistoricalPrice(
     "bitcoin",
   );
 
   useEffect(() => {
-    getHistoricalData({ interval });
-  }, [interval, getHistoricalData]);
+    getHistoricalData({ interval: selectedInterval });
+  }, [selectedInterval, getHistoricalData]);
 
-  const chartData = useMemo(() => assetPriceHistory.get(interval) ?? [], [
+  const chartData = useMemo(() => assetPriceHistory.get(selectedInterval), [
     assetPriceHistory,
-    interval,
+    selectedInterval,
   ]);
 
   return (
-    <div>
-      <ul>
+    <PriceActionWrapper>
+      <TimeRangeSelection>
         {typedObjectEntries(intervals).map(([intervalKey, interval]) => (
-          <li key={intervalKey} onClick={() => setInterval(intervalKey)}>
+          <TimeRangeSelectionItem
+            key={intervalKey}
+            onClick={() => setInterval(intervalKey)}
+            className={
+              intervalKey === selectedInterval ? "selected" : undefined
+            }
+          >
             {interval}
-          </li>
+          </TimeRangeSelectionItem>
         ))}
-      </ul>
-      <Chart chartData={chartData} dataKey="priceUsd" xAxisDataKey="time" />
-    </div>
+      </TimeRangeSelection>
+      <Chart
+        chartData={chartData}
+        dataKey="priceUsd"
+        xAxisDataKey="time"
+        valueFormatter={(value) => formatPrice(value, 3)}
+        xAxisLabelFormatter={(time) => formatWeekdayDateString(time)}
+      />
+    </PriceActionWrapper>
   );
 };

@@ -16,3 +16,19 @@ export const getSafeString = (value?: string | number): string => {
 
   return "";
 };
+
+export const getSafeMinMax = <T extends Record<string, any>, K extends keyof T>(
+  values: T[] | undefined,
+  key: K,
+): [number, number] | undefined => {
+  if (!isDefined(values)) {
+    return undefined;
+  }
+  const numericValues = values
+    .map((value) => getSafeNumber(value?.[key]))
+    .filter(isDefined);
+  const max = Math.max(...numericValues);
+  const min = Math.min(...numericValues);
+
+  return [min, max];
+};
