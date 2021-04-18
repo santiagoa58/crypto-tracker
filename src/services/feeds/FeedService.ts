@@ -1,4 +1,5 @@
 import { mergeMap, retryWhen, tap, delay, throttleTime } from "rxjs/operators";
+import { getSafeNumber } from "../../utils/safeGetters";
 import { pricesStreamApi } from "../connection/apis";
 import { webSocketConnection } from "../connection/websocketConnection";
 import {
@@ -12,7 +13,7 @@ const PRICES_PATH = `${pricesStreamApi}/prices`;
 const mapAssetPriceToPriceUpdate = (asset: AssetPrice) => {
   return Object.entries(asset).map(([id, priceUsd]) => ({
     id,
-    priceUsd,
+    price: getSafeNumber(priceUsd)!,
   }));
 };
 

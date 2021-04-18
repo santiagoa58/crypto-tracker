@@ -1,7 +1,10 @@
 import React, { FC, useEffect, useMemo } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
 import { usePricesFeed } from "../../utils/hooks/useFeedService";
+import { PRICE_ACTION_PATH } from "../../utils/routes/paths";
+import { GridRowClickedEvent } from "../../utils/types";
 import { StateFetchStatus } from "../context/AppState";
 import { Grid } from "../grid/Grid";
 import { BaseWrapper } from "../wrappers";
@@ -17,11 +20,12 @@ const AssetGridWrapper = styled(BaseWrapper)`
 const getRowNodeId = (row: CryptoAsset) => row.id;
 
 export const CryptoAssetsGrid: FC = (props) => {
+  const history = useHistory();
   const { assets, status, error, getAssets } = useAssetsService();
   usePricesFeed();
 
   useEffect(() => {
-    getAssets({ limit: 300 });
+    getAssets({ per_page: 300, page: 1, vs_currency: "usd" });
   }, [getAssets]);
 
   const rowData = useMemo(() => assets?.valueSeq().toArray(), [assets]);
@@ -34,6 +38,9 @@ export const CryptoAssetsGrid: FC = (props) => {
         getRowNodeId={getRowNodeId}
         error={error}
         loading={status === StateFetchStatus.Busy}
+        onRowClicked={(event: GridRowClickedEvent<CryptoAsset>) => {
+          history.push(`${PRICE_ACTION_PATH}${event.data.id}`);
+        }}
       />
       {props.children}
     </AssetGridWrapper>

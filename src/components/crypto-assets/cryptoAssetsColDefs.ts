@@ -9,7 +9,7 @@ import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface
 import { ColumnDefinition } from "../grid/Grid";
 import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
 
-export const assetColDefs: ColumnDefinition[] = [
+export const assetColDefs: ColumnDefinition<CryptoAsset>[] = [
   {
     field: "name",
     colId: "name",
@@ -27,38 +27,38 @@ export const assetColDefs: ColumnDefinition[] = [
   {
     ...priceColDef,
     width: 125,
-    field: "priceUsd",
-    colId: "priceUsd",
+    field: "price",
+    colId: "price",
     headerName: "PRICE",
   },
   {
     ...percentColDef,
     width: 100,
-    field: "changePercent24Hr",
-    colId: "changePercent24Hr",
+    field: "priceChangePercent24h",
+    colId: "priceChangePercent24h",
     headerName: "24h %",
   },
   {
     ...integerPriceColDef,
     width: 160,
-    field: "volumeUsd24Hr",
-    colId: "volumeUsd24Hr",
-    headerName: "24h Volume",
+    field: "totalVolume",
+    colId: "totalVolume",
+    headerName: "Total Volume",
   },
   {
     ...integerPriceColDef,
     width: 180,
-    field: "marketCapUsd",
-    colId: "marketCapUsd",
+    field: "marketCap",
+    colId: "marketCap",
     headerName: "Market Cap",
     initialSort: "desc",
   },
   {
     ...quantityColDef,
     width: 180,
-    field: "supply",
-    colId: "supply",
-    headerName: "Supply",
+    field: "circulatingSupply",
+    colId: "circulatingSupply",
+    headerName: "Circulating Supply",
   },
   {
     ...quantityColDef,

@@ -7,6 +7,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { CryptoAssetContextProvider } from "./components/context/CryptoAssetContext";
 import { MarketOverview } from "./components/overview/MarketOverview";
 import { PriceAction } from "./components/price-action/PriceAction";
+import { PRICE_ACTION_PATH } from "./utils/routes/paths";
 
 const AppWrapper = styled.div`
   max-width: ${({ theme }) => theme.screenSizes.desktop};
@@ -35,7 +36,7 @@ function App() {
                 <Route path="/" exact={true}>
                   <MarketOverview />
                 </Route>
-                <Route path="/price-action">
+                <Route path={`${PRICE_ACTION_PATH}:id`}>
                   <PriceAction />
                 </Route>
               </Switch>

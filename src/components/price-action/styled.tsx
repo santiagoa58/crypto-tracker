@@ -6,7 +6,7 @@ export const PriceActionWrapper = styled.div`
   margin: 0 auto;
 `;
 
-export const TimeRangeSelection = styled.ul`
+export const TimeRangeSelectionWrapper = styled.ul`
   list-style: none;
   display: flex;
   align-items: center;
