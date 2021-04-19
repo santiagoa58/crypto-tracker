@@ -1,5 +1,6 @@
 import {
   integerPriceColDef,
+  numericColDef,
   percentColDef,
   priceColDef,
   quantityColDef,
@@ -11,15 +12,24 @@ import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
 
 export const assetColDefs: ColumnDefinition<CryptoAsset>[] = [
   {
+    ...numericColDef,
+    width: 80,
+    field: "rank",
+    colId: "rank",
+    headerName: "#",
+    initialSort: "asc",
+  },
+  {
     field: "name",
     colId: "name",
     headerName: "Name",
     valueGetter: ({ data }: { data: CryptoAsset }): CryptoNameValue => ({
       symbol: data.symbol,
       name: data.name,
+      image: data.image,
     }),
     comparator: (valueA: CryptoNameValue, valueB: CryptoNameValue) =>
-      stringCompare(valueA.name, valueB.name),
+      stringCompare(valueA.symbol, valueB.symbol),
     cellRendererFramework: CryptoNameCell,
     width: 120,
     minWidth: 60,
@@ -51,11 +61,10 @@ export const assetColDefs: ColumnDefinition<CryptoAsset>[] = [
     field: "marketCap",
     colId: "marketCap",
     headerName: "Market Cap",
-    initialSort: "desc",
   },
   {
     ...quantityColDef,
-    width: 180,
+    width: 210,
     field: "circulatingSupply",
     colId: "circulatingSupply",
     headerName: "Circulating Supply",

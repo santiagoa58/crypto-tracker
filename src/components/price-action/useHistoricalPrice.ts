@@ -3,26 +3,21 @@ import { AssetsService } from "../../services/crypto_assets/AssetsService";
 import { useService } from "../../utils/hooks/useService";
 import {
   HistoricalAssetPriceRequest,
+  HistoricalDaysRange,
   HistoricalPriceData,
-  HistoricalPriceInterval,
 } from "../../services/crypto_assets/AssetsServiceInterface";
 import { Map } from "immutable";
-import { isDefined } from "../../utils/isDefined";
+import { DEFAULT_CURRENCY } from "../../utils/constants";
 
 export const useHistoricalPrice = (assetId: string) => {
   const [assetPriceHistory, setAssetPriceHistory] = useState(
-    Map<HistoricalPriceInterval, HistoricalPriceData[]>(),
+    Map<HistoricalDaysRange, HistoricalPriceData[]>(),
   );
 
   const setRequest = useService(AssetsService.getHistoricalPriceData, {
     onResponse(response) {
       setAssetPriceHistory((state) =>
-        state.set(
-          response.interval,
-          response.historicalPriceData.filter((data) =>
-            isDefined(data?.priceUsd),
-          ),
-        ),
+        state.set(response.days, response.historicalPriceData),
       );
     },
     onError(err) {
@@ -31,8 +26,8 @@ export const useHistoricalPrice = (assetId: string) => {
   });
 
   const getHistoricalData = useCallback(
-    (request: Omit<HistoricalAssetPriceRequest, "id">) => {
-      setRequest({ ...request, id: assetId });
+    (request: Omit<HistoricalAssetPriceRequest, "id" | "vs_currency">) => {
+      setRequest({ ...request, id: assetId, vs_currency: DEFAULT_CURRENCY });
     },
     [setRequest, assetId],
   );

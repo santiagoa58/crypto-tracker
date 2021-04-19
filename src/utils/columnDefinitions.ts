@@ -14,6 +14,16 @@ export const stringCompare = (valueA?: string, valueB?: string) => {
   });
 };
 
+export const numericCompare = (valueA?: number, valueB?: number) => {
+  if (!isDefined(valueA)) {
+    return 1;
+  }
+  if (!isDefined(valueB)) {
+    return -1;
+  }
+  return valueA - valueB;
+};
+
 export const percentComparator = (valueA: any, valueB: any) => {
   const percentA = getSafeNumber(valueA);
   const percentB = getSafeNumber(valueB);
@@ -31,7 +41,7 @@ export const percentComparator = (valueA: any, valueB: any) => {
 
 export const numericColDef: ColDef = {
   type: "numericColumn",
-  comparator: stringCompare,
+  comparator: numericCompare,
   minWidth: 60,
 };
 

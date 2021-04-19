@@ -2,6 +2,7 @@ import React, { FC, useEffect, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
+import { DEFAULT_CURRENCY } from "../../utils/constants";
 import { usePricesFeed } from "../../utils/hooks/useFeedService";
 import { PRICE_ACTION_PATH } from "../../utils/routes/paths";
 import { GridRowClickedEvent } from "../../utils/types";
@@ -25,7 +26,7 @@ export const CryptoAssetsGrid: FC = (props) => {
   usePricesFeed();
 
   useEffect(() => {
-    getAssets({ per_page: 300, page: 1, vs_currency: "usd" });
+    getAssets({ per_page: 300, page: 1, vs_currency: DEFAULT_CURRENCY });
   }, [getAssets]);
 
   const rowData = useMemo(() => assets?.valueSeq().toArray(), [assets]);

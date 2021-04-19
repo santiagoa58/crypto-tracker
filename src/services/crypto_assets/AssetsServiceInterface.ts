@@ -99,31 +99,22 @@ export interface GlobalMarketMetrics {
   updatedAt: number;
 }
 
-export type HistoricalPriceInterval =
-  | "m1"
-  | "m5"
-  | "m15"
-  | "m30"
-  | "h1"
-  | "h2"
-  | "h6"
-  | "h12"
-  | "d1";
-
 export interface HistoricalPriceData {
-  priceUsd: string;
+  price: number;
   time: number;
-  date: string;
 }
+
+export type HistoricalDaysRange = number | "max";
 export interface HistoricalAssetPriceRequest {
   id: string;
-  interval: HistoricalPriceInterval;
+  vs_currency: string;
+  days: HistoricalDaysRange;
 }
 
 export interface HistoricalAssetPriceResponse {
   id: string;
   historicalPriceData: HistoricalPriceData[];
-  interval: HistoricalPriceInterval;
+  days: HistoricalDaysRange;
 }
 
 export interface AssetsServiceInterface {

@@ -1,9 +1,9 @@
 import { Colors } from "../theme/theme";
+import { DEFAULT_CURRENCY } from "./constants";
 import { isDefined } from "./isDefined";
 import { getSafeNumber } from "./safeGetters";
 
 const DEFAULT_LOCALE = "en-US";
-const DEFAULT_CURRENCY = "USD";
 
 const formatNumber = (
   value: number,
@@ -29,7 +29,7 @@ export const formatPrice = (
 ): string =>
   safelyFormatNumber(price, {
     style: "currency",
-    currency: DEFAULT_CURRENCY,
+    currency: DEFAULT_CURRENCY.toUpperCase(),
     maximumFractionDigits: decimalPlaces,
     minimumFractionDigits: decimalPlaces,
   }) || "--";

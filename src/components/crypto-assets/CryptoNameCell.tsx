@@ -3,7 +3,7 @@ import { useImperativeHandle, forwardRef } from "react";
 import styled from "styled-components/macro";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
 
-export type CryptoNameValue = Pick<CryptoAsset, "symbol" | "name">;
+export type CryptoNameValue = Pick<CryptoAsset, "symbol" | "name" | "image">;
 interface CryptoNameCellProps extends ICellRendererParams {
   value: CryptoNameValue;
 }
@@ -13,13 +13,14 @@ const NameCellWrapper = styled.div`
   align-items: center;
   height: 100%;
 
-  .cf {
-    font-size: ${({ theme }) => theme.fontSize.h6};
+  img {
+    height: 1rem;
   }
 
   .crypto-name--main {
     overflow: hidden;
     text-overflow: ellipsis;
+    text-transform: uppercase;
     padding-left: 0.5rem;
   }
 `;
@@ -34,7 +35,7 @@ export const CryptoNameCell = forwardRef<ICellRenderer, CryptoNameCellProps>(
 
     return (
       <NameCellWrapper>
-        <i className={`cf cf-${props.value.symbol.toLowerCase()}`}></i>
+        <img src={props.value.image} alt={props.value.name} />
         <span className="crypto-name--main">{props.value.symbol}</span>
       </NameCellWrapper>
     );

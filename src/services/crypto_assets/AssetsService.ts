@@ -4,19 +4,15 @@ import {
   GetCryptoAssetsRequest,
   GlobalMarketMetricsResponse,
   HistoricalAssetPriceRequest,
-  HistoricalPriceData,
   ServerCryptoAsset,
 } from "./AssetsServiceInterface";
 import { map } from "rxjs/operators";
-import {
-  assetsApi,
-  historicalMarketApi,
-  marketMetricsApi,
-} from "../connection/apis";
+import { assetsApi } from "../connection/apis";
+import { DEFAULT_CURRENCY } from "../../utils/constants";
 
 const ASSETS_PATH = `${assetsApi}/coins/markets/`;
-const HISTORICAL_MARKET_PATH = `${historicalMarketApi}/assets/`;
-const MARKET_METRICS_PATH = `${marketMetricsApi}/global/`;
+const HISTORICAL_MARKET_PATH = `${assetsApi}/coins/`;
+const MARKET_METRICS_PATH = `${assetsApi}/global/`;
 
 type ServerGetAssetsResponse = ServerCryptoAsset[];
 
@@ -25,11 +21,11 @@ interface ServerGlobalMarketMetricsResponse {
 }
 
 interface ServerGetHistoricalPriceResponse {
-  data: HistoricalPriceData[];
+  prices: Array<[number, number]> /*[timestamp, price] */;
 }
 
 export const AssetsService: AssetsServiceInterface = {
-  getCryptoAsset: (request = { vs_currency: "usd" }) =>
+  getCryptoAsset: (request = { vs_currency: DEFAULT_CURRENCY }) =>
     AjaxConnection<GetCryptoAssetsRequest, ServerGetAssetsResponse>(
       `${ASSETS_PATH}`,
       request,
@@ -66,8 +62,8 @@ export const AssetsService: AssetsServiceInterface = {
       undefined,
     ).pipe(
       map(({ data }) => ({
-        totalMarketCapUsd: data.total_market_cap["usd"],
-        totalVolumeUsd: data.total_volume["usd"],
+        totalMarketCapUsd: data.total_market_cap[DEFAULT_CURRENCY],
+        totalVolumeUsd: data.total_volume[DEFAULT_CURRENCY],
         marketCapPercentage: data.market_cap_percentage,
         marketCapChangePercentage24hUsd:
           data.market_cap_change_percentage_24h_usd,
@@ -77,13 +73,13 @@ export const AssetsService: AssetsServiceInterface = {
 
   getHistoricalPriceData: ({ id, ...request }: HistoricalAssetPriceRequest) =>
     AjaxConnection<
-      Pick<HistoricalAssetPriceRequest, "interval">,
+      Omit<HistoricalAssetPriceRequest, "id">,
       ServerGetHistoricalPriceResponse
-    >(`${HISTORICAL_MARKET_PATH}${id}/history`, request).pipe(
-      map(({ data }) => ({
+    >(`${HISTORICAL_MARKET_PATH}${id}/market_chart`, request).pipe(
+      map(({ prices }) => ({
         id,
-        historicalPriceData: data,
-        interval: request.interval,
+        historicalPriceData: prices.map(([time, price]) => ({ time, price })),
+        days: request.days,
       })),
     ),
 };
