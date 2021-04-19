@@ -4,7 +4,8 @@ import { OrderedMap } from "immutable";
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 import { arrayToMap } from "../../../utils/arrayToMap";
 import { StateFetchStatus } from "../../context/AppState";
-import { PriceUpdate } from "../../../services/feeds/FeedServiceInterface";
+import { removeUndefinedEntries } from "../../../utils/typedObjectEntries";
+
 export interface AssetsState {
   list: OrderedMap<string, CryptoAsset>;
   status: StateFetchStatus;
@@ -27,6 +28,7 @@ export const assetsReducer = (
         error: undefined,
         status: StateFetchStatus.Busy,
       };
+
     case AssetActionTypes.GET_ASSETS_SUCCESS:
       return {
         ...state,
@@ -34,6 +36,7 @@ export const assetsReducer = (
         status: StateFetchStatus.Idle,
         list: state.list.merge(arrayToMap(action.payload, "id")),
       };
+
     case AssetActionTypes.GET_ASSETS_FAILURE:
       return {
         ...state,
@@ -44,25 +47,12 @@ export const assetsReducer = (
     case AssetActionTypes.UPDATE_ASSET:
       return {
         ...state,
-        list: updateAsset(state.list, action.payload),
+        list: state.list.update(action.payload.id, (prev) => ({
+          ...prev,
+          ...removeUndefinedEntries(action.payload),
+        })),
       };
     default:
       return state;
   }
-};
-
-const updateAsset = (
-  state: AssetsState["list"],
-  updates: Array<PriceUpdate>,
-) => {
-  let updateMap: AssetsState["list"] = OrderedMap();
-
-  updates.forEach((update) => {
-    const oldVal = state.get(update.id);
-    if (oldVal) {
-      updateMap = updateMap.set(update.id, { ...oldVal, ...update });
-    }
-  });
-
-  return state.merge(updateMap);
 };

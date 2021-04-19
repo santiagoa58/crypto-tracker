@@ -1,5 +1,5 @@
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
-import { PriceUpdate } from "../../../services/feeds/FeedServiceInterface";
+import { AssetUpdate } from "../../../services/feeds/FeedServiceInterface";
 import { FluxStandardAction } from "../../context/AppActions";
 
 export enum AssetActionTypes {
@@ -24,13 +24,13 @@ interface GetAssetsFailureAction extends FluxStandardAction<AssetActionTypes> {
   error: boolean;
 }
 
-interface UpdateAssetPriceAction extends FluxStandardAction<AssetActionTypes> {
+interface UpdateAssetAction extends FluxStandardAction<AssetActionTypes> {
   type: AssetActionTypes.UPDATE_ASSET;
-  payload: PriceUpdate[];
+  payload: AssetUpdate;
 }
 
 export type AssetActions =
   | GetAssetsRequestAction
   | GetAssetsSuccessAction
   | GetAssetsFailureAction
-  | UpdateAssetPriceAction;
+  | UpdateAssetAction;

@@ -14,6 +14,16 @@ export const stringCompare = (valueA?: string, valueB?: string) => {
   });
 };
 
+export const numericCompare = (valueA?: number, valueB?: number) => {
+  if (!isDefined(valueA)) {
+    return 1;
+  }
+  if (!isDefined(valueB)) {
+    return -1;
+  }
+  return valueA - valueB;
+};
+
 export const percentComparator = (valueA: any, valueB: any) => {
   const percentA = getSafeNumber(valueA);
   const percentB = getSafeNumber(valueB);
@@ -31,14 +41,14 @@ export const percentComparator = (valueA: any, valueB: any) => {
 
 export const numericColDef: ColDef = {
   type: "numericColumn",
-  comparator: stringCompare,
+  comparator: numericCompare,
   minWidth: 60,
 };
 
 export const priceColDef: ColDef = {
   ...numericColDef,
   valueFormatter({ value }) {
-    return formatPrice(value);
+    return formatPrice(value, 3);
   },
 };
 
@@ -78,5 +88,9 @@ export const defaultColDefs: ColDef = {
   icons: {
     sortAscending: '<span class="material-icons">arrow_upward</span>',
     sortDescending: '<span class="material-icons">arrow_downward</span>',
+    first: '<span class="material-icons">first_page</span>',
+    previous: '<span class="material-icons">arrow_back_ios</span>',
+    next: '<span class="material-icons">arrow_forward_ios</span>',
+    last: '<span class="material-icons">last_page</span>',
   },
 };

@@ -6,6 +6,9 @@ export const LogoWrapper = styled.img`
   height: 2rem;
 `;
 
-export const Logo = () => {
-  return <LogoWrapper src={logo} alt="logo" />;
+interface Props {
+  onClick?: VoidFunction;
+}
+export const Logo = (props: Props) => {
+  return <LogoWrapper src={logo} alt="logo" onClick={props.onClick} />;
 };
