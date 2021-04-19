@@ -31,10 +31,9 @@ export const MainSubContentWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
   padding: 0.5rem;
-  text-align: center;
   overflow: auto;
+  text-align: center;
 
   .content__sub,
   .content__main,

@@ -1,20 +1,12 @@
 import React, { FC } from "react";
-import styled from "styled-components/macro";
-import { Colors } from "../../theme/theme";
 import {
   formatPercent,
   formatPrice,
   getColorFromSign,
 } from "../../utils/formatters";
-import { MainSubContentWrapper, ContentWrapper } from "../wrappers";
+import { MainSubContentWrapper, ContentWrapper } from "../ContentWrappers";
+import { PercentChange } from "../crypto-assets/styled";
 import { useMarketMetrics } from "./useMarketMetrics";
-
-const PercentChange = styled.span<{ color?: Colors }>`
-  color: ${({ theme, color }) => color && theme.colors[color]};
-  font-size: ${({ theme }) => theme.fontSize.body};
-  padding-left: ${({ theme }) => theme.fontSize.bodyXSmall};
-  white-space: nowrap;
-`;
 
 export const MarketMetrics: FC = () => {
   const { marketMetrics } = useMarketMetrics();

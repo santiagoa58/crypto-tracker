@@ -8,7 +8,7 @@ import { PRICE_ACTION_PATH } from "../../utils/routes/paths";
 import { GridRowClickedEvent } from "../../utils/types";
 import { StateFetchStatus } from "../context/AppState";
 import { Grid } from "../grid/Grid";
-import { BaseWrapper } from "../wrappers";
+import { BaseWrapper } from "../ContentWrappers";
 import { assetColDefs } from "./cryptoAssetsColDefs";
 import { useAssetsService } from "./useAssetsService";
 

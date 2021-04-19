@@ -14,16 +14,19 @@ export const useHistoricalPrice = (assetId: string) => {
     Map<HistoricalDaysRange, HistoricalPriceData[]>(),
   );
 
-  const setRequest = useService(AssetsService.getHistoricalPriceData, {
-    onResponse(response) {
-      setAssetPriceHistory((state) =>
-        state.set(response.days, response.historicalPriceData),
-      );
+  const [setRequest, isBusy] = useService(
+    AssetsService.getHistoricalPriceData,
+    {
+      onResponse(response) {
+        setAssetPriceHistory((state) =>
+          state.set(response.days, response.historicalPriceData),
+        );
+      },
+      onError(err) {
+        console.error(`Error getting ${assetId} historical prices`, err);
+      },
     },
-    onError(err) {
-      console.error(`Error getting ${assetId} historical prices`, err);
-    },
-  });
+  );
 
   const getHistoricalData = useCallback(
     (request: Omit<HistoricalAssetPriceRequest, "id" | "vs_currency">) => {
@@ -35,5 +38,6 @@ export const useHistoricalPrice = (assetId: string) => {
   return {
     assetPriceHistory,
     getHistoricalData,
+    isBusy,
   };
 };

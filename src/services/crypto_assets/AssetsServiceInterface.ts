@@ -50,7 +50,26 @@ export interface ServerCryptoAsset {
   price_change_percentage_1h_in_currency?: number;
   price_change_percentage_24h_in_currency?: number;
 }
-export interface CryptoAsset {
+
+export interface CryptoAssetDetails {
+  blockTimeInMinutes: number;
+  categories: string[];
+  description: string;
+  homepageLink?: string;
+  genesisDate: string;
+  totalValueLocked?: number;
+  mcapToTotalValueLockedRatio?: number;
+  allTimeHigh: number;
+  allTimeHighDate: string;
+  priceChangePercentage7d: number;
+  priceChangePercentage14d: number;
+  priceChangePercentage30d: number;
+  priceChangePercentage60d: number;
+  priceChangePercentage200d: number;
+  priceChangePercentage1y: number;
+}
+
+export interface CryptoAsset extends Partial<CryptoAssetDetails> {
   id: string;
   symbol: string;
   name: string;
@@ -117,12 +136,16 @@ export interface HistoricalAssetPriceResponse {
   days: HistoricalDaysRange;
 }
 
+export interface GetAssetDetailsRequest {
+  id: string;
+}
 export interface AssetsServiceInterface {
-  getCryptoAsset(
+  getCryptoAssets(
     request?: GetCryptoAssetsRequest,
   ): Observable<GetCryptoAssetsResponse>;
   getGlobalMarketData(): Observable<GlobalMarketMetrics>;
   getHistoricalPriceData(
     request: HistoricalAssetPriceRequest,
   ): Observable<HistoricalAssetPriceResponse>;
+  getAssetDetails(request: GetAssetDetailsRequest): Observable<CryptoAsset>;
 }

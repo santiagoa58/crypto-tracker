@@ -1,4 +1,5 @@
 import { Observable } from "rxjs";
+import { RequiredPartial } from "../../utils/types";
 import { CryptoAsset } from "../crypto_assets/AssetsServiceInterface";
 
 export interface AssetPrice {
@@ -9,8 +10,8 @@ export interface PriceFeedSubscriptionRequest {
   assets: Array<string> | "ALL";
 }
 
-export type PriceUpdate = Pick<CryptoAsset, "id" | "price">;
+export type AssetUpdate = RequiredPartial<CryptoAsset, "id" | "price">;
 
 export interface FeedServiceInterface {
-  priceFeed(request: PriceFeedSubscriptionRequest): Observable<PriceUpdate>;
+  priceFeed(request: PriceFeedSubscriptionRequest): Observable<AssetUpdate>;
 }

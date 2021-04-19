@@ -13,7 +13,7 @@ export const useMarketMetrics = () => {
     initialMarketMetricsState,
   );
 
-  const getMarketMetrics = useService(AssetsService.getGlobalMarketData, {
+  const [getMarketMetrics] = useService(AssetsService.getGlobalMarketData, {
     onResponse(response) {
       dispatch({
         type: MarketMetricsActionTypes.GET_GLOBAL_METRICS_SUCCESS,

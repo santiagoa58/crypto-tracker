@@ -4,7 +4,8 @@ import { OrderedMap } from "immutable";
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 import { arrayToMap } from "../../../utils/arrayToMap";
 import { StateFetchStatus } from "../../context/AppState";
-import { PriceUpdate } from "../../../services/feeds/FeedServiceInterface";
+import { AssetUpdate } from "../../../services/feeds/FeedServiceInterface";
+import { removeUndefinedEntries } from "../../../utils/typedObjectEntries";
 
 export interface AssetsState {
   list: OrderedMap<string, CryptoAsset>;
@@ -54,9 +55,12 @@ export const assetsReducer = (
   }
 };
 
-const updateAsset = (state: AssetsState["list"], update: PriceUpdate) => {
+const updateAsset = (state: AssetsState["list"], update: AssetUpdate) => {
   if (state.has(update.id)) {
-    return state.update(update.id, (prev) => ({ ...prev, ...update }));
+    return state.update(update.id, (prev) => ({
+      ...prev,
+      ...removeUndefinedEntries(update),
+    }));
   }
   return state;
 };

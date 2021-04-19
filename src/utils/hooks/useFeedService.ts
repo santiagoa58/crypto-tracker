@@ -11,7 +11,7 @@ export const usePricesFeed = () => {
   ]);
   const prevAssets = useRef<string>();
 
-  const subscribeToFeed = useService(FeedService.priceFeed, {
+  const [subscribeToFeed] = useService(FeedService.priceFeed, {
     onResponse(response) {
       dispatch({
         type: AssetActionTypes.UPDATE_ASSET,

@@ -8,7 +8,7 @@ import { GetCryptoAssetsRequest } from "../../services/crypto_assets/AssetsServi
 export const useAssetsService = () => {
   const [appState, dispatch] = useContext(CryptoAssetContext);
 
-  const setRequest = useService(AssetsService.getCryptoAsset, {
+  const [setRequest] = useService(AssetsService.getCryptoAssets, {
     onResponse(response) {
       dispatch({
         type: AssetActionTypes.GET_ASSETS_SUCCESS,

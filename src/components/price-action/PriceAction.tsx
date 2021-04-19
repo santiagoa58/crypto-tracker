@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { HistoricalDaysRange } from "../../services/crypto_assets/AssetsServiceInterface";
 import { formatPrice, formatWeekdayDateString } from "../../utils/formatters";
 import { Chart } from "../charts/Chart";
-import { BaseWrapper } from "../wrappers";
+import { CryptoAssetDetails } from "../crypto-assets/CryptoAssetDetails";
+import { LoadingSpinner } from "../LoadingSpinner";
 import {
   ChartTimeRangeSelection,
   historicalDaysRange,
@@ -16,7 +17,9 @@ export const PriceAction: FC = () => {
   const [selectedDayRange, setDayRange] = useState<HistoricalDaysRange>(
     historicalDaysRange["1D"],
   );
-  const { assetPriceHistory, getHistoricalData } = useHistoricalPrice(id);
+  const { assetPriceHistory, getHistoricalData, isBusy } = useHistoricalPrice(
+    id,
+  );
 
   useEffect(() => {
     getHistoricalData({ days: selectedDayRange });
@@ -26,14 +29,17 @@ export const PriceAction: FC = () => {
     assetPriceHistory,
     selectedDayRange,
   ]);
-  //TODO: Fix Performance Issues when Selecting 'ALL' DayRange
+
   return (
     <PriceActionWrapper>
+      <CryptoAssetDetails assetId={id} />
       <ChartTimeRangeSelection
         selectedDayRange={selectedDayRange}
         onSelectionChanged={setDayRange}
       />
-      <BaseWrapper>
+      {isBusy ? (
+        <LoadingSpinner />
+      ) : (
         <Chart
           chartData={chartData}
           dataKey="price"
@@ -41,7 +47,9 @@ export const PriceAction: FC = () => {
           valueFormatter={(value) => formatPrice(value, 3)}
           xAxisLabelFormatter={(time) => formatWeekdayDateString(time)}
         />
-      </BaseWrapper>
+      )}
     </PriceActionWrapper>
   );
 };
+
+export default PriceAction;

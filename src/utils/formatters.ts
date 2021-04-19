@@ -2,8 +2,10 @@ import { Colors } from "../theme/theme";
 import { DEFAULT_CURRENCY } from "./constants";
 import { isDefined } from "./isDefined";
 import { getSafeNumber } from "./safeGetters";
+import { format } from "date-fns";
 
 const DEFAULT_LOCALE = "en-US";
+const WEEKDAY_DATE_FORMAT = "E, MMMM d, yyyy";
 
 const formatNumber = (
   value: number,
@@ -64,15 +66,6 @@ export const getColorFromSign = (
   return num > 0 ? "green" : "red";
 };
 
-const formatDateTime = (
-  milliseconds: number,
-  options: Intl.DateTimeFormatOptions | undefined,
-  locale = DEFAULT_LOCALE,
-) => {
-  const date = new Date(milliseconds);
-  return new Intl.DateTimeFormat(locale, options).format(date);
-};
-
 export const formatWeekdayDateString = (
   timestamp: number | string | undefined,
 ): string => {
@@ -80,10 +73,5 @@ export const formatWeekdayDateString = (
   if (!isDefined(milliseconds)) {
     return "";
   }
-  return formatDateTime(milliseconds, {
-    weekday: "long",
-    year: "numeric",
-    day: "numeric",
-    month: "long",
-  });
+  return format(milliseconds, WEEKDAY_DATE_FORMAT);
 };
