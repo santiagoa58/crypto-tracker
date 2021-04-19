@@ -4,14 +4,17 @@ import { ColDef, GridOptions } from "ag-grid-community";
 import { defaultColDefs } from "../../utils/columnDefinitions";
 import { GridWrapper } from "./styled";
 import { NoRowsOverlay } from "./GridRowsOverlay";
+import { StringKey } from "../../utils/types";
 
-export interface ColumnDefinition extends ColDef {
-  colId: string;
+export interface ColumnDefinition<T extends Record<string, any>>
+  extends ColDef {
+  colId: string | StringKey<T>;
+  field: StringKey<T>;
 }
 
 interface GridProps<T> extends GridOptions {
   rowData: T[] | undefined;
-  columnDefs: ColumnDefinition[];
+  columnDefs: ColumnDefinition<T>[];
   loading?: boolean;
   error?: string;
 }

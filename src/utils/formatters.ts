@@ -1,11 +1,19 @@
 import { Colors } from "../theme/theme";
+import { DEFAULT_CURRENCY } from "./constants";
 import { isDefined } from "./isDefined";
-import { getSafeNumber } from "./safeGetters";
+import { getSafeDate, getSafeNumber } from "./safeGetters";
+import { format } from "date-fns";
+
+const DEFAULT_LOCALE = "en-US";
+const TIME_FORMAT = "h:mm:ss aa";
+const DAY_DATE_FORMAT = "MMMM d yyyy";
+const DAY_TIME_FORMAT = `MMM d, ${TIME_FORMAT}`;
+const DATETIME_FORMAT = `${DAY_DATE_FORMAT}, ${TIME_FORMAT}`;
 
 const formatNumber = (
   value: number,
   options: Intl.NumberFormatOptions | undefined,
-  locale = "en-US",
+  locale = DEFAULT_LOCALE,
 ): string => Intl.NumberFormat(locale, options).format(value);
 
 const safelyFormatNumber = (
@@ -26,7 +34,7 @@ export const formatPrice = (
 ): string =>
   safelyFormatNumber(price, {
     style: "currency",
-    currency: "USD",
+    currency: DEFAULT_CURRENCY.toUpperCase(),
     maximumFractionDigits: decimalPlaces,
     minimumFractionDigits: decimalPlaces,
   }) || "--";
@@ -59,4 +67,30 @@ export const getColorFromSign = (
   }
 
   return num > 0 ? "green" : "red";
+};
+
+const safeDateFormat = (
+  timestamp: number | string | undefined,
+  formatTemplate: string,
+) => {
+  const milliseconds = getSafeNumber(timestamp);
+  if (!isDefined(milliseconds)) {
+    return "";
+  }
+  return format(milliseconds, formatTemplate);
+};
+export const formatWeekdayDate = (
+  timestamp: number | string | undefined,
+): string => safeDateFormat(timestamp, DAY_DATE_FORMAT);
+
+export const formatDateTime = (
+  timestamp: number | string | undefined,
+): string => safeDateFormat(timestamp, DATETIME_FORMAT);
+
+export const formatDayTime = (timestamp: number | string | undefined): string =>
+  safeDateFormat(timestamp, DAY_TIME_FORMAT);
+
+export const parseDateString = (date: string | Date | undefined) => {
+  const safeDate = getSafeDate(date);
+  return safeDate ? format(safeDate, DATETIME_FORMAT) : "";
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 import styled from "styled-components/macro";
 import { Logo, LogoWrapper } from "./Logo";
 import { NavItemWrapper, NavLink } from "./NavLink";
@@ -15,6 +16,7 @@ const NavBarWrapper = styled.div`
 
   ${LogoWrapper} {
     margin: 0.5rem 0;
+    padding-right: 1rem;
   }
 `;
 
@@ -31,9 +33,10 @@ const NavBar = styled.nav`
 `;
 
 export const NavigationHeader = () => {
+  const history = useHistory();
   return (
     <NavBarWrapper>
-      <Logo />
+      <Logo onClick={() => history.push("/")} />
       <NavBar>
         <NavLink to="/" exact={true}>
           Overview
