@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styled from "styled-components/macro";
 import { INoRowsOverlayParams } from "ag-grid-community";
-import { BaseWrapper } from "../wrappers";
+import { BaseWrapper } from "../ContentWrappers";
 
 interface Props extends INoRowsOverlayParams {
   noRowsMessage: string;

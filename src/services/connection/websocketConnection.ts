@@ -1,12 +1,11 @@
-import { Observable } from "rxjs";
-import { webSocket } from "rxjs/webSocket";
+import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 import { parseJson } from "../../utils/parseJson";
 import { getRequestParams } from "./connectionHelpers";
 
 export const webSocketConnection = <Request, Response>(
   endpoint: string,
   request: Request,
-): Observable<Response> => {
+): WebSocketSubject<Response> => {
   const { url } = getRequestParams(endpoint, request, undefined);
   const subject = webSocket({
     url,

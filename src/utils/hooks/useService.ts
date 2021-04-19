@@ -35,7 +35,7 @@ const serviceReducer = (
 export const useService = <Request, Response>(
   service: Service<Request, Response>,
   handlers?: ServiceResponseHandler<Response>,
-) => {
+): [(request: Request) => void, boolean] => {
   const [serviceState, dispatch] = useReducer(
     serviceReducer,
     initialServiceState,
@@ -82,6 +82,6 @@ export const useService = <Request, Response>(
     },
     [dispatch],
   );
-
-  return setRequest;
+  const isBusy = serviceState.status === "FETCH_REQUESTED";
+  return [setRequest, isBusy];
 };

@@ -1,22 +1,22 @@
 import {
   integerPriceColDef,
+  numericColDef,
   percentColDef,
   priceColDef,
   quantityColDef,
-  numericColDef,
   stringCompare,
 } from "../../utils/columnDefinitions";
 import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
 import { ColumnDefinition } from "../grid/Grid";
 import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
 
-export const assetColDefs: ColumnDefinition[] = [
+export const assetColDefs: ColumnDefinition<CryptoAsset>[] = [
   {
     ...numericColDef,
+    width: 80,
     field: "rank",
     colId: "rank",
     headerName: "#",
-    width: 80,
     initialSort: "asc",
   },
   {
@@ -26,47 +26,48 @@ export const assetColDefs: ColumnDefinition[] = [
     valueGetter: ({ data }: { data: CryptoAsset }): CryptoNameValue => ({
       symbol: data.symbol,
       name: data.name,
+      image: data.image,
     }),
     comparator: (valueA: CryptoNameValue, valueB: CryptoNameValue) =>
-      stringCompare(valueA.name, valueB.name),
+      stringCompare(valueA.symbol, valueB.symbol),
     cellRendererFramework: CryptoNameCell,
-    width: 200,
-    minWidth: 100,
+    width: 120,
+    minWidth: 60,
   },
   {
     ...priceColDef,
-    width: 130,
-    field: "priceUsd",
-    colId: "priceUsd",
+    width: 125,
+    field: "price",
+    colId: "price",
     headerName: "PRICE",
   },
   {
     ...percentColDef,
-    width: 165,
-    field: "changePercent24Hr",
-    colId: "changePercent24Hr",
-    headerName: "24h Change",
+    width: 100,
+    field: "priceChangePercent24h",
+    colId: "priceChangePercent24h",
+    headerName: "24h %",
   },
   {
     ...integerPriceColDef,
     width: 160,
-    field: "volumeUsd24Hr",
-    colId: "volumeUsd24Hr",
-    headerName: "24h Volume",
+    field: "totalVolume",
+    colId: "totalVolume",
+    headerName: "Total Volume",
   },
   {
     ...integerPriceColDef,
     width: 180,
-    field: "marketCapUsd",
-    colId: "marketCapUsd",
+    field: "marketCap",
+    colId: "marketCap",
     headerName: "Market Cap",
   },
   {
     ...quantityColDef,
-    width: 180,
-    field: "supply",
-    colId: "supply",
-    headerName: "Supply",
+    width: 210,
+    field: "circulatingSupply",
+    colId: "circulatingSupply",
+    headerName: "Circulating Supply",
   },
   {
     ...quantityColDef,

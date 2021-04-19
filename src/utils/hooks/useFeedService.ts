@@ -1,6 +1,6 @@
 import { useContext, useMemo, useEffect, useRef } from "react";
 import { CryptoAssetContext } from "../../components/context/CryptoAssetContext";
-import { AssetActionTypes } from "../../components/crypto-assets/hooks/AssetActions";
+import { AssetActionTypes } from "../../components/crypto-assets/state/AssetActions";
 import { FeedService } from "../../services/feeds/FeedService";
 import { useService } from "./useService";
 
@@ -11,7 +11,7 @@ export const usePricesFeed = () => {
   ]);
   const prevAssets = useRef<string>();
 
-  const subscribeToFeed = useService(FeedService.priceFeed, {
+  const [subscribeToFeed] = useService(FeedService.priceFeed, {
     onResponse(response) {
       dispatch({
         type: AssetActionTypes.UPDATE_ASSET,
