@@ -4,6 +4,7 @@ import { HistoricalDaysRange } from "../../services/crypto_assets/AssetsServiceI
 import { formatPrice, formatWeekdayDateString } from "../../utils/formatters";
 import { Chart } from "../charts/Chart";
 import { CryptoAssetDetails } from "../crypto-assets/CryptoAssetDetails";
+import { useAssetDetailsService } from "../crypto-assets/useAssetsService";
 import { LoadingSpinner } from "../LoadingSpinner";
 import {
   ChartTimeRangeSelection,
@@ -11,6 +12,11 @@ import {
 } from "./ChartTimeRangeSelection";
 import { PriceActionWrapper } from "./styled";
 import { useHistoricalPrice } from "./useHistoricalPrice";
+
+const MemoizedChart = React.memo(Chart) as typeof Chart;
+
+const valueFormatter = (value?: number) => formatPrice(value, 3);
+const labelFormatter = (time?: number) => formatWeekdayDateString(time);
 
 export const PriceAction: FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +26,11 @@ export const PriceAction: FC = () => {
   const { assetPriceHistory, getHistoricalData, isBusy } = useHistoricalPrice(
     id,
   );
+  const { getAsset } = useAssetDetailsService(id);
+
+  useEffect(() => {
+    getAsset();
+  }, [getAsset]);
 
   useEffect(() => {
     getHistoricalData({ days: selectedDayRange });
@@ -40,12 +51,12 @@ export const PriceAction: FC = () => {
       {isBusy ? (
         <LoadingSpinner />
       ) : (
-        <Chart
+        <MemoizedChart
           chartData={chartData}
           dataKey="price"
           xAxisDataKey="time"
-          valueFormatter={(value) => formatPrice(value, 3)}
-          xAxisLabelFormatter={(time) => formatWeekdayDateString(time)}
+          valueFormatter={valueFormatter}
+          xAxisLabelFormatter={labelFormatter}
         />
       )}
     </PriceActionWrapper>

@@ -24,7 +24,7 @@ interface GetAssetsFailureAction extends FluxStandardAction<AssetActionTypes> {
   error: boolean;
 }
 
-interface UpdateAssetPriceAction extends FluxStandardAction<AssetActionTypes> {
+interface UpdateAssetAction extends FluxStandardAction<AssetActionTypes> {
   type: AssetActionTypes.UPDATE_ASSET;
   payload: AssetUpdate;
 }
@@ -33,4 +33,4 @@ export type AssetActions =
   | GetAssetsRequestAction
   | GetAssetsSuccessAction
   | GetAssetsFailureAction
-  | UpdateAssetPriceAction;
+  | UpdateAssetAction;

@@ -39,3 +39,34 @@ export const useAssetsService = () => {
     getAssets,
   };
 };
+
+export const useAssetDetailsService = (assetId: string) => {
+  const [appState, dispatch] = useContext(CryptoAssetContext);
+
+  const [setRequest] = useService(AssetsService.getAssetDetails, {
+    onResponse(response) {
+      dispatch({
+        type: AssetActionTypes.UPDATE_ASSET,
+        payload: response,
+      });
+    },
+    onError() {
+      dispatch({
+        type: AssetActionTypes.GET_ASSETS_FAILURE,
+        payload: `Error getting ${assetId} details`,
+        error: true,
+      });
+    },
+  });
+
+  const getAsset = useCallback(() => {
+    setRequest({ id: assetId });
+  }, [setRequest, assetId]);
+
+  return {
+    assets: appState.assets?.list.get(assetId),
+    status: appState.assets?.status,
+    error: appState.assets?.error,
+    getAsset,
+  };
+};
