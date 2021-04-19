@@ -4,13 +4,13 @@ import {
   Area,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
   TooltipProps,
 } from "recharts";
 import { Payload } from "recharts/types/component/DefaultTooltipContent";
-import { formatWeekdayDateString } from "../../utils/formatters";
+import { theme } from "../../theme/theme";
+import { formatDateTime } from "../../utils/formatters";
 import { getSafeMinMax } from "../../utils/safeGetters";
 import { StringKey } from "../../utils/types";
 import { MainChartWrapper, ToolTipWrapper } from "./styled";
@@ -48,7 +48,7 @@ export const Chart = <
     payload,
   ) =>
     payload?.map((value) =>
-      props.xAxisLabelFormatter(value.payload?.[props.xAxisDataKey]),
+      formatDateTime(value.payload?.[props.xAxisDataKey]),
     );
 
   const domain = useMemo(() => getSafeMinMax(props.chartData, props.dataKey), [
@@ -67,11 +67,27 @@ export const Chart = <
             left: 30,
           }}
         >
-          <CartesianGrid vertical={false} opacity="0.2" />
+          <defs>
+            <linearGradient id="primary-gradient" x1="0" y1="0" x2="0" y2="1">
+              <stop
+                offset="5%"
+                stopColor={theme.colors.primary}
+                stopOpacity={0.8}
+              />
+              <stop
+                offset="95%"
+                stopColor={theme.colors.primaryLight}
+                stopOpacity={0.1}
+              />
+            </linearGradient>
+          </defs>
           <XAxis
             dataKey={props.xAxisDataKey}
-            tickFormatter={formatWeekdayDateString}
+            tickFormatter={props.xAxisLabelFormatter}
             tickLine={false}
+            axisLine={false}
+            stroke={theme.colors.fontOnBackground}
+            opacity={theme.opacityDisabled}
           />
           <YAxis
             type="number"
@@ -79,7 +95,9 @@ export const Chart = <
             tickCount={8}
             tickFormatter={props.valueFormatter}
             tickLine={false}
-            orientation="right"
+            axisLine={false}
+            stroke={theme.colors.fontOnBackground}
+            opacity={theme.opacityDisabled}
           />
           <Tooltip<Data[DataKey], string>
             labelFormatter={toolTipLabelFormatter}
@@ -92,8 +110,8 @@ export const Chart = <
           <Area
             type="monotone"
             dataKey={props.dataKey}
-            stroke="#8884d8"
-            fill="#8884d8"
+            stroke={theme.colors.primary}
+            fill="url(#primary-gradient)"
           />
         </AreaChart>
       </ResponsiveContainer>

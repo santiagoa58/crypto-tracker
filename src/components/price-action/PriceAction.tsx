@@ -1,9 +1,14 @@
-import React, { FC, useState, useEffect, useMemo } from "react";
+import React, { FC, useState, useEffect, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { HistoricalDaysRange } from "../../services/crypto_assets/AssetsServiceInterface";
-import { formatPrice, formatWeekdayDateString } from "../../utils/formatters";
+import {
+  formatDayTime,
+  formatPrice,
+  formatWeekdayDate,
+} from "../../utils/formatters";
 import { Chart } from "../charts/Chart";
-import { CryptoAssetDetails } from "../crypto-assets/CryptoAssetDetails";
+import { CyrptoAssetFullDetails } from "../crypto-assets/CryptoAssetFullDetails";
+import { CryptoAssetInfo } from "../crypto-assets/CryptoAssetInfo";
 import { useAssetDetailsService } from "../crypto-assets/useAssetsService";
 import { LoadingSpinner } from "../LoadingSpinner";
 import {
@@ -16,7 +21,6 @@ import { useHistoricalPrice } from "./useHistoricalPrice";
 const MemoizedChart = React.memo(Chart) as typeof Chart;
 
 const valueFormatter = (value?: number) => formatPrice(value, 3);
-const labelFormatter = (time?: number) => formatWeekdayDateString(time);
 
 export const PriceAction: FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,8 +30,15 @@ export const PriceAction: FC = () => {
   const { assetPriceHistory, getHistoricalData, isBusy } = useHistoricalPrice(
     id,
   );
-  const { getAsset } = useAssetDetailsService(id);
+  const { getAsset, asset } = useAssetDetailsService(id);
 
+  const labelFormatter = useCallback(
+    (time?: number) =>
+      selectedDayRange === historicalDaysRange["1D"]
+        ? formatDayTime(time)
+        : formatWeekdayDate(time),
+    [selectedDayRange],
+  );
   useEffect(() => {
     getAsset();
   }, [getAsset]);
@@ -43,7 +54,7 @@ export const PriceAction: FC = () => {
 
   return (
     <PriceActionWrapper>
-      <CryptoAssetDetails assetId={id} />
+      <CryptoAssetInfo assetId={id} />
       <ChartTimeRangeSelection
         selectedDayRange={selectedDayRange}
         onSelectionChanged={setDayRange}
@@ -59,6 +70,7 @@ export const PriceAction: FC = () => {
           xAxisLabelFormatter={labelFormatter}
         />
       )}
+      <CyrptoAssetFullDetails asset={asset} />
     </PriceActionWrapper>
   );
 };

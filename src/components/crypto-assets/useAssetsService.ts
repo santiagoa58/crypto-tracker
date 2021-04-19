@@ -64,7 +64,7 @@ export const useAssetDetailsService = (assetId: string) => {
   }, [setRequest, assetId]);
 
   return {
-    assets: appState.assets?.list.get(assetId),
+    asset: appState.assets?.list.get(assetId),
     status: appState.assets?.status,
     error: appState.assets?.error,
     getAsset,

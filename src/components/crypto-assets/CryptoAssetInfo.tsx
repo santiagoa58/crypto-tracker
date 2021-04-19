@@ -10,7 +10,7 @@ import { ContentWrapper, MainSubContentWrapper } from "../ContentWrappers";
 import { CryptoAssetContext } from "../context/CryptoAssetContext";
 import { PercentChange } from "./styled";
 
-interface CryptoAssetDetailsProps {
+interface CryptoAssetInfoProps {
   assetId: string;
 }
 
@@ -36,7 +36,7 @@ const AssetNameWrapper = styled.div`
   }
 `;
 
-export const CryptoAssetDetails: FC<CryptoAssetDetailsProps> = (props) => {
+export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
   const [appState] = useContext(CryptoAssetContext);
   usePricesFeed();
 

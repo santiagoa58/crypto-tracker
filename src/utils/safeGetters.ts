@@ -32,3 +32,15 @@ export const getSafeMinMax = <T extends Record<string, any>, K extends keyof T>(
 
   return [min, max];
 };
+
+export const getSafeDate = (date?: string | Date) => {
+  if (!date) {
+    return undefined;
+  }
+
+  try {
+    return new Date(date);
+  } catch (e) {
+    return undefined;
+  }
+};
