@@ -16,12 +16,12 @@ const MARKET_METRICS_PATH = `${assetsApi}/global/`;
 
 type ServerGetAssetsResponse = ServerCryptoAsset[];
 
-interface ServerGlobalMarketMetricsResponse {
-  data: GlobalMarketMetricsResponse;
-}
-
 interface ServerGetHistoricalPriceResponse {
   prices: Array<[number, number]> /*[timestamp, price] */;
+}
+
+interface ServerGlobalMarketMetricsResponse {
+  data: GlobalMarketMetricsResponse;
 }
 
 export const AssetsService: AssetsServiceInterface = {

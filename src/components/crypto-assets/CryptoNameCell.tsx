@@ -12,11 +12,9 @@ const NameCellWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   height: 100%;
-
   img {
     height: 1rem;
   }
-
   .crypto-name--main {
     overflow: hidden;
     text-overflow: ellipsis;
