@@ -1,4 +1,5 @@
-import { mergeMap, retryWhen, tap, delay, throttleTime } from "rxjs/operators";
+import { mergeMap, throttleTime } from "rxjs/operators";
+import { retryConnection } from "../../utils/retryConnection";
 import { getSafeNumber } from "../../utils/safeGetters";
 import { pricesStreamApi } from "../connection/apis";
 import { webSocketConnection } from "../connection/websocketConnection";
@@ -23,13 +24,10 @@ export const FeedService: FeedServiceInterface = {
       PRICES_PATH,
       request,
     ).pipe(
-      throttleTime(1000),
+      throttleTime(500),
       mergeMap(mapAssetPriceToPriceUpdate),
-      retryWhen((errors) =>
-        errors.pipe(
-          tap(() => console.log("connection failed, retrying...")),
-          delay(2000),
-        ),
+      retryConnection(
+        "failed to connect to price feed. attempting to reconnect...",
       ),
     );
   },

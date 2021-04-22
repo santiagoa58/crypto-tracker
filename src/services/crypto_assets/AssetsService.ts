@@ -16,10 +16,6 @@ const MARKET_METRICS_PATH = `${assetsApi}/global/`;
 
 type ServerGetAssetsResponse = ServerCryptoAsset[];
 
-interface ServerGlobalMarketMetricsResponse {
-  data: GlobalMarketMetricsResponse;
-}
-
 interface ServerGetHistoricalPriceResponse {
   prices: Array<[number, number]> /*[timestamp, price] */;
 }
@@ -58,7 +54,7 @@ export const AssetsService: AssetsServiceInterface = {
           lastUpdated: asset.last_updated,
         })),
       })),
-      retry(2),
+      retry(3),
     ),
 
   getGlobalMarketData: () =>
@@ -74,7 +70,7 @@ export const AssetsService: AssetsServiceInterface = {
           data.market_cap_change_percentage_24h_usd,
         updatedAt: data.updated_at,
       })),
-      retry(2),
+      retry(3),
     ),
 
   getHistoricalPriceData: ({ id, ...request }: HistoricalAssetPriceRequest) =>
@@ -87,7 +83,7 @@ export const AssetsService: AssetsServiceInterface = {
         historicalPriceData: prices.map(([time, price]) => ({ time, price })),
         days: request.days,
       })),
-      retry(2),
+      retry(3),
     ),
 
   getAssetDetails: ({ id, ...request }: GetAssetDetailsRequest) =>
@@ -141,7 +137,7 @@ export const AssetsService: AssetsServiceInterface = {
           allTimeHigh: response.market_data.ath.usd,
           allTimeHighDate: response.market_data.ath_date.usd,
         }),
-        retry(2),
+        retry(3),
       ),
     ),
 };
