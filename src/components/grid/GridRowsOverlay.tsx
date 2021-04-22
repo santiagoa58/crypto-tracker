@@ -1,20 +1,21 @@
 import React, { FC } from "react";
 import styled from "styled-components/macro";
 import { INoRowsOverlayParams } from "ag-grid-community";
-import { BaseWrapper } from "../ContentWrappers";
+import { LoadingSpinner } from "../LoadingSpinner";
 
 interface Props extends INoRowsOverlayParams {
   noRowsMessage: string;
-  isError: boolean;
+  isLoading: boolean;
 }
 
-const ErrorWrapper = styled(BaseWrapper)`
-  padding: 3rem;
-  background-color: ${({ theme }) => theme.colors.backgroundLightMuted};
-  color: ${({ theme }) => theme.colors.red};
+const MessageWrapper = styled.span`
+  font-weight: bold;
 `;
 
 export const NoRowsOverlay: FC<Props> = (props) => {
-  const message = <span>{props.noRowsMessage}</span>;
-  return props.isError ? <ErrorWrapper>{message}</ErrorWrapper> : message;
+  return props.isLoading ? (
+    <LoadingSpinner />
+  ) : (
+    <MessageWrapper>{props.noRowsMessage}</MessageWrapper>
+  );
 };

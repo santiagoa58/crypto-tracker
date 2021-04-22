@@ -15,12 +15,8 @@ interface ContentWrapperProps {
   maxColumnSize?: string;
 }
 export const ContentWrapper = styled.div<ContentWrapperProps>`
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    ${({ minColumnSize = "20rem", maxColumnSize = "1fr" }) =>
-      `minmax(${minColumnSize}, ${maxColumnSize})`}
-  );
+  display: flex;
+  flex-wrap: wrap;
   place-content: center;
   row-gap: 1rem;
   margin: 1rem 0;

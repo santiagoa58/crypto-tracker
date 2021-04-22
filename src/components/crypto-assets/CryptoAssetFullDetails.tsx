@@ -57,7 +57,7 @@ export const CyrptoAssetFullDetails: FC<Props> = ({ asset, ...props }) => {
       <DetailsWrapper>
         <Row>
           <span className="label">Current Price</span>
-          <span className="value">{formatPrice(asset.price)}</span>
+          <span className="value">{formatPrice(asset.price, 3)}</span>
         </Row>
         <Row>
           <span className="label">Market Cap</span>
@@ -75,19 +75,16 @@ export const CyrptoAssetFullDetails: FC<Props> = ({ asset, ...props }) => {
           <span className="label">24h Low / 24h High</span>
           <span className="value">{`${formatPrice(
             asset.low24h,
-          )} / ${formatPrice(asset.high24h)}`}</span>
-        </Row>
-        <Row>
-          <span className="label">24h Low / 24h High</span>
-          <span className="value">{`${formatPrice(
-            asset.low24h,
-          )} / ${formatPrice(asset.high24h)}`}</span>
+            3,
+          )} / ${formatPrice(asset.high24h, 3)}`}</span>
         </Row>
         {isDefined(asset.allTimeHigh) && (
           <Row>
             <span className="label">All-Time High</span>
             <span>
-              <span className="value">{formatPrice(asset.allTimeHigh)} </span>
+              <span className="value">
+                {formatPrice(asset.allTimeHigh, 3)}{" "}
+              </span>
               <span className="value--small">
                 ({parseDateString(asset.allTimeHighDate)})
               </span>

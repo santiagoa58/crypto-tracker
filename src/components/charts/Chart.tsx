@@ -55,15 +55,16 @@ export const Chart = <
     props.chartData,
     props.dataKey,
   ]);
+
   return (
     <MainChartWrapper>
       <ResponsiveContainer width="100%" aspect={2}>
         <AreaChart
           data={props.chartData}
           margin={{
-            top: 30,
-            right: 50,
-            bottom: 30,
+            top: 0,
+            right: 0,
+            bottom: 0,
             left: 30,
           }}
         >
@@ -92,7 +93,6 @@ export const Chart = <
           <YAxis
             type="number"
             domain={domain}
-            tickCount={8}
             tickFormatter={props.valueFormatter}
             tickLine={false}
             axisLine={false}

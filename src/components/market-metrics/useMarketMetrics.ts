@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useCallback } from "react";
 import { AssetsService } from "../../services/crypto_assets/AssetsService";
 import { useService } from "../../utils/hooks/useService";
 import { MarketMetricsActionTypes } from "./state/MarketMetricsActions";
@@ -13,7 +13,7 @@ export const useMarketMetrics = () => {
     initialMarketMetricsState,
   );
 
-  const [getMarketMetrics] = useService(AssetsService.getGlobalMarketData, {
+  const [setRequest] = useService(AssetsService.getGlobalMarketData, {
     onResponse(response) {
       dispatch({
         type: MarketMetricsActionTypes.GET_GLOBAL_METRICS_SUCCESS,
@@ -29,10 +29,14 @@ export const useMarketMetrics = () => {
     },
   });
 
-  useEffect(() => {
+  const getMarketMetrics = useCallback(() => {
     dispatch({ type: MarketMetricsActionTypes.GET_GLOBAL_METRICS_REQUEST });
-    getMarketMetrics(null);
-  }, [dispatch, getMarketMetrics]);
+    setRequest(null);
+  }, [dispatch, setRequest]);
+
+  useEffect(() => {
+    getMarketMetrics();
+  }, [getMarketMetrics]);
 
   return {
     marketMetrics: marketMetricsState,
