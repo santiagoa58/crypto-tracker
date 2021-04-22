@@ -15,17 +15,9 @@ export interface ColumnDefinition<T extends Record<string, any>>
 interface GridProps<T> extends GridOptions {
   rowData: T[] | undefined;
   columnDefs: ColumnDefinition<T>[];
-  loading?: boolean;
+  loading: boolean;
   error?: string;
 }
-
-const getNoRowsMessage = (loading?: boolean, error?: string): string => {
-  if (loading) {
-    return "Loading...";
-  }
-
-  return error || "No Rows To Show";
-};
 
 export const Grid = <T extends Record<string, any>>({
   columnDefs,
@@ -42,8 +34,8 @@ export const Grid = <T extends Record<string, any>>({
         defaultColDef={defaultColDefs}
         noRowsOverlayComponentFramework={NoRowsOverlay}
         noRowsOverlayComponentParams={{
-          noRowsMessage: getNoRowsMessage(loading, error),
-          isError: Boolean(error),
+          noRowsMessage: error ?? "No Rows To Show",
+          isLoading: loading,
         }}
         {...props}
       >

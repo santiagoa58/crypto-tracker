@@ -7,6 +7,11 @@ import {
 import { MainSubContentWrapper, ContentWrapper } from "../ContentWrappers";
 import { PercentChange } from "../crypto-assets/styled";
 import { useMarketMetrics } from "./useMarketMetrics";
+import styled from "styled-components/macro";
+
+const MarketCapWrapper = styled(MainSubContentWrapper)`
+  padding-right: 3rem;
+`;
 
 export const MarketMetrics: FC = () => {
   const { marketMetrics } = useMarketMetrics();
@@ -20,7 +25,7 @@ export const MarketMetrics: FC = () => {
 
   return (
     <ContentWrapper maxColumnSize="25rem" minColumnSize="18rem">
-      <MainSubContentWrapper>
+      <MarketCapWrapper>
         <span className="content__sub">Total Market Cap</span>
         <span className="content__main--large">
           {totalMarketCap}
@@ -33,7 +38,7 @@ export const MarketMetrics: FC = () => {
             {percentChangeUsd}
           </PercentChange>
         </span>
-      </MainSubContentWrapper>
+      </MarketCapWrapper>
       <MainSubContentWrapper>
         <span className="content__sub">Bitcoin Dominance</span>
         <span className="content__main--large">{bitcoinDominance}</span>
