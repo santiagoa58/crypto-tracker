@@ -6,9 +6,9 @@ import { format } from "date-fns";
 
 const DEFAULT_LOCALE = "en-US";
 const TIME_FORMAT = "h:mm:ss aa";
-const DAY_DATE_FORMAT = "MMMM d yyyy";
+const DATE_FORMAT = "MMMM d yyyy";
 const DAY_TIME_FORMAT = `MMM d, ${TIME_FORMAT}`;
-const DATETIME_FORMAT = `${DAY_DATE_FORMAT}, ${TIME_FORMAT}`;
+const DATETIME_FORMAT = `${DATE_FORMAT}, ${TIME_FORMAT}`;
 
 const formatNumber = (
   value: number,
@@ -79,9 +79,8 @@ const safeDateFormat = (
   }
   return format(milliseconds, formatTemplate);
 };
-export const formatWeekdayDate = (
-  timestamp: number | string | undefined,
-): string => safeDateFormat(timestamp, DAY_DATE_FORMAT);
+export const formatDate = (timestamp: number | string | undefined): string =>
+  safeDateFormat(timestamp, DATE_FORMAT);
 
 export const formatDateTime = (
   timestamp: number | string | undefined,
@@ -92,5 +91,5 @@ export const formatDayTime = (timestamp: number | string | undefined): string =>
 
 export const parseDateString = (date: string | Date | undefined) => {
   const safeDate = getSafeDate(date);
-  return safeDate ? format(safeDate, DATETIME_FORMAT) : "";
+  return safeDate ? format(safeDate, DATE_FORMAT) : "";
 };

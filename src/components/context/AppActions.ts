@@ -7,4 +7,13 @@ export interface FluxStandardAction<Type> {
   error?: boolean;
 }
 
-export type AppActions = AssetActions | MarketMetricActions;
+export enum RouteActionTypes {
+  ROUTE_CHANGE = "ROUTE_CHANGE",
+}
+
+interface RouteAction extends FluxStandardAction<RouteActionTypes> {
+  type: RouteActionTypes.ROUTE_CHANGE;
+  payload: string[];
+}
+
+export type AppActions = AssetActions | MarketMetricActions | RouteAction;
