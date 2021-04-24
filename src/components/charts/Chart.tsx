@@ -13,6 +13,7 @@ import { theme } from "../../theme/theme";
 import { formatDateTime } from "../../utils/formatters";
 import { getSafeMinMax } from "../../utils/safeGetters";
 import { StringKey } from "../../utils/types";
+import { ChartErrorMessage } from "./ChartErrorMessage";
 import { MainChartWrapper, ToolTipWrapper } from "./styled";
 
 interface ChartPayload<T extends Record<string, any>, K extends keyof T>
@@ -34,6 +35,7 @@ interface ChartProps<
   xAxisDataKey: XAxisKey;
   valueFormatter(value?: Data[DataKey]): string;
   xAxisLabelFormatter(label?: Data[XAxisKey]): string;
+  error?: string;
 }
 
 export const Chart = <
@@ -55,6 +57,10 @@ export const Chart = <
     props.chartData,
     props.dataKey,
   ]);
+
+  if (props.error) {
+    return <ChartErrorMessage>{props.error}</ChartErrorMessage>;
+  }
 
   return (
     <MainChartWrapper>

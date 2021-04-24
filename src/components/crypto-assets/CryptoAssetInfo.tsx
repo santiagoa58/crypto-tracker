@@ -7,9 +7,12 @@ import {
   getColorFromSign,
 } from "../../utils/formatters";
 import { usePricesFeed } from "../../utils/hooks/useFeedService";
+import { PlaceHolder } from "../placeholders/styled";
 import { ContentWrapper, MainSubContentWrapper } from "../ContentWrappers";
 import { CryptoAssetContext } from "../context/CryptoAssetContext";
-import { PercentChange, PlaceHolder, TextPlaceHolder } from "./styled";
+import { PercentChange } from "./styled";
+import { MainSubContentPlaceholder } from "../placeholders/PlaceholderWrappers";
+import { isDefined } from "../../utils/isDefined";
 
 interface CryptoAssetInfoProps {
   assetId: string;
@@ -22,7 +25,7 @@ const Wrapper = styled(ContentWrapper)`
     text-align: left;
 
     &.numeric-content {
-      text-align: left;
+      text-align: right;
     }
   }
 
@@ -48,6 +51,7 @@ export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
   usePricesFeed();
 
   const asset = appState.assets?.list.get(props.assetId);
+  const isAssetDefined = isDefined(asset);
 
   return (
     <Wrapper maxColumnSize="15rem" minColumnSize="20rem">
@@ -57,23 +61,20 @@ export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
         ) : (
           <PlaceHolder size={theme.fontSize.h4} borderRadius="50%" />
         )}
-        <MainSubContentWrapper className="content--asset-name">
-          {asset ? (
-            <>
-              <span className="content__main--large content-name">
-                {asset.name}
-              </span>
-              <span className="content__sub">{asset.symbol.toUpperCase()}</span>
-            </>
-          ) : (
-            <>
-              <TextPlaceHolder />
-              <TextPlaceHolder height="0.75rem" width="2rem" />
-            </>
-          )}
-        </MainSubContentWrapper>
+        <MainSubContentPlaceholder
+          className="content--asset-name"
+          showContent={isAssetDefined}
+        >
+          <span className="content__main--large content-name">
+            {asset?.name}
+          </span>
+          <span className="content__sub">{asset?.symbol.toUpperCase()}</span>
+        </MainSubContentPlaceholder>
       </AssetNameWrapper>
-      <MainSubContentWrapper className="numeric-content">
+      <MainSubContentPlaceholder
+        className="numeric-content"
+        showContent={isAssetDefined}
+      >
         <span className="content__main--large">
           {formatPrice(asset?.price, 3)}
         </span>
@@ -83,7 +84,7 @@ export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
           </PercentChange>
           <span className="content__sub"> (24h)</span>
         </span>
-      </MainSubContentWrapper>
+      </MainSubContentPlaceholder>
     </Wrapper>
   );
 };

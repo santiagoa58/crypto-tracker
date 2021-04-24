@@ -1,5 +1,7 @@
 import styled from "styled-components/macro";
 import { Colors } from "../../theme/theme";
+import { GridContentWrapper } from "../ContentWrappers";
+import { TextPlaceHolder } from "../placeholders/styled";
 
 export const PercentChange = styled.span<{ color?: Colors }>`
   color: ${({ theme, color }) => color && theme.colors[color]};
@@ -8,23 +10,50 @@ export const PercentChange = styled.span<{ color?: Colors }>`
   white-space: nowrap;
 `;
 
-const BasePlaceHolder = styled.div`
-  border-radius: ${({ theme }) => theme.borderRadius};
-  background-color: ${({ theme }) => theme.colors.backgroundLightMuted};
-`;
-export const PlaceHolder = styled(BasePlaceHolder)<{
-  size?: string;
-  borderRadius?: string;
-}>`
-  height: ${({ size = "2rem" }) => size};
-  width: ${({ size = "2rem" }) => size};
-  ${({ borderRadius }) => borderRadius && `border-radius: ${borderRadius};`}
+export const DetailsWrapper = styled(GridContentWrapper)`
+  padding-top: 3rem;
+  column-gap: 6rem;
+  @media (max-width: ${({ theme }) => theme.screenSizes.tablet}) {
+    width: 90%;
+  }
+  @media (max-width: ${({ theme }) => theme.screenSizes.mobileL}) {
+    column-gap: 3rem;
+    width: 100%;
+  }
+  @media (max-width: ${({ theme }) => theme.screenSizes.mobileM}) {
+    grid-template-columns: 1fr;
+  }
+
+  ${TextPlaceHolder} {
+    justify-self: center;
+  }
 `;
 
-export const TextPlaceHolder = styled(BasePlaceHolder)<{
-  width?: string;
-  height?: string;
-}>`
-  height: ${({ height = "1rem" }) => height};
-  width: ${({ width = "5rem" }) => width};
+export const DetailsRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: ${({ theme }) => theme.screenSizes.tablet}) {
+    flex-direction: column;
+    align-items: unset;
+  }
+  @media (max-width: ${({ theme }) => theme.screenSizes.mobileM}) {
+    align-items: center;
+  }
+
+  .value,
+  .label {
+    text-transform: capitalize;
+  }
+  .value {
+    font-weight: bold;
+    &--small {
+      font-size: ${({ theme }) => theme.fontSize.bodyXSmall};
+      opacity: ${({ theme }) => theme.opacityMuted};
+    }
+  }
+  .label {
+    opacity: ${({ theme }) => theme.opacityMuted};
+  }
 `;
