@@ -13,8 +13,6 @@ interface HistoricalPriceChartProps {
   selectedDayRange: HistoricalDaysRange;
 }
 
-const valueFormatter = (value?: number) => formatPrice(value, 3);
-
 export const HistoricalPriceChart: FC<HistoricalPriceChartProps> = ({
   selectedDayRange,
   ...props
@@ -50,7 +48,7 @@ export const HistoricalPriceChart: FC<HistoricalPriceChartProps> = ({
       chartData={chartData}
       dataKey="price"
       xAxisDataKey="time"
-      valueFormatter={valueFormatter}
+      valueFormatter={formatPrice}
       xAxisLabelFormatter={labelFormatter}
       error={error}
     />

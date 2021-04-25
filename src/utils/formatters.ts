@@ -1,14 +1,14 @@
 import { Colors } from "../theme/theme";
 import { DEFAULT_CURRENCY } from "./constants";
 import { isDefined } from "./isDefined";
-import { getSafeDate, getSafeNumber } from "./safeGetters";
+import { getNumericValue, getSafeDate, getSafeNumber } from "./safeGetters";
 import { format } from "date-fns";
 
-const DEFAULT_LOCALE = "en-US";
-const TIME_FORMAT = "h:mm:ss aa";
-const DATE_FORMAT = "MMMM d yyyy";
-const DAY_TIME_FORMAT = `MMM d, ${TIME_FORMAT}`;
-const DATETIME_FORMAT = `${DATE_FORMAT}, ${TIME_FORMAT}`;
+export const DEFAULT_LOCALE = "en-US";
+export const TIME_FORMAT = "h:mm:ss aa";
+export const DATE_FORMAT = "MMMM d yyyy";
+export const DAY_TIME_FORMAT = `MMM d, ${TIME_FORMAT}`;
+export const DATETIME_FORMAT = `${DATE_FORMAT}, ${TIME_FORMAT}`;
 
 const formatNumber = (
   value: number,
@@ -28,6 +28,9 @@ const safelyFormatNumber = (
   return "";
 };
 
+const isGreaterThan = (valA?: string | number, valB?: string | number) =>
+  getNumericValue(valA) > getNumericValue(valB);
+
 export const formatPrice = (
   price?: string | number,
   decimalPlaces = 2,
@@ -35,8 +38,8 @@ export const formatPrice = (
   safelyFormatNumber(price, {
     style: "currency",
     currency: DEFAULT_CURRENCY.toUpperCase(),
-    maximumFractionDigits: decimalPlaces,
     minimumFractionDigits: decimalPlaces,
+    maximumSignificantDigits: isGreaterThan(1, price) ? 3 : undefined,
   }) || "--";
 
 export const formatIntegerPrice = (price?: string | number) =>
@@ -89,7 +92,10 @@ export const formatDateTime = (
 export const formatDayTime = (timestamp: number | string | undefined): string =>
   safeDateFormat(timestamp, DAY_TIME_FORMAT);
 
-export const parseDateString = (date: string | Date | undefined) => {
+export const parseDateString = (
+  date: string | Date | undefined,
+  formatTemplate = DATE_FORMAT,
+) => {
   const safeDate = getSafeDate(date);
-  return safeDate ? format(safeDate, DATE_FORMAT) : "";
+  return safeDate ? format(safeDate, formatTemplate) : "";
 };

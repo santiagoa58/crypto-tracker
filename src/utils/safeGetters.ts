@@ -9,6 +9,9 @@ export const getSafeNumber = (value: any): number | undefined => {
   return undefined;
 };
 
+export const getNumericValue = (value: any): number =>
+  getSafeNumber(value) ?? 0;
+
 export const getSafeString = (value?: string | number): string => {
   if (isDefined(value)) {
     return typeof value === "string" ? value : String(value);

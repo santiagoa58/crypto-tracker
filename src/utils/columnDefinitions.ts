@@ -48,7 +48,7 @@ export const numericColDef: ColDef = {
 export const priceColDef: ColDef = {
   ...numericColDef,
   valueFormatter({ value }) {
-    return formatPrice(value, 3);
+    return formatPrice(value);
   },
 };
 
