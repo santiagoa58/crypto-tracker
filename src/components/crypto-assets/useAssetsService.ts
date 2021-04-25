@@ -60,8 +60,9 @@ export const useAssetDetailsService = (assetId: string) => {
   });
 
   const getAsset = useCallback(() => {
+    dispatch({ type: AssetActionTypes.GET_ASSETS_REQUEST });
     setRequest({ id: assetId });
-  }, [setRequest, assetId]);
+  }, [dispatch, setRequest, assetId]);
 
   return {
     asset: appState.assets?.list.get(assetId),

@@ -11,8 +11,10 @@ import {
 import { Payload } from "recharts/types/component/DefaultTooltipContent";
 import { theme } from "../../theme/theme";
 import { formatDateTime } from "../../utils/formatters";
+import { useMediaQueryMatch } from "../../utils/hooks/useMediaQueryMatch";
 import { getSafeMinMax } from "../../utils/safeGetters";
 import { StringKey } from "../../utils/types";
+import { ChartErrorMessage } from "./ChartErrorMessage";
 import { MainChartWrapper, ToolTipWrapper } from "./styled";
 
 interface ChartPayload<T extends Record<string, any>, K extends keyof T>
@@ -34,6 +36,7 @@ interface ChartProps<
   xAxisDataKey: XAxisKey;
   valueFormatter(value?: Data[DataKey]): string;
   xAxisLabelFormatter(label?: Data[XAxisKey]): string;
+  error?: string;
 }
 
 export const Chart = <
@@ -43,6 +46,17 @@ export const Chart = <
 >(
   props: ChartProps<Data, DataKey, XAxisKey>,
 ) => {
+  const domain = useMemo(() => getSafeMinMax(props.chartData, props.dataKey), [
+    props.chartData,
+    props.dataKey,
+  ]);
+
+  const hideAxis = useMediaQueryMatch();
+
+  if (props.error) {
+    return <ChartErrorMessage>{props.error}</ChartErrorMessage>;
+  }
+
   const toolTipLabelFormatter: ToolTipLabelFormatter<Data, DataKey> = (
     label,
     payload,
@@ -50,11 +64,6 @@ export const Chart = <
     payload?.map((value) =>
       formatDateTime(value.payload?.[props.xAxisDataKey]),
     );
-
-  const domain = useMemo(() => getSafeMinMax(props.chartData, props.dataKey), [
-    props.chartData,
-    props.dataKey,
-  ]);
 
   return (
     <MainChartWrapper>
@@ -65,7 +74,7 @@ export const Chart = <
             top: 0,
             right: 0,
             bottom: 0,
-            left: 30,
+            left: hideAxis ? 0 : 30,
           }}
         >
           <defs>
@@ -98,6 +107,7 @@ export const Chart = <
             axisLine={false}
             stroke={theme.colors.fontOnBackground}
             opacity={theme.opacityDisabled}
+            hide={hideAxis}
           />
           <Tooltip<Data[DataKey], string>
             labelFormatter={toolTipLabelFormatter}

@@ -47,6 +47,8 @@ export const assetsReducer = (
     case AssetActionTypes.UPDATE_ASSET:
       return {
         ...state,
+        error: undefined,
+        status: StateFetchStatus.Idle,
         list: state.list.update(action.payload.id, (prev) => ({
           ...prev,
           ...removeUndefinedEntries(action.payload),

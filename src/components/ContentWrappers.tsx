@@ -19,7 +19,8 @@ export const ContentWrapper = styled.div<ContentWrapperProps>`
   flex-wrap: wrap;
   place-content: center;
   row-gap: 1rem;
-  margin: 1rem 0;
+  margin: 1rem auto;
+  max-width: 79rem;
   overflow: hidden;
 `;
 
@@ -44,4 +45,14 @@ export const MainSubContentWrapper = styled.div`
   .content__main--large {
     font-size: ${({ theme }) => theme.fontSize.h6};
   }
+`;
+
+interface GridContentProps {
+  columns?: number;
+}
+export const GridContentWrapper = styled.div<GridContentProps>`
+  display: grid;
+  grid-template-columns: repeat(${({ columns = 2 }) => columns}, 1fr);
+  gap: 1rem;
+  margin: 0 auto;
 `;
