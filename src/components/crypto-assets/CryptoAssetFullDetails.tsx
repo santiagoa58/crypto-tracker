@@ -1,5 +1,6 @@
 import React, { FC, useEffect } from "react";
 import {
+  DATETIME_FORMAT,
   formatPrice,
   formatQuantity,
   parseDateString,
@@ -29,7 +30,7 @@ export const CyrptoAssetFullDetails: FC<Props> = (props) => {
       >
         <DetailsRow>
           <span className="label">Current Price</span>
-          <span className="value">{formatPrice(asset?.price, 3)}</span>
+          <span className="value">{formatPrice(asset?.price)}</span>
         </DetailsRow>
         <DetailsRow>
           <span className="label">Market Cap</span>
@@ -48,12 +49,12 @@ export const CyrptoAssetFullDetails: FC<Props> = (props) => {
           <span className="value">{`${formatPrice(
             asset?.low24h,
             3,
-          )} / ${formatPrice(asset?.high24h, 3)}`}</span>
+          )} / ${formatPrice(asset?.high24h)}`}</span>
         </DetailsRow>
         <DetailsRow>
           <span className="label">All-Time High</span>
           <span>
-            <span className="value">{formatPrice(asset?.allTimeHigh, 3)} </span>
+            <span className="value">{formatPrice(asset?.allTimeHigh)} </span>
             <span className="value--small">
               {asset?.allTimeHighDate
                 ? `(${parseDateString(asset?.allTimeHighDate)})`
@@ -79,10 +80,10 @@ export const CyrptoAssetFullDetails: FC<Props> = (props) => {
         </DetailsRow>
         <DetailsRow>
           <span className="label">
-            {error ? "Unable To Updating" : "Last Updated"}
+            {error ? "Failed To Update" : "Last Updated"}
           </span>
           <span className="value">
-            {error ?? parseDateString(asset?.lastUpdated)}
+            {error ?? parseDateString(asset?.lastUpdated, DATETIME_FORMAT)}
           </span>
         </DetailsRow>
       </ContentPlaceholder>

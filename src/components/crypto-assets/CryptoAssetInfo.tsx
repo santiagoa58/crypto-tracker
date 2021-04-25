@@ -76,7 +76,7 @@ export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
         showContent={isAssetDefined}
       >
         <span className="content__main--large">
-          {formatPrice(asset?.price, 3)}
+          {formatPrice(asset?.price)}
         </span>
         <span>
           <PercentChange color={getColorFromSign(asset?.priceChangePercent24h)}>
