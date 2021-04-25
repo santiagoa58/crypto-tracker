@@ -78,7 +78,9 @@ export const CyrptoAssetFullDetails: FC<Props> = (props) => {
           <span className="value">{formatQuantity(asset?.maxSupply)}</span>
         </DetailsRow>
         <DetailsRow>
-          <span className="label">Last Updated</span>
+          <span className="label">
+            {error ? "Unable To Updating" : "Last Updated"}
+          </span>
           <span className="value">
             {error ?? parseDateString(asset?.lastUpdated)}
           </span>
