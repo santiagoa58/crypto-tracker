@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 import styled from "styled-components/macro";
 import { theme } from "../../theme/theme";
 import {
@@ -9,10 +9,10 @@ import {
 import { usePricesFeed } from "../../utils/hooks/useFeedService";
 import { PlaceHolder } from "../placeholders/styled";
 import { ContentWrapper, MainSubContentWrapper } from "../ContentWrappers";
-import { CryptoAssetContext } from "../context/CryptoAssetContext";
 import { PercentChange } from "./styled";
 import { MainSubContentPlaceholder } from "../placeholders/PlaceholderWrappers";
 import { isDefined } from "../../utils/isDefined";
+import { useAppSelector } from "../../redux/useAppSelector";
 
 interface CryptoAssetInfoProps {
   assetId: string;
@@ -47,10 +47,10 @@ const AssetNameWrapper = styled.div`
 `;
 
 export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
-  const [appState] = useContext(CryptoAssetContext);
+  const assets = useAppSelector((state) => state.assets?.list);
   usePricesFeed();
 
-  const asset = appState.assets?.list.get(props.assetId);
+  const asset = assets?.get(props.assetId);
   const isAssetDefined = isDefined(asset);
 
   return (

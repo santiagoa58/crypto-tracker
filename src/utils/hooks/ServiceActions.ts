@@ -1,4 +1,4 @@
-import { FluxStandardAction } from "../../components/context/AppActions";
+import { FluxStandardAction } from "../../redux/AppActions";
 
 export enum UseServiceActionsTypes {
   FETCH_REQUEST = "FETCH_REQUEST",

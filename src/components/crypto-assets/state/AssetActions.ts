@@ -1,6 +1,6 @@
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 import { AssetUpdate } from "../../../services/feeds/FeedServiceInterface";
-import { FluxStandardAction } from "../../context/AppActions";
+import { FluxStandardAction } from "../../../redux/AppActions";
 
 export enum AssetActionTypes {
   GET_ASSETS_REQUEST = "GET_ASSETS_REQUEST",
