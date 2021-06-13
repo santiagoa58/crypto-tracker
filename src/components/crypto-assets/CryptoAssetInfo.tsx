@@ -11,8 +11,8 @@ import { PlaceHolder } from "../placeholders/styled";
 import { ContentWrapper, MainSubContentWrapper } from "../ContentWrappers";
 import { PercentChange } from "./styled";
 import { MainSubContentPlaceholder } from "../placeholders/PlaceholderWrappers";
-import { isDefined } from "../../utils/isDefined";
 import { useAppSelector } from "../../redux/useAppSelector";
+import { StateFetchStatus } from "../../redux/AppState";
 
 interface CryptoAssetInfoProps {
   assetId: string;
@@ -48,10 +48,11 @@ const AssetNameWrapper = styled.div`
 
 export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
   const assets = useAppSelector((state) => state.assets?.list);
+  const assetsStatus = useAppSelector((state) => state.assets?.status);
   usePricesFeed();
 
   const asset = assets?.get(props.assetId);
-  const isAssetDefined = isDefined(asset);
+  const loading = assetsStatus === StateFetchStatus.Busy;
 
   return (
     <Wrapper maxColumnSize="15rem" minColumnSize="20rem">
@@ -63,7 +64,7 @@ export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
         )}
         <MainSubContentPlaceholder
           className="content--asset-name"
-          showContent={isAssetDefined}
+          showContent={!loading}
         >
           <span className="content__main--large content-name">
             {asset?.name}
@@ -73,7 +74,7 @@ export const CryptoAssetInfo: FC<CryptoAssetInfoProps> = (props) => {
       </AssetNameWrapper>
       <MainSubContentPlaceholder
         className="numeric-content"
-        showContent={isAssetDefined}
+        showContent={!loading}
       >
         <span className="content__main--large">
           {formatPrice(asset?.price)}

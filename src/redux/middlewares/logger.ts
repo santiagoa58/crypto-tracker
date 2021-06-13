@@ -1,5 +1,5 @@
 import { Middleware } from "redux";
-import { AppActions } from "./AppActions";
+import { AppActions } from "../AppActions";
 
 export const logger: Middleware =
   (storeAPI) => (next) => (action: AppActions) => {

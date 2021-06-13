@@ -10,7 +10,7 @@ export enum RequestMethod {
 
 export const AjaxConnection = <Request, Response>(
   endpoint: string,
-  request: Request,
+  request: Request | undefined,
   method: RequestMethod = RequestMethod.GET,
 ): Observable<Response> => {
   const { url, initRequest } = getRequestParams(endpoint, request, method);
