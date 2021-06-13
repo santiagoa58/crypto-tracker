@@ -1,6 +1,6 @@
 import { GlobalMarketMetrics } from "../../../services/crypto_assets/AssetsServiceInterface";
-import { AppActions } from "../../context/AppActions";
-import { StateFetchStatus } from "../../context/AppState";
+import { AppActions } from "../../../redux/AppActions";
+import { StateFetchStatus } from "../../../redux/AppState";
 import { MarketMetricsActionTypes } from "./MarketMetricsActions";
 
 export interface GlobalMarketMetricsState extends Partial<GlobalMarketMetrics> {

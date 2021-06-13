@@ -47,3 +47,13 @@ export const getSafeDate = (date?: string | Date) => {
     return undefined;
   }
 };
+
+export const getSafeIndex = (nextIndex: number, max: number) => {
+  if (!max || max < 0) {
+    return 0;
+  }
+  if (nextIndex < 0) {
+    return max - 1;
+  }
+  return nextIndex % max;
+};

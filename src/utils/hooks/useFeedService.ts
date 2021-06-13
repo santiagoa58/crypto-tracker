@@ -1,14 +1,14 @@
-import { useContext, useMemo, useEffect, useRef } from "react";
-import { CryptoAssetContext } from "../../components/context/CryptoAssetContext";
+import { useMemo, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { AssetActionTypes } from "../../components/crypto-assets/state/AssetActions";
+import { useAppSelector } from "../../redux/useAppSelector";
 import { FeedService } from "../../services/feeds/FeedService";
 import { useService } from "./useService";
 
 export const usePricesFeed = () => {
-  const [appState, dispatch] = useContext(CryptoAssetContext);
-  const assets = useMemo(() => appState.assets?.list.keySeq().toArray(), [
-    appState.assets?.list,
-  ]);
+  const dispatch = useDispatch();
+  const assetsState = useAppSelector((state) => state.assets?.list);
+  const assets = useMemo(() => assetsState?.keySeq().toArray(), [assetsState]);
   const prevAssets = useRef<string>();
 
   const [subscribeToFeed] = useService(FeedService.priceFeed, {

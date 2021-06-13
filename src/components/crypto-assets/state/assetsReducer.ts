@@ -1,9 +1,9 @@
-import { AppActions } from "../../context/AppActions";
+import { AppActions } from "../../../redux/AppActions";
 import { AssetActionTypes } from "./AssetActions";
 import { OrderedMap } from "immutable";
 import { CryptoAsset } from "../../../services/crypto_assets/AssetsServiceInterface";
 import { arrayToMap } from "../../../utils/arrayToMap";
-import { StateFetchStatus } from "../../context/AppState";
+import { StateFetchStatus } from "../../../redux/AppState";
 import { removeUndefinedEntries } from "../../../utils/typedObjectEntries";
 
 export interface AssetsState {

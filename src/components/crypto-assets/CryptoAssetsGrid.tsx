@@ -6,7 +6,7 @@ import { DEFAULT_CURRENCY } from "../../utils/constants";
 import { usePricesFeed } from "../../utils/hooks/useFeedService";
 import { PRICE_ACTION_PATH } from "../../utils/routes/paths";
 import { GridRowClickedEvent } from "../../utils/types";
-import { StateFetchStatus } from "../context/AppState";
+import { StateFetchStatus } from "../../redux/AppState";
 import { Grid } from "../grid/Grid";
 import { BaseWrapper } from "../ContentWrappers";
 import { assetColDefs } from "./cryptoAssetsColDefs";

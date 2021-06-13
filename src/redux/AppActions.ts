@@ -1,5 +1,5 @@
-import { AssetActions } from "../crypto-assets/state/AssetActions";
-import { MarketMetricActions } from "../market-metrics/state/MarketMetricsActions";
+import { AssetActions } from "../components/crypto-assets/state/AssetActions";
+import { MarketMetricActions } from "../components/market-metrics/state/MarketMetricsActions";
 
 export interface FluxStandardAction<Type> {
   type: Type;

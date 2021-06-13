@@ -1,6 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router";
 import styled from "styled-components/macro";
+import { AssetSearch } from "../search/AssetSearch";
+import { SearchSelectWrapper } from "../search/SearchSelect";
 import { Logo, LogoWrapper } from "./Logo";
 import { NavItemWrapper, NavLink } from "./NavLink";
 
@@ -18,6 +20,16 @@ const NavBarWrapper = styled.div`
     margin: 0.5rem 0;
     padding-right: 1rem;
   }
+  ${SearchSelectWrapper} {
+    margin-left: 3px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.screenSizes.mobileL}) {
+    ${LogoWrapper} {
+      display: none;
+    }
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const NavBar = styled.nav`
@@ -28,6 +40,9 @@ const NavBar = styled.nav`
   ${NavItemWrapper} {
     &:not(:first-child) {
       margin-left: 1rem;
+      @media (max-width: ${({ theme }) => theme.screenSizes.mobileL}) {
+        margin-left: 0.5rem;
+      }
     }
   }
 `;
@@ -43,6 +58,7 @@ export const NavigationHeader = () => {
         </NavLink>
         <NavLink to="/price-action">Price Action</NavLink>
       </NavBar>
+      <AssetSearch />
     </NavBarWrapper>
   );
 };

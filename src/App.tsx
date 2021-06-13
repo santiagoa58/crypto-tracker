@@ -4,8 +4,9 @@ import "./App.css";
 import { NavigationHeader } from "./components/header/NavigationHeader";
 import { theme } from "./theme/theme";
 import { HashRouter as Router } from "react-router-dom";
-import { CryptoAssetContextProvider } from "./components/context/CryptoAssetContext";
+import { Provider } from "react-redux";
 import { AppRouter } from "./components/AppRouter";
+import store from "./redux/store";
 
 const AppWrapper = styled.div`
   max-width: ${({ theme }) => theme.screenSizes.desktop};
@@ -25,16 +26,16 @@ const AppWrapper = styled.div`
 function App() {
   return (
     <Router>
-      <ThemeProvider theme={theme}>
-        <AppWrapper>
-          <NavigationHeader />
-          <main>
-            <CryptoAssetContextProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <AppWrapper>
+            <NavigationHeader />
+            <main>
               <AppRouter />
-            </CryptoAssetContextProvider>
-          </main>
-        </AppWrapper>
-      </ThemeProvider>
+            </main>
+          </AppWrapper>
+        </ThemeProvider>
+      </Provider>
     </Router>
   );
 }
