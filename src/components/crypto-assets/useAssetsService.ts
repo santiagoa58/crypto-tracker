@@ -1,12 +1,14 @@
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { AssetsService } from "../../services/crypto_assets/AssetsService";
-import { CryptoAssetContext } from "../context/CryptoAssetContext";
 import { AssetActionTypes } from "./state/AssetActions";
 import { useService } from "../../utils/hooks/useService";
 import { GetCryptoAssetsRequest } from "../../services/crypto_assets/AssetsServiceInterface";
+import { useAppSelector } from "../../redux/useAppSelector";
 
 export const useAssetsService = () => {
-  const [appState, dispatch] = useContext(CryptoAssetContext);
+  const dispatch = useDispatch();
+  const assetsState = useAppSelector((state) => state.assets);
 
   const [setRequest] = useService(AssetsService.getCryptoAssets, {
     onResponse(response) {
@@ -33,15 +35,16 @@ export const useAssetsService = () => {
   );
 
   return {
-    assets: appState.assets?.list,
-    status: appState.assets?.status,
-    error: appState.assets?.error,
+    assets: assetsState?.list,
+    status: assetsState?.status,
+    error: assetsState?.error,
     getAssets,
   };
 };
 
 export const useAssetDetailsService = (assetId: string) => {
-  const [appState, dispatch] = useContext(CryptoAssetContext);
+  const dispatch = useDispatch();
+  const assetsState = useAppSelector((state) => state.assets);
 
   const [setRequest] = useService(AssetsService.getAssetDetails, {
     onResponse(response) {
@@ -65,9 +68,9 @@ export const useAssetDetailsService = (assetId: string) => {
   }, [dispatch, setRequest, assetId]);
 
   return {
-    asset: appState.assets?.list.get(assetId),
-    status: appState.assets?.status,
-    error: appState.assets?.error,
+    asset: assetsState?.list.get(assetId),
+    status: assetsState?.status,
+    error: assetsState?.error,
     getAsset,
   };
 };

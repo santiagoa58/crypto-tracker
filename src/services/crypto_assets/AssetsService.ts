@@ -1,6 +1,7 @@
 import { AjaxConnection } from "../connection/AjaxConnection";
 import {
   AssetsServiceInterface,
+  CryptoAssetIdentifier,
   GetAssetDetailsRequest,
   GetCryptoAssetsRequest,
   GlobalMarketMetricsResponse,
@@ -25,6 +26,11 @@ interface ServerGlobalMarketMetricsResponse {
 }
 
 export const AssetsService: AssetsServiceInterface = {
+  getAllCoins: () =>
+    AjaxConnection<{ include_platform: boolean }, CryptoAssetIdentifier[]>(
+      `${ASSETS_PATH}list`,
+      { include_platform: false },
+    ),
   getCryptoAssets: (request = { vs_currency: DEFAULT_CURRENCY }) =>
     AjaxConnection<GetCryptoAssetsRequest, ServerGetAssetsResponse>(
       `${ASSETS_PATH}markets`,

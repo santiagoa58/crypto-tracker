@@ -1,17 +1,13 @@
-import { useReducer, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../redux/useAppSelector";
 import { AssetsService } from "../../services/crypto_assets/AssetsService";
 import { useService } from "../../utils/hooks/useService";
 import { MarketMetricsActionTypes } from "./state/MarketMetricsActions";
-import {
-  initialMarketMetricsState,
-  marketMetricsReducer,
-} from "./state/marketMetricsReducer";
 
 export const useMarketMetrics = () => {
-  const [marketMetricsState, dispatch] = useReducer(
-    marketMetricsReducer,
-    initialMarketMetricsState,
-  );
+  const dispatch = useDispatch();
+  const marketMetricsState = useAppSelector((state) => state.marketMetrics);
 
   const [setRequest] = useService(AssetsService.getGlobalMarketData, {
     onResponse(response) {

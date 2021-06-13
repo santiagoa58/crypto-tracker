@@ -69,10 +69,15 @@ export interface CryptoAssetDetails {
   priceChangePercentage1y: number;
 }
 
-export interface CryptoAsset extends Partial<CryptoAssetDetails> {
+export interface CryptoAssetIdentifier {
   id: string;
   symbol: string;
   name: string;
+}
+
+export interface CryptoAsset
+  extends CryptoAssetIdentifier,
+    Partial<CryptoAssetDetails> {
   image: string;
   price: number;
   marketCap: number;
@@ -139,6 +144,7 @@ export interface HistoricalAssetPriceResponse {
 export interface GetAssetDetailsRequest {
   id: string;
 }
+
 export interface AssetsServiceInterface {
   getCryptoAssets(
     request?: GetCryptoAssetsRequest,
@@ -148,4 +154,5 @@ export interface AssetsServiceInterface {
     request: HistoricalAssetPriceRequest,
   ): Observable<HistoricalAssetPriceResponse>;
   getAssetDetails(request: GetAssetDetailsRequest): Observable<CryptoAsset>;
+  getAllCoins(): Observable<CryptoAssetIdentifier[]>;
 }

@@ -1,11 +1,11 @@
 import React, { FC, useEffect } from "react";
+import { StateFetchStatus } from "../../redux/AppState";
 import {
   DATETIME_FORMAT,
   formatPrice,
   formatQuantity,
   parseDateString,
 } from "../../utils/formatters";
-import { isDefined } from "../../utils/isDefined";
 import { ContentPlaceholder } from "../placeholders/PlaceholderWrappers";
 import { DetailsWrapper, DetailsRow } from "./styled";
 import { useAssetDetailsService } from "./useAssetsService";
@@ -15,7 +15,10 @@ interface Props {
 }
 
 export const CyrptoAssetFullDetails: FC<Props> = (props) => {
-  const { getAsset, asset, error } = useAssetDetailsService(props.assetId);
+  const { getAsset, asset, error, status } = useAssetDetailsService(
+    props.assetId,
+  );
+  const loading = status === StateFetchStatus.Busy;
 
   useEffect(() => {
     getAsset();
@@ -23,11 +26,7 @@ export const CyrptoAssetFullDetails: FC<Props> = (props) => {
 
   return (
     <DetailsWrapper>
-      <ContentPlaceholder
-        count={4}
-        showContent={isDefined(asset) || Boolean(error)}
-        width="8rem"
-      >
+      <ContentPlaceholder count={4} showContent={!loading} width="8rem">
         <DetailsRow>
           <span className="label">Current Price</span>
           <span className="value">{formatPrice(asset?.price)}</span>
@@ -45,11 +44,12 @@ export const CyrptoAssetFullDetails: FC<Props> = (props) => {
           <span className="value">{formatPrice(asset?.totalVolume)}</span>
         </DetailsRow>
         <DetailsRow>
-          <span className="label">24h Low / 24h High</span>
-          <span className="value">{`${formatPrice(
-            asset?.low24h,
-            3,
-          )} / ${formatPrice(asset?.high24h)}`}</span>
+          <span className="label">24h Low</span>
+          <span className="value">{formatPrice(asset?.low24h, 3)}</span>
+        </DetailsRow>
+        <DetailsRow>
+          <span className="label">24h High</span>
+          <span className="value">{formatPrice(asset?.high24h)}</span>
         </DetailsRow>
         <DetailsRow>
           <span className="label">All-Time High</span>
