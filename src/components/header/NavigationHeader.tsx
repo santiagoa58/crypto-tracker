@@ -49,7 +49,7 @@ const NavBar = styled.nav`
 export const NavigationHeader = () => {
   return (
     <NavBarWrapper>
-      <NavLink to="/">
+      <NavLink to="/" title="Home" omitActive={true}>
         <Logo />
       </NavLink>
       <NavBar>
