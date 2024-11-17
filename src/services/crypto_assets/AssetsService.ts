@@ -25,7 +25,7 @@ interface ServerGlobalMarketMetricsResponse {
   data: GlobalMarketMetricsResponse;
 }
 
-const DELAY_TIME_ONE_MINUTE = 60000;
+const DELAY_TIME = 30000; // 30 seconds
 
 export const AssetsService: AssetsServiceInterface = {
   getAllCoins: () =>
@@ -67,7 +67,7 @@ export const AssetsService: AssetsServiceInterface = {
           tap(() =>
             console.error("AssetsService Connection Failed, retrying...")
           ),
-          delay(DELAY_TIME_ONE_MINUTE)
+          delay(DELAY_TIME)
         )
       )
     ),
@@ -90,7 +90,7 @@ export const AssetsService: AssetsServiceInterface = {
           tap(() =>
             console.error("AssetsService Connection Failed, retrying...")
           ),
-          delay(DELAY_TIME_ONE_MINUTE)
+          delay(DELAY_TIME)
         )
       )
     ),
@@ -110,7 +110,7 @@ export const AssetsService: AssetsServiceInterface = {
           tap(() =>
             console.error("AssetsService Connection Failed, retrying...")
           ),
-          delay(DELAY_TIME_ONE_MINUTE)
+          delay(DELAY_TIME)
         )
       )
     ),
@@ -171,7 +171,7 @@ export const AssetsService: AssetsServiceInterface = {
             tap(() =>
               console.error("AssetsService Connection Failed, retrying...")
             ),
-            delay(DELAY_TIME_ONE_MINUTE)
+            delay(DELAY_TIME)
           )
         )
       )
