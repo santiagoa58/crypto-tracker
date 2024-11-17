@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router";
 import styled from "styled-components/macro";
 import { AssetSearch } from "../search/AssetSearch";
 import { SearchSelectWrapper } from "../search/SearchSelect";
@@ -48,10 +47,11 @@ const NavBar = styled.nav`
 `;
 
 export const NavigationHeader = () => {
-  const history = useHistory();
   return (
     <NavBarWrapper>
-      <Logo onClick={() => history.push("/")} />
+      <NavLink to="/">
+        <Logo />
+      </NavLink>
       <NavBar>
         <NavLink to="/" exact={true}>
           Overview

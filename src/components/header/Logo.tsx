@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components/macro";
-import logo from "../../logo.svg";
+import LogoSVG from "../../LogoSVG";
 
-export const LogoWrapper = styled.img`
+export const LogoWrapper = styled.div`
   height: 2rem;
 `;
 
@@ -10,5 +10,9 @@ interface Props {
   onClick?: VoidFunction;
 }
 export const Logo = (props: Props) => {
-  return <LogoWrapper src={logo} alt="logo" onClick={props.onClick} />;
+  return (
+    <LogoWrapper onClick={props.onClick}>
+      <LogoSVG />
+    </LogoWrapper>
+  );
 };

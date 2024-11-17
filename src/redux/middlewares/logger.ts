@@ -3,7 +3,7 @@ import { AppActions } from "../AppActions";
 
 export const logger: Middleware =
   (storeAPI) => (next) => (action: AppActions) => {
-    console.info("dispatching: ", action);
+    // console.info("dispatching: ", action);
 
     return next(action);
   };

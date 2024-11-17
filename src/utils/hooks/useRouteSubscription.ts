@@ -1,6 +1,6 @@
+import { LocationListener } from "history";
 import { useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { LocationListener } from "history";
 
 interface Config {
   onHistoryChange(path: string): void;
@@ -15,13 +15,11 @@ export const useRouteSubscription = ({
     (location) => {
       onHistoryChange?.(location.pathname);
     },
-    [onHistoryChange],
+    [onHistoryChange]
   );
 
   useEffect(() => {
     const unsubscribe = history.listen(historyChangeHandler);
-
-    console.log("history subscribed!!!");
     return () => unsubscribe();
   }, [history, historyChangeHandler]);
 };

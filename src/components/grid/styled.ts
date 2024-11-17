@@ -1,5 +1,6 @@
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
 import styled, { css } from "styled-components/macro";
-import "ag-grid-community/dist/styles/ag-grid.css";
 
 export const textEllipsisStyle = css`
   text-overflow: ellipsis;
@@ -12,7 +13,6 @@ export const GridWrapper = styled.div`
 
   //GLOBAL
   .ag-root-wrapper {
-    background-color: ${({ theme }) => theme.colors.secondaryDark};
     color: ${({ theme }) => theme.colors.fontOnBackground};
   }
 

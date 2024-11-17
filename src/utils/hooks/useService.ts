@@ -20,7 +20,7 @@ const initialServiceState: ServiceState = {
 
 const serviceReducer = (
   state = initialServiceState,
-  action: ServiceActions,
+  action: ServiceActions
 ): ServiceState => {
   switch (action.type) {
     case UseServiceActionsTypes.FETCH_REQUEST:
@@ -34,15 +34,15 @@ const serviceReducer = (
 
 export const useService = <Request, Response>(
   service: Service<Request, Response>,
-  handlers?: ServiceResponseHandler<Response>,
+  handlers?: ServiceResponseHandler<Response>
 ): [(request: Request) => void, boolean] => {
   const [serviceState, dispatch] = useReducer(
     serviceReducer,
-    initialServiceState,
+    initialServiceState
   );
 
   const handlersRef = useRef<ServiceResponseHandler<Response> | undefined>(
-    handlers,
+    handlers
   );
 
   if (!handlersRef.current) {
@@ -80,7 +80,7 @@ export const useService = <Request, Response>(
         payload: request,
       });
     },
-    [dispatch],
+    [dispatch]
   );
   const isBusy = serviceState.status === "FETCH_REQUESTED";
   return [setRequest, isBusy];

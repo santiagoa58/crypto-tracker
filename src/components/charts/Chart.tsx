@@ -1,12 +1,12 @@
 import React, { ReactNode, useMemo } from "react";
 import {
-  AreaChart,
   Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  TooltipProps,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  TooltipProps,
 } from "recharts";
 import { Payload } from "recharts/types/component/DefaultTooltipContent";
 import { theme } from "../../theme/theme";
@@ -17,19 +17,19 @@ import { StringKey } from "../../utils/types";
 import { ChartErrorMessage } from "./ChartErrorMessage";
 import { MainChartWrapper, ToolTipWrapper } from "./styled";
 
-interface ChartPayload<T extends Record<string, any>, K extends keyof T>
+interface ChartPayload<T extends Record<string, any>, K extends StringKey<T>>
   extends Payload<T[K], string> {
   payload?: T;
 }
 
-type ToolTipLabelFormatter<T, K extends keyof T> = (
-  label: string,
-  payload: ChartPayload<T, K>[],
-) => ReactNode;
+type ToolTipLabelFormatter<
+  T extends Record<string, any>,
+  K extends StringKey<T>
+> = (label: string, payload: ChartPayload<T, K>[]) => ReactNode;
 interface ChartProps<
   Data,
-  DataKey extends keyof Data,
-  XAxisKey extends keyof Data
+  DataKey extends StringKey<Data>,
+  XAxisKey extends StringKey<Data>
 > {
   chartData: Data[] | undefined;
   dataKey: DataKey;
@@ -44,12 +44,12 @@ export const Chart = <
   DataKey extends StringKey<Data>,
   XAxisKey extends StringKey<Data>
 >(
-  props: ChartProps<Data, DataKey, XAxisKey>,
+  props: ChartProps<Data, DataKey, XAxisKey>
 ) => {
-  const domain = useMemo(() => getSafeMinMax(props.chartData, props.dataKey), [
-    props.chartData,
-    props.dataKey,
-  ]);
+  const domain = useMemo(
+    () => getSafeMinMax(props.chartData, props.dataKey),
+    [props.chartData, props.dataKey]
+  );
 
   const hideAxis = useMediaQueryMatch();
 
@@ -59,10 +59,10 @@ export const Chart = <
 
   const toolTipLabelFormatter: ToolTipLabelFormatter<Data, DataKey> = (
     label,
-    payload,
+    payload
   ) =>
     payload?.map((value) =>
-      formatDateTime(value.payload?.[props.xAxisDataKey]),
+      formatDateTime(value.payload?.[props.xAxisDataKey])
     );
 
   return (
@@ -112,10 +112,7 @@ export const Chart = <
           <Tooltip<Data[DataKey], string>
             labelFormatter={toolTipLabelFormatter}
             content={CustomTooltip}
-            formatter={(value: Data[DataKey]) => [
-              props.valueFormatter(value),
-              undefined,
-            ]}
+            formatter={(value) => [value, props.valueFormatter(value)]}
           />
           <Area
             type="monotone"
@@ -132,10 +129,10 @@ export const Chart = <
 export default Chart;
 
 const CustomTooltip = <
-  Data extends Record<string, any>,
-  DataKey extends keyof Data
+  Data extends Record<string, string | number>,
+  DataKey extends StringKey<Data>
 >(
-  props: TooltipProps<Data[DataKey], string>,
+  props: TooltipProps<Data[DataKey], string>
 ) => {
   if (!props.active || !props.payload) {
     return null;
@@ -147,7 +144,14 @@ const CustomTooltip = <
         {props.labelFormatter?.(props.label, props.payload)}
       </span>
       <span className="tooltip__value">
-        {props.formatter?.(props.payload?.[0].value)}
+        {props.payload?.[0]?.value !== undefined &&
+          props.formatter?.(
+            props.payload[0].value,
+            props.payload[0].name ?? "",
+            props.payload[0],
+            0,
+            props.payload
+          )}
       </span>
     </ToolTipWrapper>
   );
