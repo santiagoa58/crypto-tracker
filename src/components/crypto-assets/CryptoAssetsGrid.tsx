@@ -18,7 +18,7 @@ const AssetGridWrapper = styled(BaseWrapper)`
   margin: 0 auto;
 `;
 
-const ITEMS_PER_PAGE = 25;
+const ITEMS_PER_PAGE = 100;
 
 const getRowNodeId = (row: CryptoAsset) => row.id;
 
