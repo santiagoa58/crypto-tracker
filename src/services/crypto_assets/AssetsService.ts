@@ -1,4 +1,7 @@
+import { delay, map, retryWhen, tap } from "rxjs/operators";
+import { DEFAULT_CURRENCY } from "../../utils/constants";
 import { AjaxConnection } from "../connection/AjaxConnection";
+import { assetsApi } from "../connection/apis";
 import {
   AssetsServiceInterface,
   CryptoAssetIdentifier,
@@ -8,9 +11,6 @@ import {
   HistoricalAssetPriceRequest,
   ServerCryptoAsset,
 } from "./AssetsServiceInterface";
-import { map, retry } from "rxjs/operators";
-import { assetsApi } from "../connection/apis";
-import { DEFAULT_CURRENCY } from "../../utils/constants";
 
 const ASSETS_PATH = `${assetsApi}/coins/`;
 const MARKET_METRICS_PATH = `${assetsApi}/global/`;
@@ -25,16 +25,18 @@ interface ServerGlobalMarketMetricsResponse {
   data: GlobalMarketMetricsResponse;
 }
 
+const DELAY_TIME_ONE_MINUTE = 60000;
+
 export const AssetsService: AssetsServiceInterface = {
   getAllCoins: () =>
     AjaxConnection<{ include_platform: boolean }, CryptoAssetIdentifier[]>(
       `${ASSETS_PATH}list`,
-      { include_platform: false },
+      { include_platform: false }
     ),
   getCryptoAssets: (request = { vs_currency: DEFAULT_CURRENCY }) =>
     AjaxConnection<GetCryptoAssetsRequest, ServerGetAssetsResponse>(
       `${ASSETS_PATH}markets`,
-      request,
+      request
     ).pipe(
       map((response) => ({
         assets: response.map((asset) => ({
@@ -60,13 +62,20 @@ export const AssetsService: AssetsServiceInterface = {
           lastUpdated: asset.last_updated,
         })),
       })),
-      retry(3),
+      retryWhen((errors) =>
+        errors.pipe(
+          tap(() =>
+            console.error("AssetsService Connection Failed, retrying...")
+          ),
+          delay(DELAY_TIME_ONE_MINUTE)
+        )
+      )
     ),
 
   getGlobalMarketData: () =>
     AjaxConnection<undefined, ServerGlobalMarketMetricsResponse>(
       `${MARKET_METRICS_PATH}`,
-      undefined,
+      undefined
     ).pipe(
       map(({ data }) => ({
         totalMarketCapUsd: data.total_market_cap[DEFAULT_CURRENCY],
@@ -76,7 +85,14 @@ export const AssetsService: AssetsServiceInterface = {
           data.market_cap_change_percentage_24h_usd,
         updatedAt: data.updated_at,
       })),
-      retry(3),
+      retryWhen((errors) =>
+        errors.pipe(
+          tap(() =>
+            console.error("AssetsService Connection Failed, retrying...")
+          ),
+          delay(DELAY_TIME_ONE_MINUTE)
+        )
+      )
     ),
 
   getHistoricalPriceData: ({ id, ...request }: HistoricalAssetPriceRequest) =>
@@ -89,7 +105,14 @@ export const AssetsService: AssetsServiceInterface = {
         historicalPriceData: prices.map(([time, price]) => ({ time, price })),
         days: request.days,
       })),
-      retry(3),
+      retryWhen((errors) =>
+        errors.pipe(
+          tap(() =>
+            console.error("AssetsService Connection Failed, retrying...")
+          ),
+          delay(DELAY_TIME_ONE_MINUTE)
+        )
+      )
     ),
 
   getAssetDetails: ({ id, ...request }: GetAssetDetailsRequest) =>
@@ -143,8 +166,15 @@ export const AssetsService: AssetsServiceInterface = {
           allTimeHigh: response.market_data.ath.usd,
           allTimeHighDate: response.market_data.ath_date.usd,
         }),
-        retry(3),
-      ),
+        retryWhen((errors) =>
+          errors.pipe(
+            tap(() =>
+              console.error("AssetsService Connection Failed, retrying...")
+            ),
+            delay(DELAY_TIME_ONE_MINUTE)
+          )
+        )
+      )
     ),
 };
 

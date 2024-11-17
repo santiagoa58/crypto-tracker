@@ -1,12 +1,13 @@
 # Simple Cryptocurrency Price Tracker
 
-### Description
-This is a simple cryptocurrency price tracking website.  It features a *Market Overview* section where the top 300 coins are shown in a grid and a *Price Action* where a price chart of the crypto currency is shown. 
+## Description
 
+This is a simple cryptocurrency price tracking website. It features a _Market Overview_ section where the top 100 coins are shown in a grid and a _Price Action_ where a price chart of the crypto currency is shown.
 
-### APIs Used
+## APIs Used
+
 - coingecko for REST calls
 - coincap.io for price feeds over websocket
 
 To view visit:
-https://cryptotracker.gomezsantiago.com/#/
+[cryptotracker.gomezsantiago.com](https://cryptotracker.gomezsantiago.com/#/)

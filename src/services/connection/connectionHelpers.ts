@@ -50,7 +50,7 @@ const getInitRequest = (method: RequestMethod, request: any): RequestInit => {
 export const getRequestParams = (
   endpoint: string,
   request: any,
-  method: RequestMethod | undefined,
+  method: RequestMethod | undefined
 ) => {
   const validRequest = getValidRequest(request);
   const url = parseUrl(endpoint, validRequest);

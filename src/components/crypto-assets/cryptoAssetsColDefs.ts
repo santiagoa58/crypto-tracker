@@ -1,3 +1,4 @@
+import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
 import {
   integerPriceColDef,
   numericColDef,
@@ -6,7 +7,6 @@ import {
   quantityColDef,
   stringCompare,
 } from "../../utils/columnDefinitions";
-import { CryptoAsset } from "../../services/crypto_assets/AssetsServiceInterface";
 import { ColumnDefinition } from "../grid/Grid";
 import { CryptoNameCell, CryptoNameValue } from "./CryptoNameCell";
 
@@ -30,7 +30,7 @@ export const assetColDefs: ColumnDefinition<CryptoAsset>[] = [
     }),
     comparator: (valueA: CryptoNameValue, valueB: CryptoNameValue) =>
       stringCompare(valueA.symbol, valueB.symbol),
-    cellRendererFramework: CryptoNameCell,
+    cellRenderer: CryptoNameCell,
     width: 120,
     minWidth: 60,
   },
