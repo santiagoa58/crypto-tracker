@@ -43,11 +43,15 @@ interface NavLinkProps extends LinkProps {
   omitActive?: boolean;
 }
 
+const joinClassName = (...classNames: (string | undefined)[]) =>
+  classNames.filter((c) => c).join(" ");
+
 export const NavLink: FC<NavLinkProps> = ({
   to,
   exact,
   children,
   omitActive,
+  className,
   ...props
 }) => {
   const match = useRouteMatch({
@@ -57,16 +61,20 @@ export const NavLink: FC<NavLinkProps> = ({
 
   if (omitActive) {
     return (
-      <NavItemWrapperNoHover>
+      <NavItemWrapperNoHover className={className}>
         <Link {...props} to={to}>
           {children}
         </Link>
       </NavItemWrapperNoHover>
     );
   }
-  const className = match ? "nav-link--active" : undefined;
   return (
-    <NavItemWrapper className={className}>
+    <NavItemWrapper
+      className={joinClassName(
+        className,
+        match ? "nav-link--active" : undefined
+      )}
+    >
       <Link {...props} to={to}>
         {children}
       </Link>

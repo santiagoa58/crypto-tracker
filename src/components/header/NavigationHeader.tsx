@@ -24,7 +24,7 @@ const NavBarWrapper = styled.div`
   }
 
   @media (max-width: ${({ theme }) => theme.screenSizes.mobileL}) {
-    ${LogoWrapper} {
+    .nav_header__logo--link {
       display: none;
     }
     grid-template-columns: repeat(2, 1fr);
@@ -49,7 +49,12 @@ const NavBar = styled.nav`
 export const NavigationHeader = () => {
   return (
     <NavBarWrapper>
-      <NavLink to="/" title="Home" omitActive={true}>
+      <NavLink
+        to="/"
+        title="Home"
+        omitActive={true}
+        className="nav_header__logo--link"
+      >
         <Logo />
       </NavLink>
       <NavBar>
