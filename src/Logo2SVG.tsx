@@ -3,6 +3,7 @@ import React from "react";
 export default function Logo2SVG() {
   return (
     <svg
+      aria-labelledby="title 2"
       xmlns="http://www.w3.org/2000/svg"
       id="svg"
       version="1.1"
@@ -10,6 +11,9 @@ export default function Logo2SVG() {
       height="100%"
       viewBox="0 0 104.9788 87.246692"
     >
+      <title id="title 2" lang="en">
+        CryptoTracker Logo 2
+      </title>
       <defs id="defs11" />
       <g id="svgg" transform="translate(-64.479658,-162.43415)">
         <path
