@@ -26,7 +26,8 @@ export const HistoricalPriceChart: FC<HistoricalPriceChartProps> = ({
 
   useEffect(() => {
     getHistoricalData({ days: selectedDayRange });
-  }, [selectedDayRange, getHistoricalData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDayRange]);
 
   const chartData = useMemo(() => assetPriceHistory.get(selectedDayRange), [
     assetPriceHistory,

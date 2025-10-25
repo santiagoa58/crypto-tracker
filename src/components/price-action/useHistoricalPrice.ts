@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { AssetsService } from "../../services/crypto_assets/AssetsService";
 import { useService } from "../../utils/hooks/useService";
 import {
   HistoricalAssetPriceRequest,
+  HistoricalAssetPriceResponse,
   HistoricalDaysRange,
   HistoricalPriceData,
 } from "../../services/crypto_assets/AssetsServiceInterface";
@@ -15,21 +16,26 @@ export const useHistoricalPrice = (assetId: string) => {
     Map<HistoricalDaysRange, HistoricalPriceData[]>(),
   );
 
-  const [setRequest, isBusy] = useService(
-    AssetsService.getHistoricalPriceData,
-    {
-      onResponse(response) {
+  const handlers = useMemo(
+    () => ({
+      onResponse(response: HistoricalAssetPriceResponse) {
         setError(undefined);
         setAssetPriceHistory((state) =>
           state.set(response.days, response.historicalPriceData),
         );
       },
-      onError(err) {
+      onError(err: unknown) {
         const errorMessage = `Error getting ${assetId} historical prices`;
         console.error(errorMessage, err);
         setError(errorMessage);
       },
-    },
+    }),
+    [assetId],
+  );
+
+  const [setRequest, isBusy] = useService(
+    AssetsService.getHistoricalPriceData,
+    handlers,
   );
 
   const getHistoricalData = useCallback(

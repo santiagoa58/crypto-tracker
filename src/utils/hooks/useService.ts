@@ -41,13 +41,11 @@ export const useService = <Request, Response>(
     initialServiceState
   );
 
-  const handlersRef = useRef<ServiceResponseHandler<Response> | undefined>(
-    handlers
-  );
+  const handlersRef = useRef<ServiceResponseHandler<Response> | undefined>();
 
-  if (!handlersRef.current) {
+  useEffect(() => {
     handlersRef.current = handlers;
-  }
+  }, [handlers]);
 
   useEffect(() => {
     let subscription: Subscription;

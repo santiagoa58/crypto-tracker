@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { AssetActionTypes } from "../../components/crypto-assets/state/AssetActions";
 import { useAppSelector } from "../../redux/useAppSelector";
 import { FeedService } from "../../services/feeds/FeedService";
+import { AssetUpdate } from "../../services/feeds/FeedServiceInterface";
 import { useService } from "./useService";
 
 export const usePricesFeed = () => {
@@ -11,17 +12,22 @@ export const usePricesFeed = () => {
   const assets = useMemo(() => assetsState?.keySeq().toArray(), [assetsState]);
   const prevAssets = useRef<string>();
 
-  const [subscribeToFeed] = useService(FeedService.priceFeed, {
-    onResponse(response) {
-      dispatch({
-        type: AssetActionTypes.UPDATE_ASSET,
-        payload: response,
-      });
-    },
-    onError(err) {
-      console.error("Error", err);
-    },
-  });
+  const handlers = useMemo(
+    () => ({
+      onResponse(response: AssetUpdate) {
+        dispatch({
+          type: AssetActionTypes.UPDATE_ASSET,
+          payload: response,
+        });
+      },
+      onError(err: unknown) {
+        console.error("Error", err);
+      },
+    }),
+    [dispatch],
+  );
+
+  const [subscribeToFeed] = useService(FeedService.priceFeed, handlers);
 
   useEffect(() => {
     const stringAssets = String(assets);
@@ -29,5 +35,6 @@ export const usePricesFeed = () => {
       prevAssets.current = stringAssets;
       subscribeToFeed({ assets });
     }
-  }, [subscribeToFeed, assets]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [assets]);
 };

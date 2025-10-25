@@ -22,7 +22,9 @@ export const CyrptoAssetFullDetails: FC<Props> = (props) => {
 
   useEffect(() => {
     getAsset();
-  }, [getAsset]);
+    // Only fetch on mount - component remounts if assetId changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <DetailsWrapper>

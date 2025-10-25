@@ -1,30 +1,39 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { AssetsService } from "../../services/crypto_assets/AssetsService";
 import { AssetActionTypes } from "./state/AssetActions";
 import { useService } from "../../utils/hooks/useService";
-import { GetCryptoAssetsRequest } from "../../services/crypto_assets/AssetsServiceInterface";
+import {
+  GetCryptoAssetsRequest,
+  GetCryptoAssetsResponse,
+  CryptoAsset,
+} from "../../services/crypto_assets/AssetsServiceInterface";
 import { useAppSelector } from "../../redux/useAppSelector";
 
 export const useAssetsService = () => {
   const dispatch = useDispatch();
   const assetsState = useAppSelector((state) => state.assets);
 
-  const [setRequest] = useService(AssetsService.getCryptoAssets, {
-    onResponse(response) {
-      dispatch({
-        type: AssetActionTypes.GET_ASSETS_SUCCESS,
-        payload: response.assets,
-      });
-    },
-    onError() {
-      dispatch({
-        type: AssetActionTypes.GET_ASSETS_FAILURE,
-        payload: "Error getting assets",
-        error: true,
-      });
-    },
-  });
+  const handlers = useMemo(
+    () => ({
+      onResponse(response: GetCryptoAssetsResponse) {
+        dispatch({
+          type: AssetActionTypes.GET_ASSETS_SUCCESS,
+          payload: response.assets,
+        });
+      },
+      onError() {
+        dispatch({
+          type: AssetActionTypes.GET_ASSETS_FAILURE,
+          payload: "Error getting assets",
+          error: true,
+        });
+      },
+    }),
+    [dispatch],
+  );
+
+  const [setRequest] = useService(AssetsService.getCryptoAssets, handlers);
 
   const getAssets = useCallback(
     (request: GetCryptoAssetsRequest) => {
@@ -46,21 +55,26 @@ export const useAssetDetailsService = (assetId: string) => {
   const dispatch = useDispatch();
   const assetsState = useAppSelector((state) => state.assets);
 
-  const [setRequest] = useService(AssetsService.getAssetDetails, {
-    onResponse(response) {
-      dispatch({
-        type: AssetActionTypes.UPDATE_ASSET,
-        payload: response,
-      });
-    },
-    onError() {
-      dispatch({
-        type: AssetActionTypes.GET_ASSETS_FAILURE,
-        payload: `Error getting ${assetId} details`,
-        error: true,
-      });
-    },
-  });
+  const handlers = useMemo(
+    () => ({
+      onResponse(response: CryptoAsset) {
+        dispatch({
+          type: AssetActionTypes.UPDATE_ASSET,
+          payload: response,
+        });
+      },
+      onError() {
+        dispatch({
+          type: AssetActionTypes.GET_ASSETS_FAILURE,
+          payload: `Error getting ${assetId} details`,
+          error: true,
+        });
+      },
+    }),
+    [dispatch, assetId],
+  );
+
+  const [setRequest] = useService(AssetsService.getAssetDetails, handlers);
 
   const getAsset = useCallback(() => {
     dispatch({ type: AssetActionTypes.GET_ASSETS_REQUEST });

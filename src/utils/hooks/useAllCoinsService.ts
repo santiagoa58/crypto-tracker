@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { AssetActionTypes } from "../../components/crypto-assets/state/AssetActions";
 import { useAppSelector } from "../../redux/useAppSelector";
@@ -31,15 +31,20 @@ export const useAllCoinsService = () => {
     [dispatch],
   );
 
-  const [setRequest] = useService(AssetsService.getAllCoins, {
-    onResponse(allCoins) {
-      setCoinsList(allCoins);
-    },
-    onError(err) {
-      console.error("Error getting all coins", err);
-      setCoinsListFailure("Error getting all coins");
-    },
-  });
+  const handlers = useMemo(
+    () => ({
+      onResponse(allCoins: CryptoAssetIdentifier[]) {
+        setCoinsList(allCoins);
+      },
+      onError(err: unknown) {
+        console.error("Error getting all coins", err);
+        setCoinsListFailure("Error getting all coins");
+      },
+    }),
+    [setCoinsList, setCoinsListFailure],
+  );
+
+  const [setRequest] = useService(AssetsService.getAllCoins, handlers);
 
   const getCoinsList = useCallback(() => {
     dispatch({ type: AssetActionTypes.GET_ALL_COINS_REQUEST });
@@ -48,7 +53,9 @@ export const useAllCoinsService = () => {
 
   useEffect(() => {
     getCoinsList();
-  }, [getCoinsList]);
+    // Only fetch on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return allCoins;
 };
